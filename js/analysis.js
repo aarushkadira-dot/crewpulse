@@ -1,5 +1,5 @@
 /*
- * CrewPulse analysis core.
+ * Quorum analysis core.
  * Reads NASA OSDR Inspiration4 files (LSDS-7 complete blood count, LSDS-8 metabolic panel),
  * builds each crew member's personal normal from preflight draws, and compares
  * personal-baseline flags with the reference ranges printed on the lab report.

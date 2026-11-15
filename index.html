@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%2715%27 fill=%27%231d1d1f%27/%3E%3Cpath d=%27M6 17h5l3-6 4 11 3-5h5%27 fill=%27none%27 stroke=%27%23fff%27 stroke-width=%272.4%27 stroke-linejoin=%27round%27 stroke-linecap=%27round%27/%3E%3C/svg%3E">
-<title>CrewPulse</title>
-<meta name="description" content="CrewPulse is a health check-in for astronauts that checks whether a lab result can be trusted before the crew acts on it. NASA Space Apps Challenge 2026.">
+<title>Quorum</title>
+<meta name="description" content="Quorum is a health check-in for astronauts that checks whether a lab result can be trusted before the crew acts on it. NASA Space Apps Challenge 2026.">
 <meta name="theme-color" content="#ffffff">
 <style>
 @font-face{font-family:"IBM Plex Sans";font-style:normal;font-weight:100 700;font-display:swap;src:url(fonts/IBMPlexSans-latin.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
@@ -79,17 +79,17 @@ code{font-family:var(--mono);font-size:14.5px}
 </head>
 <body>
 <div class="page">
-  <nav class="site" aria-label="Main"><b>CrewPulse</b><a href="app.html">App</a><a href="proof.html">Evidence</a><a href="README.md">Read me</a></nav>
+  <nav class="site" aria-label="Main"><b>Quorum</b><a href="app.html">App</a><a href="proof.html">Evidence</a><a href="README.md">Read me</a></nav>
 
   <main>
   <div class="hero">
     <div>
       <h1>A health check-in for astronauts that also checks its own readings</h1>
-      <p class="intro">On the way to Mars a crew can wait 40 minutes for a doctor’s answer, or two weeks. CrewPulse lets them make the call on board, and it questions a strange lab result before it lets anyone act on it.</p>
+      <p class="intro">On the way to Mars a crew can wait 40 minutes for a doctor’s answer, or two weeks. Quorum lets them make the call on board, and it questions a strange lab result before it lets anyone act on it.</p>
       <p class="go"><a class="pri" href="app.html">Open the app</a><a href="proof.html">See the test on NASA data</a></p>
     </div>
     <figure>
-      <img class="shot" src="img/labs.jpg" width="1620" height="1012" alt="The Labs screen of CrewPulse. After the first blood draw following landing, it reads ‘Instrument suspected’, tells the crew to retake before treating anyone, and lists its evidence.">
+      <img class="shot" src="img/labs.jpg" width="1620" height="1012" alt="The Labs screen of Quorum. After the first blood draw following landing, it reads ‘Instrument suspected’, tells the crew to retake before treating anyone, and lists its evidence.">
       <p class="cap">The Labs screen on the real Inspiration4 blood draw from the day after landing.</p>
     </figure>
   </div>
@@ -98,7 +98,7 @@ code{font-family:var(--mono);font-size:14.5px}
     <h2>The part we think is new</h2>
     <div class="body">
     <p>Every health tool we looked at assumes its numbers are right. On Earth a lab checks its analyzer with control samples and gets a recall notice when a batch is bad. A Mars crew has neither for most of the trip: the control solutions NASA flew with its white-cell analyzer last about three and a half months,<sup><a href="#n1">1</a></sup> and the mission lasts about three years. In April 2026 some lots of a handheld blood-analyzer cartridge were recalled for reading too high.<sup><a href="#n2">2</a></sup> In a communications blackout the crew would never hear about it.</p>
-    <p>So before CrewPulse reports a lab change as a health problem, it asks where the change is. If one person moved, it is probably that person. If the whole crew moved at once, it is something they share, or it is the instrument. Hospitals already use their patients’ results this way to catch analyzer drift.<sup><a href="#n3">3</a></sup> We adapted that to a crew of four.</p>
+    <p>So before Quorum reports a lab change as a health problem, it asks where the change is. If one person moved, it is probably that person. If the whole crew moved at once, it is something they share, or it is the instrument. Hospitals already use their patients’ results this way to catch analyzer drift.<sup><a href="#n3">3</a></sup> We adapted that to a crew of four.</p>
     </div>
     <aside class="side">
       <p id="n1"><b>1</b>NASA (2023). <a href="https://ntrs.nasa.gov/citations/20230006919">An in-situ laboratory analysis capability for exploration missions</a>. NTRS 20230006919.</p>
@@ -120,13 +120,13 @@ code{font-family:var(--mono);font-size:14.5px}
       <p class="cap">Red-cell size (MCV, fL). Grey band: that person’s own normal from the three preflight draws. Red: outside it.</p>
       <div class="split">
         <div>
-        <p>A tool that only compares people with their baseline would report four sick astronauts. CrewPulse reports one suspect instrument. Red-cell size had already crept up together at every preflight draw, none of the related red-cell markers moved, and the shift was still there six months after a three-day flight. Its advice is to retake before treating anyone.</p>
-        <p>The 45-day draw surprised us. Three of the four crew show blood sugar between 36 and 44 mg/dL, which read at face value is an emergency. Potassium went up in the same draw. That combination is what blood does when it sits too long before it is processed, so CrewPulse sets those two results aside and keeps the rest.</p>
+        <p>A tool that only compares people with their baseline would report four sick astronauts. Quorum reports one suspect instrument. Red-cell size had already crept up together at every preflight draw, none of the related red-cell markers moved, and the shift was still there six months after a three-day flight. Its advice is to retake before treating anyone.</p>
+        <p>The 45-day draw surprised us. Three of the four crew show blood sugar between 36 and 44 mg/dL, which read at face value is an emergency. Potassium went up in the same draw. That combination is what blood does when it sits too long before it is processed, so Quorum sets those two results aside and keeps the rest.</p>
         </div>
         <div>
           <div class="scroll">
           <table>
-      <thead><tr><th>Draw</th><th>CrewPulse says</th><th>What moved</th><th class="num">Results it still trusts</th></tr></thead>
+      <thead><tr><th>Draw</th><th>Quorum says</th><th>What moved</th><th class="num">Results it still trusts</th></tr></thead>
       <tbody id="draws">
         <tr><td>1 day after landing</td><td class="v-i">Instrument suspected</td><td>Red-cell size, −3.9%</td><td class="num">136 of 143</td></tr>
         <tr><td>45 days after</td><td class="v-h">Sample handling suspected</td><td>Potassium +17.9%, glucose −31.7%</td><td class="num">127 of 142</td></tr>

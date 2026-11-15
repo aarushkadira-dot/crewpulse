@@ -1,4 +1,4 @@
-/* CrewPulse public pages (front page + proof): calm, light by default, readable. */
+/* Quorum public pages (front page + proof): calm, light by default, readable. */
 :root{
   --bg:#04060B; --surface:#0E131D; --surface-2:#151C29; --ink:#EEF2F8; --muted:#A8B2C1; --faint:#7E8A9C;
   --line:rgba(22,25,29,.10); --accent:#8DB4FF; --accent-ink:#04060B; --accent-soft:rgba(141,180,255,.12);

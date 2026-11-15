@@ -1,10 +1,10 @@
-# CrewPulse
+# Quorum
 
 **NASA Space Apps Challenge 2026 · Create Health Monitoring Software for Astronauts on Space Missions · Team GOATS (Raleigh, NC)**
 
-On Mars, a sick astronaut and a bad reading look the same. CrewPulse tells the crew which one they are looking at, then what to do.
+On Mars, a sick astronaut and a bad reading look the same. Quorum tells the crew which one they are looking at, then what to do.
 
-CrewPulse is a health tool for astronauts who have to assess themselves. It compares each astronaut with their own preflight baseline, and before any result reaches a health decision it runs a **source check**: is the change in one person, in what the crew shares, or in the measurement? It then turns the daily check-in into an on-board Go / Go with limits / No-go call that the crew can trust when Earth is up to 22 minutes away, or out of contact during solar conjunction.
+Quorum is a health tool for astronauts who have to assess themselves. It compares each astronaut with their own preflight baseline, and before any result reaches a health decision it runs a **source check**: is the change in one person, in what the crew shares, or in the measurement? It then turns the daily check-in into an on-board Go / Go with limits / No-go call that the crew can trust when Earth is up to 22 minutes away, or out of contact during solar conjunction.
 
 Why the source check matters: analyzers are verified with control samples, and the ones flown so far last months, while a Mars mission lasts years. For most of the trip the crew's own results are the only reference left.
 
@@ -56,10 +56,10 @@ On the Labs screen, "Add a blood draw" lets the crew medical officer enter a new
 ## Research basis
 
 - **Earth-independent care:** NASA's Exploration Medical Capability research identifies autonomous clinical decision support as a need when communication, evacuation and resupply cannot be assumed.
-- **Personalized laboratory interpretation:** Coşkun et al. show how repeated steady-state results and within-subject biological variation can produce personalized laboratory intervals. CrewPulse uses that direction of research, but does not claim clinical equivalence.
+- **Personalized laboratory interpretation:** Coşkun et al. show how repeated steady-state results and within-subject biological variation can produce personalized laboratory intervals. Quorum uses that direction of research, but does not claim clinical equivalence.
 - **Sleep plus performance:** Jones et al. found that short sleep during ISS missions was associated with slower psychomotor response and greater stress and workload. That supports showing sleep beside a short vigilance task instead of treating either as a complete fitness test.
 - **Red-cell relevance:** Trudel et al. establish that red-cell destruction changes during long-duration spaceflight. That makes red-cell monitoring mission-relevant, but does not explain the MCV pattern found here.
-- **Quality control without control samples:** patient-based real-time quality control (Badrick et al. 2019) and the average-of-deltas method (Jones 2016) use patients' own results to detect analyzer shifts. CrewPulse adapts that to a crew of four. We found no published use in spaceflight; that is an absence in our search, not proof.
+- **Quality control without control samples:** patient-based real-time quality control (Badrick et al. 2019) and the average-of-deltas method (Jones 2016) use patients' own results to detect analyzer shifts. Quorum adapts that to a crew of four. We found no published use in spaceflight; that is an absence in our search, not proof.
 - **Control shelf life:** NASA's in-situ lab analysis work reports control solutions lasting about 3.5 months in cold stowage (NTRS 20230006919) and lists reagent shelf life as an open problem.
 - **Requirements:** NASA-STD-3001 Volume 1 requirements 3003, 3004(h), 3004(p), 3004(t), 7001 and 7003 are mapped to implemented evidence or an explicit prototype gap on the Proof page.
 
@@ -97,4 +97,4 @@ We used Claude (Anthropic) as a coding and research assistant. It helped write a
 - Icons from Tabler Icons (MIT)
 - Typeface: IBM Plex Sans (SIL Open Font License), shipped in `fonts/` so no outside font service is called
 
-CrewPulse is not a medical device. No NASA logos or endorsement are implied.
+Quorum is not a medical device. No NASA logos or endorsement are implied.

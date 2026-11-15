@@ -1,4 +1,4 @@
-// Reproduces the numbers published in the CrewPulse methods note from NASA's original files.
+// Reproduces the numbers published in the Quorum methods note from NASA's original files.
 // Run: node test/test.js
 const fs = require('fs');
 const path = require('path');

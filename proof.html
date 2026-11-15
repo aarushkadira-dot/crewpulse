@@ -6,8 +6,8 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%2715%27 fill=%27%231d1d1f%27/%3E%3Cpath d=%27M6 17h5l3-6 4 11 3-5h5%27 fill=%27none%27 stroke=%27%23fff%27 stroke-width=%272.4%27 stroke-linejoin=%27round%27 stroke-linecap=%27round%27/%3E%3C/svg%3E">
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="theme-color" content="#ffffff">
-<title>CrewPulse Proof</title>
-<meta name="description" content="CrewPulse's personal-baseline method tested on real NASA blood data from the four Inspiration4 crew members.">
+<title>Quorum · Proof</title>
+<meta name="description" content="Quorum's personal-baseline method tested on real NASA blood data from the four Inspiration4 crew members.">
 <link rel="stylesheet" href="css/site.css">
 <style>
 .c-lab{fill:var(--lab)} .c-labline{stroke:var(--lab-line);stroke-opacity:.6;stroke-dasharray:4 4}
@@ -65,7 +65,7 @@
 <body>
 <a class="skip" href="#main">Skip to content</a>
 <header class="top"><div class="wrap">
-  <a class="brand" href="index.html"><svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true"><circle cx="14" cy="14" r="12.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M5 14.5h4.5l2.3-5 3.8 10 2.4-5H23" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></svg>CrewPulse</a>
+  <a class="brand" href="index.html"><svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true"><circle cx="14" cy="14" r="12.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M5 14.5h4.5l2.3-5 3.8 10 2.4-5H23" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></svg>Quorum</a>
   <nav aria-label="Main"><a href="index.html">Overview</a><a href="proof.html" aria-current="page">Evidence</a><a href="#method">Method</a><a href="#sources">References</a><a class="cta" href="app.html">App</a></nav>
 </div></header>
 
@@ -74,7 +74,7 @@
 <main id="main">
   <div class="hero">
     <h1>Evidence: the source check on Inspiration4 bloodwork</h1>
-    <p class="lead">On a long mission the samples used to check an analyzer expire, so the crew’s own results become the only reference left. This exploratory analysis runs CrewPulse’s source check on public Inspiration4 blood tests: is a change in one person, in what the crew shares, or in the measurement? Every number is recomputed in your browser from NASA’s original files.</p>
+    <p class="lead">On a long mission the samples used to check an analyzer expire, so the crew’s own results become the only reference left. This exploratory analysis runs Quorum’s source check on public Inspiration4 blood tests: is a change in one person, in what the crew shares, or in the measurement? Every number is recomputed in your browser from NASA’s original files.</p>
     <p id="load-error" class="note" hidden style="margin-top:20px"></p>
     <div class="grid g4 pending" style="margin-top:32px">
       <div class="stat"><b>4</b><span>crew members, 3 days in orbit (Sept 2021)</span></div>
@@ -86,7 +86,7 @@
 
   <section aria-labelledby="h-cw">
     <div class="sec-head"><h2 id="h-cw">1. Red-cell size fell in all four crew the day after landing</h2></div>
-    <div class="prose"><p>Mean corpuscular volume (MCV) measures average red-cell size. At R+1, it fell outside the prototype personal prediction band for all four crew in the same direction, while every value remained inside the 80-100 fL laboratory range. A monitor that only compares people with their own baseline stops here and raises four alarms. CrewPulse asks one more question first.</p></div>
+    <div class="prose"><p>Mean corpuscular volume (MCV) measures average red-cell size. At R+1, it fell outside the prototype personal prediction band for all four crew in the same direction, while every value remained inside the 80-100 fL laboratory range. A monitor that only compares people with their own baseline stops here and raises four alarms. Quorum asks one more question first.</p></div>
     <div class="minis chart pending" id="mcv-minis"></div>
     <div class="legend"><span><i style="background:rgba(29,29,31,.14)"></i>Own normal, from the preflight draws</span><span><i class="ln" style="border-top:1.5px solid #AEAEB2"></i>Lab reference range</span><span><i class="dot" style="background:#fff;border:1.5px solid #1D1D1F"></i>Preflight draw</span><span><i class="dot" style="background:#1D1D1F"></i>After flight</span><span><i class="dot" style="background:#C9241C"></i>Outside own normal</span></div>
     <div class="tbl pending" style="margin-top:20px"><table><thead><tr><th>Crew member</th><th>Preflight MCV (fL)</th><th>R+1 (fL)</th><th>Lab range</th><th>Drift score d</th></tr></thead><tbody id="mcv-rows"></tbody></table></div>
@@ -127,7 +127,7 @@
     <div class="ex-ctl"><div class="seg" role="group" aria-label="Crew member" id="ex-crew"></div><select id="ex-marker" aria-label="Blood marker"></select></div>
     <div class="card chart wide" id="ex-chart"></div>
     <p class="small" id="ex-band" style="margin:10px 0 14px"></p>
-    <div class="tbl"><table><thead><tr><th>After flight</th><th>Value</th><th>Lab report says</th><th>CrewPulse says</th></tr></thead><tbody id="ex-rows"></tbody></table></div>
+    <div class="tbl"><table><thead><tr><th>After flight</th><th>Value</th><th>Lab report says</th><th>Quorum says</th></tr></thead><tbody id="ex-rows"></tbody></table></div>
     <p class="small" style="margin-top:10px">Crew IDs are de-identified, as in NASA’s dataset.</p>
   </section>
 
@@ -145,7 +145,7 @@
       </div>
       <div class="card">
         <h3>How the app treats a single flag</h3>
-        <p class="small" style="margin-top:8px">Even at a <span id="ff-r2">1.5%</span> false-flag rate, 143 results a draw means a couple of false flags every time. CrewPulse shows a single flag as <b>Retake</b>. It asks for a person-level review only when a flag is backed up:</p>
+        <p class="small" style="margin-top:8px">Even at a <span id="ff-r2">1.5%</span> false-flag rate, 143 results a draw means a couple of false flags every time. Quorum shows a single flag as <b>Retake</b>. It asks for a person-level review only when a flag is backed up:</p>
         <ol class="rules small"><li><b>It repeats</b> at the next reading.</li><li><b>It crosses</b> a fixed safety limit too.</li><li><b>It’s crew-wide</b>, which sends it to the source check, not to four separate diagnoses.</li></ol>
       </div>
     </div>
@@ -165,7 +165,7 @@
       <div>
         <span class="method-label">Prototype model class</span>
         <div class="formula" aria-label="d equals x minus the preflight mean, divided by s times the square root of 1 plus 1 over n. Flag if the absolute value of d is greater than the Student t limit. The crew shift z is the mean of d across the crew times the square root of the crew size.">d = (x − x̄<sub>pre</sub>) ÷ ( s · √(1 + 1/n) ) &nbsp;&nbsp; flag if |d| &gt; t<sub>df</sub><br>z<sub>crew</sub> = mean(d) · √n<sub>crew</sub> &nbsp;&nbsp; alarm if |z| &gt; t<sub>df</sub></div>
-        <p class="small" style="margin-top:12px">This is a simple Gaussian prediction band centered on a personal baseline. Personalized laboratory intervals are an established research direction,<a class="ref" href="#ref-6">[6]</a> but a clinical reference-change-value calculation also models analytical variation and uses validated analyte-specific biological variation. CrewPulse does not yet do that.</p>
+        <p class="small" style="margin-top:12px">This is a simple Gaussian prediction band centered on a personal baseline. Personalized laboratory intervals are an established research direction,<a class="ref" href="#ref-6">[6]</a> but a clinical reference-change-value calculation also models analytical variation and uses validated analyte-specific biological variation. Quorum does not yet do that.</p>
       </div>
     </div>
   </section>
@@ -194,7 +194,7 @@
     <div class="grid g3">
       <div class="card"><h3>Controls expire</h3><p class="small" style="margin-top:8px">Analyzers are verified with control samples of known value. The controls NASA flew with its white-cell analyzer last about 3.5 months in cold stowage;<a class="ref" href="#ref-16">[16]</a> NASA lists reagent shelf life among the reasons commercial analyzers fall short for exploration.<a class="ref" href="#ref-17">[17]</a> A Mars mission lasts years.</p></div>
       <div class="card"><h3>It has happened in orbit</h3><p class="small" style="margin-top:8px">In the ISS validation of that analyzer, the evidence pointed at the control solutions, because a fresh astronaut fingerstick gave the expected values.<a class="ref" href="#ref-18">[18]</a> On Earth in 2026, lots of a handheld blood-analyzer cartridge were recalled for results that read too high.<a class="ref" href="#ref-19">[19]</a></p></div>
-      <div class="card"><h3>Hospitals solved a version of it</h3><p class="small" style="margin-top:8px">Patient-based quality control uses patients’ own results to catch analyzer shifts.<a class="ref" href="#ref-15">[15]</a> It normally needs thousands of samples. CrewPulse adapts it to a crew of four by leaning on personal baselines. We found no published use of it in spaceflight; that is an absence in our search, not proof.</p></div>
+      <div class="card"><h3>Hospitals solved a version of it</h3><p class="small" style="margin-top:8px">Patient-based quality control uses patients’ own results to catch analyzer shifts.<a class="ref" href="#ref-15">[15]</a> It normally needs thousands of samples. Quorum adapts it to a crew of four by leaning on personal baselines. We found no published use of it in spaceflight; that is an absence in our search, not proof.</p></div>
     </div>
   </section>
 
@@ -218,7 +218,7 @@
     <div class="grid g2">
       <div>
         <div class="sec-head"><h2 id="h-qc">13. Data check: one inconsistent row excluded</h2></div>
-        <p class="small">Red-cell indices are arithmetic from hemoglobin, hematocrit and red-cell count, so they must agree with each other. CrewPulse checks every blood-count row and excludes values from a row that fails, instead of trusting them.</p>
+        <p class="small">Red-cell indices are arithmetic from hemoglobin, hematocrit and red-cell count, so they must agree with each other. Quorum checks every blood-count row and excludes values from a row that fails, instead of trusting them.</p>
       </div>
       <div class="card" id="qc"></div>
     </div>
@@ -249,7 +249,7 @@
       <li id="ref-8">Russell et al. (2023). The value of a spaceflight clinical decision support system for Earth-independent medical operations. <i>npj Microgravity</i>. <a href="https://ntrs.nasa.gov/citations/20220007443" target="_blank" rel="noopener">NTRS 20220007443</a></li>
       <li id="ref-9">NASA (2023). <a href="https://www.nasa.gov/wp-content/uploads/2023/11/nasa-std-3001-vol-1-rev-c-with-signature.pdf" target="_blank" rel="noopener">NASA-STD-3001 Volume 1, Revision C</a>: preventive monitoring, in-mission medical care, autonomous care, work/rest, trend records and security.</li>
       <li id="ref-10">Jones et al. (2022). Sleep deficiency in spaceflight is associated with degraded neurobehavioral functions and elevated stress in astronauts on six-month missions aboard the ISS. <i>Sleep</i>. <a href="https://doi.org/10.1093/sleep/zsac006" target="_blank" rel="noopener">doi:10.1093/sleep/zsac006</a></li>
-      <li id="ref-11">Trudel et al. (2022). Hemolysis contributes to anemia during long-duration space flight. <i>Nature Medicine</i>. <a href="https://doi.org/10.1038/s41591-021-01637-7" target="_blank" rel="noopener">doi:10.1038/s41591-021-01637-7</a>. This establishes red-cell biology as mission-relevant, but does not explain CrewPulse’s MCV signal.</li>
+      <li id="ref-11">Trudel et al. (2022). Hemolysis contributes to anemia during long-duration space flight. <i>Nature Medicine</i>. <a href="https://doi.org/10.1038/s41591-021-01637-7" target="_blank" rel="noopener">doi:10.1038/s41591-021-01637-7</a>. This establishes red-cell biology as mission-relevant, but does not explain Quorum’s MCV signal.</li>
       <li id="ref-12">McBrayer, Chai and Judd (2022). <a href="https://ntrs.nasa.gov/citations/20220013418" target="_blank" rel="noopener">Communication Delays, Disruptions, and Blackouts for Crewed Mars Missions</a>, NASA NTRS 20220013418.</li>
       <li id="ref-13">Pletcher and Krihak (2023). <a href="https://ntrs.nasa.gov/citations/20220017869" target="_blank" rel="noopener">Exploration Medical Capability Clinical Decision Support System Architecture Recommendation</a>, NASA HRP-48032 Rev. B.</li>
       <li id="ref-14">Jones GRD (2016). Average of delta: a new quality control tool for clinical laboratories. <i>Annals of Clinical Biochemistry</i> 53(1):133-140.</li>
