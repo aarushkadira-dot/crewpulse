@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%2715%27 fill=%27%231d1d1f%27/%3E%3Cpath d=%27M6 17h5l3-6 4 11 3-5h5%27 fill=%27none%27 stroke=%27%23fff%27 stroke-width=%272.4%27 stroke-linejoin=%27round%27 stroke-linecap=%27round%27/%3E%3C/svg%3E">
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="theme-color" content="#ffffff">
+<title>CrewPulse Proof</title>
+<meta name="description" content="CrewPulse's personal-baseline method tested on real NASA blood data from the four Inspiration4 crew members.">
+<link rel="stylesheet" href="css/site.css">
+<style>
+.c-lab{fill:var(--lab)} .c-labline{stroke:var(--lab-line);stroke-opacity:.6;stroke-dasharray:4 4}
+.c-band{fill:var(--band)} .c-mean{stroke:var(--accent);stroke-opacity:.45}
+.c-flight{fill:var(--ink);fill-opacity:.05} .c-line{fill:none;stroke:var(--ink);stroke-opacity:.45;stroke-width:1.5}
+.c-pre{fill:var(--accent);stroke:var(--surface);stroke-width:2} .c-post{fill:var(--ink);stroke:var(--surface);stroke-width:2} .c-hit{fill:var(--flag);stroke:var(--surface);stroke-width:2}
+.c-axis{stroke:var(--line)} .c-bar-lab{fill:var(--chart-grey)} .c-bar-me{fill:var(--accent)} .c-exp{stroke:var(--ink);stroke-opacity:.55;stroke-width:2;stroke-dasharray:4 3}
+.hero{padding:76px 0 36px}
+.hero h1{max-width:19ch;margin:0 0 4px}
+.minis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:20px 0}
+@media (max-width:700px){.minis{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.mini{padding:10px}
+.big{font-size:clamp(44px,6vw,68px);line-height:1;color:var(--accent)}
+.vs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:16px}
+.ex-ctl{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+.ex-ctl select{flex:1 1 260px}
+.c-lab{fill:none} .c-labline{stroke:#C7C7CC;stroke-opacity:1;stroke-dasharray:none}
+.c-band{fill:rgba(29,29,31,.08)} .c-mean{stroke:#8E8E93;stroke-opacity:1}
+.c-line{stroke:#48484A;stroke-opacity:1;stroke-width:1.5}
+.c-pre{fill:#fff;stroke:#1D1D1F;stroke-width:1.5} .c-post{fill:#1D1D1F} .c-hit{fill:#C9241C}
+.c-grid{stroke:#E5E5EA} .c-axis{stroke:#C7C7CC} .c-bar-lab{fill:#B9BDC6} .c-bar-me{fill:#48484A} .c-exp{stroke:#C9241C;stroke-opacity:1;stroke-width:2;stroke-dasharray:none}
+.legend i.dot{width:9px;height:9px;border-radius:50%} .legend i.ln{height:0;border-radius:0}
+.chart.wide{overflow-x:auto}.chart.wide svg{min-width:560px}
+.rules{margin:12px 0 0;padding-left:20px;display:grid;gap:8px}
+#qc ul{margin:8px 0 10px;padding-left:20px;color:var(--muted);font-size:14.5px}
+.method-label{display:block;font-family:var(--f-b);font-weight:600;font-size:13px;letter-spacing:0;text-transform:none;color:var(--accent);margin-bottom:8px}
+.assumption-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.assumption-grid article{padding:22px 24px 22px 0}
+.assumption-grid article:nth-child(even){padding-left:24px;border-left:1px solid var(--line)}
+.assumption-grid article:nth-child(n+3){border-top:1px solid var(--line)}
+.assumption-grid h3{margin-bottom:7px}
+.assumption-grid p{font-size:14px;color:var(--muted)}
+.trace td:first-child{width:25%;font-weight:600}
+.trace td:nth-child(2){width:25%;font-size:13.5px;color:var(--muted)}
+.trace .partial{color:var(--flag)} .trace .concept{color:var(--accent)} .trace .gap{color:var(--warn)}
+.validation{counter-reset:validation;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:20px}
+.validation div{padding:18px 0;border-top:1px solid var(--line)}
+.validation b{display:block;font-family:var(--f-d);font-size:18px;margin-bottom:5px}
+.validation p{font-size:14px;color:var(--muted)}
+@media (max-width:700px){
+  .assumption-grid,.validation{grid-template-columns:minmax(0,1fr)}
+  .assumption-grid article,.assumption-grid article:nth-child(even){padding:18px 0;border-left:0}
+  .assumption-grid article+article{border-top:1px solid var(--line)}
+  .trace thead{display:none}
+  .trace,.trace tbody,.trace tr,.trace td{display:block;width:100%}
+  .trace tr{padding:16px 18px;border-bottom:1px solid var(--line)}
+  .trace tr:last-child{border-bottom:0}
+  .trace td,.trace td:first-child,.trace td:nth-child(2){width:auto;padding:0;border:0}
+  .trace td+td{margin-top:12px}
+  .trace td::before{content:attr(data-label);display:block;margin-bottom:3px;font-family:var(--f-m);font-size:10.5px;letter-spacing:0;text-transform:none;color:var(--faint)}
+}
+.pending{opacity:.35;transition:opacity .3s} body.ready .pending{opacity:1}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top"><div class="wrap">
+  <a class="brand" href="index.html"><svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true"><circle cx="14" cy="14" r="12.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M5 14.5h4.5l2.3-5 3.8 10 2.4-5H23" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></svg>CrewPulse</a>
+  <nav aria-label="Main"><a href="index.html">Overview</a><a href="proof.html" aria-current="page">Evidence</a><a href="#method">Method</a><a href="#sources">References</a><a class="cta" href="app.html">App</a></nav>
+</div></header>
+
+<div class="wrap doc">
+<nav class="toc" aria-label="On this page"><b>On this page</b><a href="#h-cw">1. Red-cell size fell in all four crew the day after landing</a><a href="#h-sc">2. Source check: person, environment or instrument</a><a href="#h-hand">3. A second case at 45 days: potassium up, glucose down</a><a href="#h-count">4. Flag counts</a><a href="#h-ex">5. All markers, by crew member</a><a href="#h-rob">6. Sensitivity to the threshold and the baseline</a><a href="#h-ff">7. False-flag rate</a><a href="#h-m">8. Method</a><a href="#h-assumptions">9. Assumptions</a><a href="#h-dl">10. Detection limits for a crew of four</a><a href="#h-why">11. Why a source check is needed</a><a href="#h-trace">12. NASA requirement traceability</a><a href="#h-qc">13. Data check: one inconsistent row excluded</a><a href="#h-lim">14. Limits</a><a href="#h-src">References</a></nav>
+<main id="main">
+  <div class="hero">
+    <h1>Evidence: the source check on Inspiration4 bloodwork</h1>
+    <p class="lead">On a long mission the samples used to check an analyzer expire, so the crew’s own results become the only reference left. This exploratory analysis runs CrewPulse’s source check on public Inspiration4 blood tests: is a change in one person, in what the crew shares, or in the measurement? Every number is recomputed in your browser from NASA’s original files.</p>
+    <p id="load-error" class="note" hidden style="margin-top:20px"></p>
+    <div class="grid g4 pending" style="margin-top:32px">
+      <div class="stat"><b>4</b><span>crew members, 3 days in orbit (Sept 2021)</span></div>
+      <div class="stat"><b id="n-markers">36</b><span>blood markers (<span id="n-cbc">20</span> blood count, <span id="n-cmp">16</span> metabolic)</span></div>
+      <div class="stat"><b>7</b><span>blood draws: 3 before flight, 4 after</span></div>
+      <div class="stat"><b id="n-values">1,092</b><span>values read from NASA’s files</span></div>
+    </div>
+  </div>
+
+  <section aria-labelledby="h-cw">
+    <div class="sec-head"><h2 id="h-cw">1. Red-cell size fell in all four crew the day after landing</h2></div>
+    <div class="prose"><p>Mean corpuscular volume (MCV) measures average red-cell size. At R+1, it fell outside the prototype personal prediction band for all four crew in the same direction, while every value remained inside the 80-100 fL laboratory range. A monitor that only compares people with their own baseline stops here and raises four alarms. CrewPulse asks one more question first.</p></div>
+    <div class="minis chart pending" id="mcv-minis"></div>
+    <div class="legend"><span><i style="background:rgba(29,29,31,.14)"></i>Own normal, from the preflight draws</span><span><i class="ln" style="border-top:1.5px solid #AEAEB2"></i>Lab reference range</span><span><i class="dot" style="background:#fff;border:1.5px solid #1D1D1F"></i>Preflight draw</span><span><i class="dot" style="background:#1D1D1F"></i>After flight</span><span><i class="dot" style="background:#C9241C"></i>Outside own normal</span></div>
+    <div class="tbl pending" style="margin-top:20px"><table><thead><tr><th>Crew member</th><th>Preflight MCV (fL)</th><th>R+1 (fL)</th><th>Lab range</th><th>Drift score d</th></tr></thead><tbody id="mcv-rows"></tbody></table></div>
+  </section>
+
+  <section aria-labelledby="h-sc">
+    <div class="sec-head"><h2 id="h-sc">2. Source check: person, environment or instrument</h2></div>
+    <div class="prose"><p>When the whole crew moves together, the cause is shared. The source check ranks the shared explanations using only what a crew would have on board: the baseline, the related markers, and the timing.</p></div>
+    <div class="grid g2 pending" style="margin-top:20px">
+      <div class="card"><h3 id="sc-verdict">Instrument suspected</h3><p class="small" id="sc-sum" style="margin-top:8px"></p><ul class="rules small" id="sc-ev" style="margin-top:14px"></ul></div>
+      <div class="card"><h3>The shift persists</h3><p class="small" style="margin-top:8px">A three-day flight ended in September 2021. The same crew-wide shift is still present at every later draw:</p>
+        <div class="tbl" style="margin-top:10px"><table><thead><tr><th>Draw</th><th>Crew average</th><th>Outside own normal</th></tr></thead><tbody id="sc-recur"></tbody></table></div>
+        <p class="small" style="margin-top:10px">Red-cell size also <b>rose at every preflight draw in all four crew</b>, on the ground. Samples that travel and are run together can move together for reasons unrelated to health.</p></div>
+    </div>
+    <p class="note" style="margin-top:16px;max-width:76ch"><b>What we do not claim.</b> The public files carry no instrument, lot or handling records, so this cannot be proven either way. A lasting change in the crew is not excluded. The fingerprints rank the explanations; on board, a retake or a control sample would settle it. That is the point: without this check, a crew could not tell which question to ask.</p>
+  </section>
+
+  <section aria-labelledby="h-hand">
+    <div class="sec-head"><h2 id="h-hand">3. A second case at 45 days: potassium up, glucose down</h2></div>
+    <div class="prose"><p>Blood cells keep using sugar and leak potassium while a sample waits to be processed. At the R+45 draw both markers moved crew-wide, in exactly those opposite directions. Read naively, three of four crew have blood sugar far below the lab range. The source check labels the pair <b>sample handling suspected</b> and holds those eight results, while every other result from the draw stays usable.</p></div>
+    <div class="tbl pending" style="margin-top:16px"><table><thead><tr><th>Crew member</th><th>Glucose, own normal (mg/dL)</th><th>Glucose at R+45</th><th>Potassium, own normal (mmol/L)</th><th>Potassium at R+45</th></tr></thead><tbody id="hand-rows"></tbody></table></div>
+    <p class="small" style="margin-top:10px">Crew averages at R+45: glucose <b id="hand-g"></b>, potassium <b id="hand-k"></b>. A fresh sample answers a handling question at no cost in control kits.</p>
+  </section>
+
+  <section aria-labelledby="h-count">
+    <div class="sec-head"><h2 id="h-count">4. Flag counts</h2></div>
+    <div class="vs pending">
+      <div class="card"><div class="big"><span id="r1-me">12</span></div><p class="small" style="margin-top:8px">results flagged by the personal baseline the day after landing, out of <span id="r1-n">143</span>. <b><span id="r1-only">7</span></b> of them were inside the lab range, and four are the red-cell size shift above.</p></div>
+      <div class="card"><div class="big" style="color:var(--chart-grey)"><span id="r1-lab">5</span></div><p class="small" style="margin-top:8px">flagged by the standard lab ranges. <span id="r1-labonly">4</span> of those were inside that person’s own normal: values usual for them, unusual for the population.</p></div>
+    </div>
+    <div class="chart card pending" id="count-chart" style="margin-top:16px"></div>
+    <div class="legend" style="margin-top:10px"><span><i style="background:#B9BDC6"></i>Flagged by lab range</span><span><i style="background:#48484A"></i>Flagged by personal baseline</span><span><i class="ln" style="border-top:2px solid #C9241C"></i>Expected by chance</span></div>
+    <p class="note" style="margin-top:16px;max-width:76ch">At the false-flag rate measured below, about <b id="r1-exp">2</b> flags per draw are expected by chance. A single flag is still only a hint; the crew-wide pattern is what carries the evidence. After the source check, <b id="sc-trusted">136</b> of <span id="sc-total">143</span> results at R+1 are trusted as they stand, <span id="sc-hold">4</span> are on hold and <span id="sc-retake">3</span> ask for a retake.</p>
+  </section>
+
+  <section aria-labelledby="h-ex">
+    <div class="sec-head"><h2 id="h-ex">5. All markers, by crew member</h2></div>
+    <div class="ex-ctl"><div class="seg" role="group" aria-label="Crew member" id="ex-crew"></div><select id="ex-marker" aria-label="Blood marker"></select></div>
+    <div class="card chart wide" id="ex-chart"></div>
+    <p class="small" id="ex-band" style="margin:10px 0 14px"></p>
+    <div class="tbl"><table><thead><tr><th>After flight</th><th>Value</th><th>Lab report says</th><th>CrewPulse says</th></tr></thead><tbody id="ex-rows"></tbody></table></div>
+    <p class="small" style="margin-top:10px">Crew IDs are de-identified, as in NASA’s dataset.</p>
+  </section>
+
+  <section aria-labelledby="h-rob">
+    <div class="sec-head"><h2 id="h-rob">6. Sensitivity to the threshold and the baseline</h2></div>
+    <div class="tbl"><table><thead><tr><th>Setting</th><th>R+1 flags</th><th>Expected by chance</th><th>False-flag rate</th><th>Crew with MCV below own normal</th></tr></thead><tbody id="rob-rows"></tbody></table></div>
+    <p class="small" style="margin-top:12px;max-width:76ch">The app uses the Student t limit, because the typical variation is estimated from only a few draws. At the strict fixed threshold (2.576), about 0.4 flags are expected by chance and 4 appear; three of them are MCV in three different crew members. The fourth is sodium in one crew member, inside the lab range.</p>
+  </section>
+
+  <section aria-labelledby="h-ff">
+    <div class="grid g2">
+      <div>
+        <div class="sec-head"><h2 id="h-ff">7. False-flag rate</h2></div>
+        <div class="prose"><p>We tested the method on the preflight draws too, when everyone was healthy and on the ground: each draw left out in turn and compared with the other two. The personal baseline flagged <b id="ff-r">1.5%</b> of healthy results (<span id="ff-n">6</span> of <span id="ff-t">396</span>). The lab ranges flagged <span id="ff-lab">3.8%</span> of the same results. The crew-wide alarm fired on <b id="cfa-a">0</b> of <span id="cfa-t">102</span> healthy marker-draws.</p><p class="small">These rates are optimistic: the typical variation is estimated from the same three draws being tested. An independent cohort is step one of the validation plan below.</p></div>
+      </div>
+      <div class="card">
+        <h3>How the app treats a single flag</h3>
+        <p class="small" style="margin-top:8px">Even at a <span id="ff-r2">1.5%</span> false-flag rate, 143 results a draw means a couple of false flags every time. CrewPulse shows a single flag as <b>Retake</b>. It asks for a person-level review only when a flag is backed up:</p>
+        <ol class="rules small"><li><b>It repeats</b> at the next reading.</li><li><b>It crosses</b> a fixed safety limit too.</li><li><b>It’s crew-wide</b>, which sends it to the source check, not to four separate diagnoses.</li></ol>
+      </div>
+    </div>
+  </section>
+
+  <section id="method" aria-labelledby="h-m">
+    <div class="sec-head"><h2 id="h-m">8. Method</h2></div>
+    <div class="grid g2">
+      <ol class="rules" style="padding-left:20px;margin:0">
+        <li><b>Personal normal.</b> The mean of each person’s preflight draws (L-92, L-44, L-3).</li>
+        <li><b>Typical variation, s.</b> The within-person preflight standard deviation, pooled across the four crew for each marker.</li>
+        <li><b>Drift score.</b> How far a new result sits from the personal normal, in units of typical variation, widened because the normal comes from only a few draws.</li>
+        <li><b>Flag.</b> When the drift score is beyond the two-sided 95% Student t limit for the draws behind s: ±2.306 for most markers (8 degrees of freedom).</li>
+        <li><b>Crew shift.</b> The average drift score across the crew, scaled by √n. This is the “average of deltas” idea from hospital quality control,<a class="ref" href="#ref-14">[14]</a> with the crew as the patients. It alarms when the average is beyond the same limit and at least half the crew is individually flagged.</li>
+        <li><b>Source check.</b> Each crew-wide alarm is scored on five fingerprints: a known handling pair, recurrence at later draws, co-movement in the baseline, whether related markers moved, and timing against the exposure.</li>
+      </ol>
+      <div>
+        <span class="method-label">Prototype model class</span>
+        <div class="formula" aria-label="d equals x minus the preflight mean, divided by s times the square root of 1 plus 1 over n. Flag if the absolute value of d is greater than the Student t limit. The crew shift z is the mean of d across the crew times the square root of the crew size.">d = (x − x̄<sub>pre</sub>) ÷ ( s · √(1 + 1/n) ) &nbsp;&nbsp; flag if |d| &gt; t<sub>df</sub><br>z<sub>crew</sub> = mean(d) · √n<sub>crew</sub> &nbsp;&nbsp; alarm if |z| &gt; t<sub>df</sub></div>
+        <p class="small" style="margin-top:12px">This is a simple Gaussian prediction band centered on a personal baseline. Personalized laboratory intervals are an established research direction,<a class="ref" href="#ref-6">[6]</a> but a clinical reference-change-value calculation also models analytical variation and uses validated analyte-specific biological variation. CrewPulse does not yet do that.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="assumptions" aria-labelledby="h-assumptions">
+    <div class="sec-head"><h2 id="h-assumptions">9. Assumptions</h2></div>
+    <div class="assumption-grid">
+      <article><h3>Stable baseline</h3><p>The three preflight draws must represent a healthy steady state. Training load, illness, hydration or circadian timing can move the baseline itself.</p></article>
+      <article><h3>Comparable measurement</h3><p>Collection, storage, instrument and laboratory method must be comparable across draws. Preanalytical or batch changes can look like physiology.</p></article>
+      <article><h3>Shared variance is reasonable</h3><p>Pooling the within-person standard deviation across four crew stabilizes a tiny sample, but assumes similar day-to-day variability for that marker.</p></article>
+      <article><h3>Residuals are roughly symmetric</h3><p>The t limit assumes a simple Gaussian error model. Skewed biomarkers may need transformation or asymmetric limits.</p></article>
+      <article><h3>Flags are not diagnoses</h3><p>A drift flag says “different from baseline.” It does not name a condition, its severity, or the correct treatment.</p></article>
+      <article><h3>Fingerprints rank, they don’t prove</h3><p>The source check orders the explanations from the evidence on hand. Only a retake, a second device or a control sample can confirm an instrument or handling cause.</p></article>
+    </div>
+  </section>
+
+  <section id="limits-table" aria-labelledby="h-dl">
+    <div class="sec-head"><h2 id="h-dl">10. Detection limits for a crew of four</h2></div>
+    <div class="prose"><p>From each marker’s day-to-day variation in the preflight draws, this is the smallest crew-wide shift four people can detect in one round. For <b id="dl-cov">9</b> of <span id="dl-n">36</span> markers it is 5% or less, so the crew can stand in for a control sample. The rest swing too much within a person, and that is where the remaining control kits should be spent.</p></div>
+    <div class="tbl pending" style="margin-top:16px"><table><thead><tr><th>Marker</th><th>Varies within a person</th><th>Smallest crew-wide shift caught</th><th>Who checks the analyzer</th></tr></thead><tbody id="dl-rows"></tbody></table></div>
+    <p class="small" style="margin-top:10px">Illustrative: four people, three draws each. The red-cell size shift at R+1 was <span id="dl-mcv">3.9</span>%, well above its limit. The 5% cut-off is a demonstration setting, not a clinical requirement.</p>
+  </section>
+
+  <section id="why" aria-labelledby="h-why">
+    <div class="sec-head"><h2 id="h-why">11. Why a source check is needed</h2></div>
+    <div class="grid g3">
+      <div class="card"><h3>Controls expire</h3><p class="small" style="margin-top:8px">Analyzers are verified with control samples of known value. The controls NASA flew with its white-cell analyzer last about 3.5 months in cold stowage;<a class="ref" href="#ref-16">[16]</a> NASA lists reagent shelf life among the reasons commercial analyzers fall short for exploration.<a class="ref" href="#ref-17">[17]</a> A Mars mission lasts years.</p></div>
+      <div class="card"><h3>It has happened in orbit</h3><p class="small" style="margin-top:8px">In the ISS validation of that analyzer, the evidence pointed at the control solutions, because a fresh astronaut fingerstick gave the expected values.<a class="ref" href="#ref-18">[18]</a> On Earth in 2026, lots of a handheld blood-analyzer cartridge were recalled for results that read too high.<a class="ref" href="#ref-19">[19]</a></p></div>
+      <div class="card"><h3>Hospitals solved a version of it</h3><p class="small" style="margin-top:8px">Patient-based quality control uses patients’ own results to catch analyzer shifts.<a class="ref" href="#ref-15">[15]</a> It normally needs thousands of samples. CrewPulse adapts it to a crew of four by leaning on personal baselines. We found no published use of it in spaceflight; that is an absence in our search, not proof.</p></div>
+    </div>
+  </section>
+
+  <section id="traceability" aria-labelledby="h-trace">
+    <div class="sec-head"><h2 id="h-trace">12. NASA requirement traceability</h2><p class="small">This is a requirements mapping, not a claim of NASA certification or compliance.</p></div>
+    <div class="tbl"><table class="trace"><thead><tr><th>Need</th><th>Source</th><th>Prototype evidence</th><th>Status</th></tr></thead><tbody>
+      <tr><td data-label="Need">Monitor and trend health</td><td data-label="Source">V1 3003, 3004(h), 7001</td><td data-label="Prototype evidence">Longitudinal vitals, behavior and laboratory views with a retrievable trend model.</td><td data-label="Status" class="partial">Partial prototype</td></tr>
+      <tr><td data-label="Need">Support autonomous care</td><td data-label="Source">V1 3004(t); ExMC CDSS</td><td data-label="Prototype evidence">On-board rules, visible reasons, counterfactuals and queued flight-surgeon review.</td><td data-label="Status" class="concept">Concept demonstrated</td></tr>
+      <tr><td data-label="Need">Manage work and rest</td><td data-label="Source">V1 3004(p)</td><td data-label="Prototype evidence">Sleep plus a short vigilance task inform the simulated EVA decision. ISS research supports measuring both.<a class="ref" href="#ref-10">[10]</a></td><td data-label="Status" class="concept">Concept demonstrated</td></tr>
+      <tr><td data-label="Need">Secure medical records</td><td data-label="Source">V1 7003</td><td data-label="Prototype evidence">The hackathon build stores demo data locally and has no flight-grade identity, encryption, audit or access-control layer.</td><td data-label="Status" class="gap">Not implemented</td></tr>
+    </tbody></table></div>
+    <div class="validation" aria-label="Validation roadmap">
+      <div><b>1. Calibrate on an independent cohort</b><p>Freeze the algorithm, then measure sensitivity, specificity and false-alert burden on unseen repeated-measures data.</p></div>
+      <div><b>2. Separate sources of variation</b><p>Estimate analytical, preanalytical and within-subject biological variation for each marker and assay.</p></div>
+      <div><b>3. Link alerts to outcomes</b><p>Define prospective operational endpoints before deriving any Go, limit or No-go threshold.</p></div>
+      <div><b>4. Build the safety case</b><p>Run human-factors testing, failure-mode analysis, clinician review, cybersecurity assessment and mission-specific verification.</p></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-qc">
+    <div class="grid g2">
+      <div>
+        <div class="sec-head"><h2 id="h-qc">13. Data check: one inconsistent row excluded</h2></div>
+        <p class="small">Red-cell indices are arithmetic from hemoglobin, hematocrit and red-cell count, so they must agree with each other. CrewPulse checks every blood-count row and excludes values from a row that fails, instead of trusting them.</p>
+      </div>
+      <div class="card" id="qc"></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-lim">
+    <div class="sec-head"><h2 id="h-lim">14. Limits</h2></div>
+    <div class="grid g3">
+      <div class="card"><h3>Four people, three days</h3><p class="small" style="margin-top:8px">Long missions may produce larger and different changes, and the whole crew really does shift together in flight. This shows the check can separate the explanations here, not how it performs on Mars.</p></div>
+      <div class="card"><h3>Not a clinical RCV</h3><p class="small" style="margin-top:8px">The model does not separately estimate assay imprecision or use validated analyte-specific biological variation.</p></div>
+      <div class="card"><h3>Ground labs and batch effects</h3><p class="small" style="margin-top:8px">All samples were tested on Earth. A crew-wide shift can reflect handling or instrumentation as well as shared physiology.</p></div>
+      <div class="card"><h3>The verdict is a ranking</h3><p class="small" style="margin-top:8px">“Instrument suspected” means the measurement explanations outscore the others on five simple fingerprints. It is not a finding about any laboratory or device.</p></div>
+      <div class="card"><h3>No outcome validation</h3><p class="small" style="margin-top:8px">No clinical or mission outcome was used to choose the threshold. A flag is a research signal, never a diagnosis or clearance decision.</p></div>
+      <div class="card"><h3>Decision rules are simulated</h3><p class="small" style="margin-top:8px">The Go / No-go logic demonstrates explainability and workflow. It has not been validated for EVA fitness or medical operations.</p></div>
+    </div>
+  </section>
+
+  <section id="sources" aria-labelledby="h-src">
+    <div class="sec-head"><h2 id="h-src">References</h2></div>
+    <ol class="refs">
+      <li id="ref-1">NASA OSDR, <a href="https://osdr.nasa.gov/bio/repo/data/studies/OSD-569" target="_blank" rel="noopener">OSD-569</a>: whole-blood measurements from the SpaceX Inspiration4 mission, file LSDS-7 (complete blood count). DOI <a href="https://doi.org/10.26030/e0rx-sh52" target="_blank" rel="noopener">10.26030/e0rx-sh52</a>. CC0.</li>
+      <li id="ref-2">NASA OSDR, <a href="https://osdr.nasa.gov/bio/repo/data/studies/OSD-575" target="_blank" rel="noopener">OSD-575</a>: Inspiration4 blood serum metabolic panel, file LSDS-8. DOI <a href="https://doi.org/10.26030/mc5d-p710" target="_blank" rel="noopener">10.26030/mc5d-p710</a>. CC0.</li>
+      <li id="ref-3">Overbey et al. (2024). The Space Omics and Medical Atlas (SOMA) and international astronaut biobank. <i>Nature</i>. <a href="https://doi.org/10.1038/s41586-024-07639-y" target="_blank" rel="noopener">doi:10.1038/s41586-024-07639-y</a></li>
+      <li id="ref-4">Overbey et al. (2024). Collection of biospecimens from the Inspiration4 mission establishes the standards for SOMA. <i>Nature Communications</i>. <a href="https://doi.org/10.1038/s41467-024-48806-z" target="_blank" rel="noopener">doi:10.1038/s41467-024-48806-z</a></li>
+      <li id="ref-5">Garcia-Medina et al. (2024). Genome and clonal hematopoiesis stability contrasts with immune, cfDNA, mitochondrial, and telomere length changes during short duration spaceflight. <i>Precision Clinical Medicine</i>. <a href="https://doi.org/10.1093/pcmedi/pbae007" target="_blank" rel="noopener">doi:10.1093/pcmedi/pbae007</a></li>
+      <li id="ref-6">Coşkun et al. (2021). Personalized Reference Intervals in Laboratory Medicine: A New Model Based on Within-Subject Biological Variation. <i>Clinical Chemistry</i>. <a href="https://doi.org/10.1093/clinchem/hvaa233" target="_blank" rel="noopener">doi:10.1093/clinchem/hvaa233</a></li>
+      <li id="ref-7">Grigorev et al. (2024). Direct RNA sequencing of astronauts reveals spaceflight-associated m6A increases and hematopoietic transcriptional responses. <i>Nature Communications</i>. <a href="https://doi.org/10.1038/s41467-024-48929-3" target="_blank" rel="noopener">doi:10.1038/s41467-024-48929-3</a></li>
+      <li id="ref-8">Russell et al. (2023). The value of a spaceflight clinical decision support system for Earth-independent medical operations. <i>npj Microgravity</i>. <a href="https://ntrs.nasa.gov/citations/20220007443" target="_blank" rel="noopener">NTRS 20220007443</a></li>
+      <li id="ref-9">NASA (2023). <a href="https://www.nasa.gov/wp-content/uploads/2023/11/nasa-std-3001-vol-1-rev-c-with-signature.pdf" target="_blank" rel="noopener">NASA-STD-3001 Volume 1, Revision C</a>: preventive monitoring, in-mission medical care, autonomous care, work/rest, trend records and security.</li>
+      <li id="ref-10">Jones et al. (2022). Sleep deficiency in spaceflight is associated with degraded neurobehavioral functions and elevated stress in astronauts on six-month missions aboard the ISS. <i>Sleep</i>. <a href="https://doi.org/10.1093/sleep/zsac006" target="_blank" rel="noopener">doi:10.1093/sleep/zsac006</a></li>
+      <li id="ref-11">Trudel et al. (2022). Hemolysis contributes to anemia during long-duration space flight. <i>Nature Medicine</i>. <a href="https://doi.org/10.1038/s41591-021-01637-7" target="_blank" rel="noopener">doi:10.1038/s41591-021-01637-7</a>. This establishes red-cell biology as mission-relevant, but does not explain CrewPulse’s MCV signal.</li>
+      <li id="ref-12">McBrayer, Chai and Judd (2022). <a href="https://ntrs.nasa.gov/citations/20220013418" target="_blank" rel="noopener">Communication Delays, Disruptions, and Blackouts for Crewed Mars Missions</a>, NASA NTRS 20220013418.</li>
+      <li id="ref-13">Pletcher and Krihak (2023). <a href="https://ntrs.nasa.gov/citations/20220017869" target="_blank" rel="noopener">Exploration Medical Capability Clinical Decision Support System Architecture Recommendation</a>, NASA HRP-48032 Rev. B.</li>
+      <li id="ref-14">Jones GRD (2016). Average of delta: a new quality control tool for clinical laboratories. <i>Annals of Clinical Biochemistry</i> 53(1):133-140.</li>
+      <li id="ref-15">Badrick et al. (2019). Patient-based real-time quality control: review and recommendations. <i>Clinical Chemistry</i> 65:962-971.</li>
+      <li id="ref-16">NASA (2023). <a href="https://ntrs.nasa.gov/citations/20230006919" target="_blank" rel="noopener">An in-situ laboratory analysis capability for exploration missions</a>, NTRS 20230006919: control-solution shelf life and cold stowage.</li>
+      <li id="ref-17">NASA (2024). Technology modification, development, and demonstrations for future spaceflight medical systems at NASA. <i>Frontiers in Space Technologies</i>. <a href="https://doi.org/10.3389/frspt.2024.1384457" target="_blank" rel="noopener">doi:10.3389/frspt.2024.1384457</a>; and <a href="https://ntrs.nasa.gov/citations/20140013382" target="_blank" rel="noopener">NASA Laboratory Analysis for Manned Exploration Missions</a>, NTRS 20140013382.</li>
+      <li id="ref-18">Crucian et al. (2021). <a href="https://www.sciencedirect.com/science/article/pii/S2214552421000481" target="_blank" rel="noopener">Spaceflight validation of technology for point-of-care monitoring of peripheral blood WBC and differential in astronauts during space missions</a>. <i>Life Sciences in Space Research</i>.</li>
+      <li id="ref-19">U.S. FDA (2026). <a href="https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfRes/res.cfm?ID=219277" target="_blank" rel="noopener">Class 2 device recall, i-STAT EG6+ cartridge</a>, Z-2000-2026. Cited as an example of a lot-level error; it is not a NASA incident.</li>
+      <li id="ref-20">Ferraro et al. (2026). Point of care testing of biochemical markers for monitoring astronauts during long duration missions in deep space. <i>Clinical Chemistry and Laboratory Medicine</i>. <a href="https://doi.org/10.1515/cclm-2025-0526" target="_blank" rel="noopener">doi:10.1515/cclm-2025-0526</a></li>
+    </ol>
+  </section>
+</main>
+</div>
+
+<footer class="foot"><div class="wrap">
+  <p>Built for the 2026 NASA Space Apps Challenge, “Create Health Monitoring Software for Astronauts on Space Missions.” Not a medical device, and not peer-reviewed.</p>
+  <p>Data: NASA Open Science Data Repository (CC0). The analysis runs in your browser from <span class="mono">js/analysis.js</span>; <span class="mono">test/test.js</span> reproduces every number on this page.</p>
+</div></footer>
+<script src="js/analysis.js"></script>
+<script src="js/proof.js"></script>
+</body>
+</html>

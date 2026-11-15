@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%2715%27 fill=%27%231d1d1f%27/%3E%3Cpath d=%27M6 17h5l3-6 4 11 3-5h5%27 fill=%27none%27 stroke=%27%23fff%27 stroke-width=%272.4%27 stroke-linejoin=%27round%27 stroke-linecap=%27round%27/%3E%3C/svg%3E">
+<title>CrewPulse</title>
+<meta name="description" content="CrewPulse is a health check-in for astronauts that checks whether a lab result can be trusted before the crew acts on it. NASA Space Apps Challenge 2026.">
+<meta name="theme-color" content="#ffffff">
+<style>
+@font-face{font-family:"IBM Plex Sans";font-style:normal;font-weight:100 700;font-display:swap;src:url(fonts/IBMPlexSans-latin.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"IBM Plex Sans";font-style:normal;font-weight:100 700;font-display:swap;src:url(fonts/IBMPlexSans-latin-ext.woff2) format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+:root{--ink:#1d1d1f;--grey:#56565c;--rule:#d2d2d7;--wash:#f5f5f7;--link:#0066cc;--red:#c9241c;--amber:#9a5a00;--blue:#2a5bd7;--pad:clamp(20px,4vw,56px);
+  --sans:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:#fff;color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:var(--link)}
+:focus-visible{outline:2px solid var(--link);outline-offset:2px}
+img{max-width:100%;height:auto;display:block}
+.page{max-width:1640px;margin:0 auto;padding:0 var(--pad) 64px}
+.site{display:flex;gap:26px;align-items:baseline;font-size:16px;padding:20px 0;border-bottom:1px solid var(--rule)}
+.site b{font-weight:600;margin-right:auto;font-size:17px}
+.site a{color:var(--ink);text-decoration:none;padding:6px 0}.site a:hover{text-decoration:underline}
+.hero{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,8fr);gap:48px;align-items:start;padding:56px 0 8px}
+h1{font-size:clamp(32px,3.5vw,52px);line-height:1.06;font-weight:700;letter-spacing:-.03em;margin:0 0 22px}
+.intro{font-size:20px;line-height:1.45;margin:0 0 26px}
+.go{display:flex;flex-wrap:wrap;gap:10px;margin:0}
+.go a{display:inline-flex;align-items:center;min-height:46px;padding:0 20px;border-radius:10px;font-weight:600;text-decoration:none;border:1px solid var(--ink);color:var(--ink)}
+.go a.pri{background:var(--ink);color:#fff}
+.hero figure{margin:0 calc(-1*var(--pad)) 0 0}
+.hero .shot{border-radius:10px 0 0 10px;border-right:0;width:100%}
+.shot{border:1px solid var(--rule);border-radius:10px}
+.cap{color:var(--grey);font-size:15px;margin:10px 0 0}
+.sec{display:grid;grid-template-columns:230px minmax(0,1fr) 300px;gap:20px 48px;padding:36px 0 0;margin-top:56px;border-top:1px solid var(--rule);align-items:start}
+h2{font-size:22px;line-height:1.2;font-weight:700;letter-spacing:-.02em;margin:0}
+.body{max-width:44em}
+.wide{grid-column:2/-1;min-width:0}
+p{margin:0 0 16px}
+.side{color:var(--grey);font-size:15px;line-height:1.5}
+.side p{margin:0 0 12px;padding-left:20px;position:relative}
+.side p b{position:absolute;left:0;color:var(--ink);font-weight:600}
+sup{font-size:12px;line-height:0}sup a{text-decoration:none}
+table{border-collapse:collapse;width:100%;font-size:16px;margin:0 0 8px}
+th{text-align:left;font-weight:600;padding:0 14px 8px 0;border-bottom:1px solid var(--ink)}
+td{padding:9px 14px 9px 0;border-bottom:1px solid var(--rule);vertical-align:top}
+td:first-child{white-space:nowrap}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap;padding-right:0}
+.scroll{overflow-x:auto}
+.v-i{color:var(--red)}.v-h{color:var(--amber)}.v-e{color:var(--blue)}.v-u{color:var(--grey)}
+.charts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px}
+.charts svg{width:100%;height:auto;display:block}
+.charts text{font-family:var(--sans);font-size:11px;fill:var(--grey)}
+.charts .t{fill:var(--ink);font-weight:600;font-size:12px}
+.split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:48px;align-items:start;margin-top:28px}
+.screens{display:flex;gap:16px;align-items:flex-start;margin-top:56px}
+.screens figure{margin:0;min-width:0}
+.screens .d{flex:1620 1 0}.screens .m{flex:468 1 0}
+code{font-family:var(--mono);font-size:14.5px}
+.end{display:grid;grid-template-columns:230px minmax(0,1fr) minmax(0,1fr);gap:20px 48px;border-top:1px solid var(--rule);margin-top:56px;padding-top:22px;color:var(--grey);font-size:15px}
+.end p{margin:0}
+@media (max-width:1180px){
+  .sec{grid-template-columns:180px minmax(0,1fr)}
+  .side{grid-column:2}
+  .end{grid-template-columns:180px minmax(0,1fr)}.end p:last-child{grid-column:2}
+}
+@media (max-width:900px){
+  .hero{grid-template-columns:minmax(0,1fr);gap:28px;padding-top:36px}
+  .hero figure{margin-right:0}.hero .shot{border-radius:10px;border-right:1px solid var(--rule)}
+  .sec{grid-template-columns:minmax(0,1fr);gap:14px;margin-top:44px;padding-top:28px}
+  .side,.wide{grid-column:1}
+  .split{grid-template-columns:minmax(0,1fr);gap:24px}
+  .charts{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+  .screens{flex-wrap:wrap;margin-top:44px}.screens .d{flex:1 1 100%}.screens .m{flex:0 1 46%}
+  .end{grid-template-columns:minmax(0,1fr)}.end p:last-child{grid-column:1}
+}
+@media (max-width:560px){body{font-size:16px}.intro{font-size:18px}.go a{flex:1 1 100%;justify-content:center}h2{font-size:20px}}
+</style>
+</head>
+<body>
+<div class="page">
+  <nav class="site" aria-label="Main"><b>CrewPulse</b><a href="app.html">App</a><a href="proof.html">Evidence</a><a href="README.md">Read me</a></nav>
+
+  <main>
+  <div class="hero">
+    <div>
+      <h1>A health check-in for astronauts that also checks its own readings</h1>
+      <p class="intro">On the way to Mars a crew can wait 40 minutes for a doctor’s answer, or two weeks. CrewPulse lets them make the call on board, and it questions a strange lab result before it lets anyone act on it.</p>
+      <p class="go"><a class="pri" href="app.html">Open the app</a><a href="proof.html">See the test on NASA data</a></p>
+    </div>
+    <figure>
+      <img class="shot" src="img/labs.jpg" width="1620" height="1012" alt="The Labs screen of CrewPulse. After the first blood draw following landing, it reads ‘Instrument suspected’, tells the crew to retake before treating anyone, and lists its evidence.">
+      <p class="cap">The Labs screen on the real Inspiration4 blood draw from the day after landing.</p>
+    </figure>
+  </div>
+
+  <section class="sec">
+    <h2>The part we think is new</h2>
+    <div class="body">
+    <p>Every health tool we looked at assumes its numbers are right. On Earth a lab checks its analyzer with control samples and gets a recall notice when a batch is bad. A Mars crew has neither for most of the trip: the control solutions NASA flew with its white-cell analyzer last about three and a half months,<sup><a href="#n1">1</a></sup> and the mission lasts about three years. In April 2026 some lots of a handheld blood-analyzer cartridge were recalled for reading too high.<sup><a href="#n2">2</a></sup> In a communications blackout the crew would never hear about it.</p>
+    <p>So before CrewPulse reports a lab change as a health problem, it asks where the change is. If one person moved, it is probably that person. If the whole crew moved at once, it is something they share, or it is the instrument. Hospitals already use their patients’ results this way to catch analyzer drift.<sup><a href="#n3">3</a></sup> We adapted that to a crew of four.</p>
+    </div>
+    <aside class="side">
+      <p id="n1"><b>1</b>NASA (2023). <a href="https://ntrs.nasa.gov/citations/20230006919">An in-situ laboratory analysis capability for exploration missions</a>. NTRS 20230006919.</p>
+      <p id="n2"><b>2</b>U.S. FDA (2026). <a href="https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfRes/res.cfm?ID=219277">Class 2 device recall, i-STAT EG6+ cartridge</a>. An example of a lot-level error, not a NASA incident.</p>
+      <p id="n3"><b>3</b>Badrick et al. (2019). Patient-based real-time quality control: review and recommendations. <i>Clinical Chemistry</i> 65:962-971.</p>
+    </aside>
+  </section>
+
+  <section class="sec">
+    <h2>What happened when we ran it on real data</h2>
+    <div class="body">
+    <p>NASA has published the blood tests from the four Inspiration4 crew: three draws before their three-day flight and four after.<sup><a href="#n4">4</a></sup> The day after landing, red-cell size was below every crew member’s own normal, though still inside the standard lab range.</p>
+    </div>
+    <aside class="side">
+      <p id="n4"><b>4</b>NASA Open Science Data Repository, Inspiration4 <a href="https://doi.org/10.26030/e0rx-sh52">blood count</a> and <a href="https://doi.org/10.26030/mc5d-p710">metabolic panel</a>.</p>
+    </aside>
+    <div class="wide">
+      <div class="charts" id="mcv" role="img" aria-label="Red-cell size for each of the four Inspiration4 crew across seven blood draws. All four drop below their own preflight range one day after landing."></div>
+      <p class="cap">Red-cell size (MCV, fL). Grey band: that person’s own normal from the three preflight draws. Red: outside it.</p>
+      <div class="split">
+        <div>
+        <p>A tool that only compares people with their baseline would report four sick astronauts. CrewPulse reports one suspect instrument. Red-cell size had already crept up together at every preflight draw, none of the related red-cell markers moved, and the shift was still there six months after a three-day flight. Its advice is to retake before treating anyone.</p>
+        <p>The 45-day draw surprised us. Three of the four crew show blood sugar between 36 and 44 mg/dL, which read at face value is an emergency. Potassium went up in the same draw. That combination is what blood does when it sits too long before it is processed, so CrewPulse sets those two results aside and keeps the rest.</p>
+        </div>
+        <div>
+          <div class="scroll">
+          <table>
+      <thead><tr><th>Draw</th><th>CrewPulse says</th><th>What moved</th><th class="num">Results it still trusts</th></tr></thead>
+      <tbody id="draws">
+        <tr><td>1 day after landing</td><td class="v-i">Instrument suspected</td><td>Red-cell size, −3.9%</td><td class="num">136 of 143</td></tr>
+        <tr><td>45 days after</td><td class="v-h">Sample handling suspected</td><td>Potassium +17.9%, glucose −31.7%</td><td class="num">127 of 142</td></tr>
+        <tr><td>82 days after</td><td class="v-i">Instrument suspected</td><td>Red-cell size, −2.8% (still open)</td><td class="num">130 of 143</td></tr>
+        <tr><td>194 days after</td><td class="v-i">Instrument suspected</td><td>Red-cell size, −4.6%</td><td class="num">127 of 142</td></tr>
+      </tbody>
+    </table>
+          </div>
+          <p style="margin-top:20px">We can’t prove either verdict. The public files don’t say which instrument was used or how the samples were handled, and a real change in the crew isn’t ruled out. What the check does is tell the crew which question to ask, and a retake answers it. It also only works for markers the body holds steady: four people can catch a 1.5% shift in red-cell size but would need about 22% for blood sugar. The numbers and the limits are on the <a href="proof.html">evidence page</a>.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="screens">
+    <figure class="d"><img class="shot" src="img/today.jpg" width="1620" height="1012" alt="The Today screen on a computer: readiness score and to-do list on the left, things that need attention in the middle, every reading on the right."></figure>
+    <figure class="m"><img class="shot" src="img/today-phone.jpg" width="780" height="1688" alt="The same Today screen on a phone, in one column with the tabs at the bottom."></figure>
+    <figure class="d"><img class="shot" src="img/decide.jpg" width="1620" height="1012" alt="The Decide screen: Earth is 12 minutes away, and the on-board call for tomorrow’s Marswalk is No-go because of last night’s sleep."></figure>
+  </div>
+  <p class="cap">Today on a computer and on a phone, and the on-board call. These screens run on a made-up crew member, Ruth Okafor.</p>
+
+  <section class="sec">
+    <h2>What is real here</h2>
+    <div class="body">
+    <p>The blood results and everything computed from them are real, taken from NASA’s files without changes, and <code>node test/test.js</code> reproduces every number. Space-weather notices are read live from NASA. Ruth’s daily readings, the control-kit countdown and the messages to Earth are simulated, and the app says so wherever they appear. Nothing here is a medical device.</p>
+    <p>It is a static site with no server. Everything runs in the browser and is stored on the device, which is how it would have to work on board.</p>
+    </div>
+  </section>
+
+  <div class="end">
+    <p>Team GOATS<br>Raleigh, North Carolina</p>
+    <p>Built for the 2026 NASA Space Apps Challenge, “Create Health Monitoring Software for Astronauts on Space Missions.” No NASA logos are used and no endorsement is implied.</p>
+    <p>We used Claude (Anthropic) as a coding and research assistant. The numbers come from NASA’s files and are checked by an automated test.</p>
+  </div>
+  </main>
+</div>
+
+<script src="js/analysis.js"></script>
+<script>
+(function(){
+  var DR=['L-92','L-44','L-3','R+1','R+45','R+82','R+194'];
+  // Used only if the data files cannot be fetched (for example when the page is opened from disk).
+  var SAVED=[[92.8,93.0,94.9,90.1,93.5,91.8,89.7],[93.6,96.2,96.5,90.5,92.3,90.4,null],[91.3,92.2,92.4,88.7,87.0,91.2,87.1],[89.6,89.8,90.7,87.0,88.4,87.2,86.0]];
+  var SAVED_HALF=2.846;
+  function draw(rows){
+    var W=250,H=170,L=30,R=20,T=22,B=26,y0=84,y1=99;
+    var X=function(i){return L+(i+(i>=3?.7:0))*(W-L-R)/6.7},Y=function(v){return T+(1-(v-y0)/(y1-y0))*(H-T-B)};
+    document.getElementById('mcv').innerHTML=rows.map(function(r,c){
+      var s='<text class="t" x="'+L+'" y="12">Crew '+(c+1)+'</text>';
+      [86,90,94,98].forEach(function(g){s+='<line x1="'+L+'" x2="'+(W-R)+'" y1="'+Y(g)+'" y2="'+Y(g)+'" stroke="#e8e8ed"/><text x="'+(L-6)+'" y="'+(Y(g)+4)+'" text-anchor="end">'+g+'</text>'});
+      s+='<rect x="'+L+'" y="'+Y(r.mean+r.half)+'" width="'+(W-L-R)+'" height="'+(Y(r.mean-r.half)-Y(r.mean+r.half))+'" fill="#1d1d1f" fill-opacity=".08"/>';
+      var fx=(X(2)+X(3))/2;s+='<line x1="'+fx+'" x2="'+fx+'" y1="'+T+'" y2="'+(H-B)+'" stroke="#86868b" stroke-dasharray="2 3"/><text x="'+fx+'" y="'+(T-4)+'" text-anchor="middle">flight</text>';
+      var pts=[];r.vals.forEach(function(v,i){if(v!=null)pts.push([X(i),Y(v),v,i])});
+      s+='<path d="'+pts.map(function(p,k){return (k?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)}).join('')+'" fill="none" stroke="#1d1d1f" stroke-width="1.2"/>';
+      pts.forEach(function(p){var out=p[3]>=3&&Math.abs(p[2]-r.mean)>r.half;
+        s+='<circle cx="'+p[0].toFixed(1)+'" cy="'+p[1].toFixed(1)+'" r="3.4" fill="'+(p[3]<3?'#fff':out?'#c9241c':'#1d1d1f')+'" stroke="'+(out?'#c9241c':'#1d1d1f')+'" stroke-width="1.2"><title>'+DR[p[3]]+': '+p[2]+' fL</title></circle>'});
+      [0,2,3,6].forEach(function(i){s+='<text x="'+X(i)+'" y="'+(H-8)+'" text-anchor="middle">'+DR[i]+'</text>'});
+      return '<svg viewBox="0 0 '+W+' '+H+'">'+s+'</svg>'}).join('');
+  }
+  function saved(){return SAVED.map(function(v){return {vals:v,mean:(v[0]+v[1]+v[2])/3,half:SAVED_HALF}})}
+  var A=window.CrewPulseAnalysis;
+  if(!A||!window.fetch){draw(saved());return}
+  Promise.all(['data/LSDS-7_Complete_Blood_Count_CBC_TRANSFORMED.csv','data/LSDS-8_Comprehensive_Metabolic_Panel_CMP_TRANSFORMED.csv'].map(function(u){return fetch(u).then(function(r){if(!r.ok)throw 0;return r.text()})}))
+    .then(function(t){
+      var ds=A.build(t[0],t[1]),m=ds.markers.filter(function(x){return x.key==='mcv'})[0];
+      draw(ds.crew.map(function(_,c){var b=A.band(m,c,{k:A.kFor(m)});return {vals:m.vals[c],mean:b.mean,half:b.half}}));
+      var WHEN={'R+1':'1 day after landing','R+45':'45 days after','R+82':'82 days after','R+194':'194 days after'};
+      var V={instrument:['Instrument suspected','v-i'],handling:['Sample handling suspected','v-h'],environment:['Shared cause suspected','v-e'],undetermined:['Cause unclear','v-u']};
+      var pct=function(x){return (x>0?'+':'−')+Math.abs(x).toFixed(1)+'%'};
+      var short=function(n){return n.split(' · ')[1]||n.split(' · ')[0]};
+      document.getElementById('draws').innerHTML=A.POST.map(function(t){
+        var sc=A.sourceCheck(ds,t),a=sc.alarms,top=a[0],tr=sc.counts.trusted+' of '+sc.counts.total;
+        if(!top)return '<tr><td>'+WHEN[sc.draw]+'</td><td>No crew-wide alarm</td><td></td><td class="num">'+tr+'</td></tr>';
+        var what;
+        if(top.cause==='handling'){var k=a.filter(function(x){return x.key==='potassium'})[0],g=a.filter(function(x){return x.key==='glucose'})[0];what='Potassium '+pct(k.shift.pct)+', glucose '+pct(g.shift.pct)}
+        else{var mcv=a.filter(function(x){return x.key==='mcv'})[0]||top;top=mcv;what=(mcv.key==='mcv'?'Red-cell size':short(mcv.marker.name))+', '+pct(mcv.shift.pct)+(mcv.carried?' (still open)':'')}
+        return '<tr><td>'+WHEN[sc.draw]+'</td><td class="'+V[top.cause][1]+'">'+V[top.cause][0]+'</td><td>'+what+'</td><td class="num">'+tr+'</td></tr>'}).join('');
+    }).catch(function(){draw(saved())});
+})();
+</script>
+</body>
+</html>
