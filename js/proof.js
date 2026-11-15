@@ -113,7 +113,7 @@
     if (top) {
       put('sc-verdict', CAUSE[top.cause]);
       $('sc-sum').innerHTML = esc(top.marker.name) + ': ' + top.shift.flagged + ' of ' + top.shift.n + ' crew below their own normal, crew average <b>' + pct(top.shift.pct) + '</b>. Evidence available at R+1:';
-      $('sc-ev').innerHTML = top.evidence.map(function (e) { return '<li' + (e.hit ? '' : ' style="opacity:.6"') + '><b>' + esc(e.title) + (e.hit ? (e.points === 'environment' ? ' · points at the flight' : ' · points at the measurement') : ' · no evidence') + '.</b> ' + esc(e.text) + '</li>'; }).join('');
+      $('sc-ev').innerHTML = top.evidence.map(function (e) { return '<li' + (e.hit ? '' : ' class="ev-no"') + '><b>' + esc(e.title) + (e.hit ? (e.points === 'environment' ? ' · points at the flight' : ' · points at the measurement') : ' · no evidence') + '.</b> ' + esc(e.text) + '</li>'; }).join('');
     }
     $('sc-recur').innerHTML = A.POST.map(function (t) { var s = A.crewShift(mcv, t); return '<tr><td>' + A.DRAWS[t] + ' <span class="small">(' + A.DRAW_DAY[A.DRAWS[t]] + (A.DRAW_DAY[A.DRAWS[t]] === 1 ? ' day' : ' days') + ' after landing)</span></td><td class="n">' + pct(s.pct) + '</td><td class="n">' + s.flagged + ' of ' + s.n + '</td></tr>'; }).join('');
     put('sc-trusted', sc.counts.trusted); put('sc-total', sc.counts.total); put('sc-hold', sc.counts.hold); put('sc-retake', sc.counts.retake);
@@ -156,7 +156,33 @@
 })();
 
 /* Contents rail: mark the section being read. */
+/* Simulation section: numbers come from data/validation.json, written by test/validate.js. */
+(function () {
+  var box = document.getElementById('sim-tbl'); if (!box) return;
+  fetch('data/validation.json').then(function (r) { if (!r.ok) throw new Error('validation.json'); return r.json(); }).then(function (v) {
+    var f = function (arr, q) { return arr.filter(function (x) { for (var k in q) if (x[k] !== q[k]) return false; return true; })[0]; };
+    var pc = function (x) { return x == null ? '–' : x + '%'; };
+    var nul = f(v.nullCase, { crew: 4 }), n6 = f(v.nullCase, { crew: 6 });
+    var rows = [['Nothing changed', 'False crew-wide alarm on at least one of 36 markers', pc(nul.anyAlarmPct), 'should be low']];
+    [['mcv', 'red-cell size', 3], ['mcv', 'red-cell size', 5], ['sodium', 'sodium', 3], ['creatinine', 'creatinine', 10], ['glucose', 'glucose', 10]].forEach(function (q) {
+      var x = f(v.instrument, { crew: 4, marker: q[0], shiftPct: q[2] });
+      rows.push(['Instrument reads ' + q[1] + ' ' + q[2] + '% low', 'Caught at the first draw', pc(x.detectedFirstDrawPct), x.namedInstrumentPct == null ? '–' : 'named instrument ' + pc(x.namedInstrumentPct) + ' at the second draw']);
+    });
+    var e = f(v.environment, { crew: 4, shiftPct: 3 }), h = f(v.handling, { crew: 4, potassiumUpPct: 18 }), p5 = f(v.person, { crew: 4, shiftPct: 5 });
+    rows.push(['Shared cause: sodium and chloride both 3% high', 'Caught', pc(e.detectedPct), 'named shared environment ' + pc(e.namedEnvironmentPct) + ', instrument ' + pc(e.namedInstrumentPct)]);
+    rows.push(['Delayed sample: potassium +' + h.potassiumUpPct + '%, glucose −' + h.glucoseDownPct + '%', 'Caught', pc(h.detectedPct), 'named sample handling ' + pc(h.namedHandlingPct)]);
+    rows.push(['One person’s red-cell size really falls 5%', 'Flagged for that person at the first draw', pc(p5.flaggedFirstDrawPct), 'wrongly blamed on the whole crew ' + pc(p5.blamedOnCrewPct)]);
+    box.innerHTML = '<table><thead><tr><th>What we injected (crew of four)</th><th>Question</th><th>How often</th><th>Naming the cause</th></tr></thead><tbody>' +
+      rows.map(function (r) { return '<tr><td>' + r[0] + '</td><td>' + r[1] + '</td><td><b>' + r[2] + '</b></td><td>' + r[3] + '</td></tr>'; }).join('') + '</tbody></table>';
+    document.getElementById('sim-n').textContent = v.trials.toLocaleString('en-US');
+    var m5 = f(v.instrument, { crew: 4, marker: 'mcv', shiftPct: 5 });
+    document.getElementById('sim-good').textContent = 'A 5% instrument error on a steady marker is caught ' + pc(m5.detectedFirstDrawPct) + ' of the time. A shared cause was not mistaken for the instrument (' + pc(e.namedInstrumentPct) + '). A real change in one person was blamed on the crew only ' + pc(p5.blamedOnCrewPct) + ' of the time. Noisy markers such as glucose and creatinine are mostly missed, which is why those need a control sample.';
+    document.getElementById('sim-cost').textContent = 'With nothing wrong, about one draw in three (' + pc(nul.anyAlarmPct) + ') still raises a crew-wide alarm on some marker, and ' + pc(nul.heldPct) + ' of results go on hold. That is the price of checking 36 markers with four people, and it is why the first action is always a retake, never a treatment. With six crew it drops to ' + pc(n6.anyAlarmPct) + '.';
+  }).catch(function () { box.innerHTML = '<p class="small">The simulation results could not be loaded. Run node test/validate.js to reproduce them.</p>'; });
+})();
 (function(){var links=[].slice.call(document.querySelectorAll('.toc a'));if(!links.length||!('IntersectionObserver' in window))return;
   var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a});
   var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('on')});var a=map[e.target.id];if(a)a.classList.add('on')}})},{rootMargin:'0px 0px -75% 0px'});
   document.querySelectorAll('main h2[id]').forEach(function(h){io.observe(h)})})();
+
+(function(){function a11yScroll(){document.querySelectorAll('.tbl,.tblwrap,.chart,pre.rep,.scroll,#ex-chart').forEach(function(el){if(el.scrollWidth>el.clientWidth+1||el.scrollHeight>el.clientHeight+1){if(!el.hasAttribute('tabindex')){el.tabIndex=0;el.setAttribute('role','region');if(!el.getAttribute('aria-label'))el.setAttribute('aria-label','Scrollable content')}}else if(el.getAttribute('aria-label')==='Scrollable content'){el.removeAttribute('tabindex');el.removeAttribute('role');el.removeAttribute('aria-label')}})}a11yScroll();addEventListener('resize',a11yScroll);var mt=0,mo=document.querySelector('main');if(mo&&window.MutationObserver)new MutationObserver(function(){clearTimeout(mt);mt=setTimeout(a11yScroll,120)}).observe(mo,{childList:true,subtree:true})})();

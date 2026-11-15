@@ -123,5 +123,25 @@ const r5 = A.sourceCheck(ds3, t5).results.find(r => r.crew === j);
 eq('joined crew, after three draws: judged against own baseline', [!!r5.cell.joined, r5.cell.personal, r5.cell.lab], [true, true, false]);
 eq('joined crew does not change the original crew', A.sourceCheck(ds3, 3).counts, sc[0].counts);
 
+// Simulation results file (written by test/validate.js --write) is present and reports its weak spot honestly.
+const sim = JSON.parse(fs.readFileSync(path.join(dir, 'validation.json'), 'utf8'));
+eq('simulation: 2,000 crews per case, 36 markers', [sim.trials, sim.markers], [2000, 36]);
+eq('simulation: false-alarm rate for a crew of four is reported, not hidden', sim.nullCase.find(x => x.crew === 4).anyAlarmPct > 20, true);
+eq('simulation: a 5% MCV instrument error is caught > 95%', sim.instrument.find(x => x.crew === 4 && x.marker === 'mcv' && x.shiftPct === 5).detectedFirstDrawPct > 95, true);
+eq('simulation: a shared cause is almost never named instrument', sim.environment.every(x => x.namedInstrumentPct <= 0.5), true);
+
+// Input formats.
+const F = require('../js/formats.js');
+const hl7 = F.parseHL7(fs.readFileSync(path.join(dir, 'sample-lab-message.hl7'), 'utf8'));
+eq('HL7: four patients, tests matched by LOINC', hl7.patients.map(p => p.id + ':' + p.obs.map(o => o.key).join('+')), ['C001:mcv+hemoglobin+absolute_neutrophils+sodium', 'C002:mcv+hemoglobin+sodium', 'C003:mcv+sodium', 'C004:mcv+sodium']);
+eq('HL7: "<20" and text results are skipped, not guessed', hl7.skipped.map(x => x.label), ['Glucose', 'Color of Urine']);
+eq('HL7: unit conversion', [F.convert('absolute_neutrophils', 3.9, '10*3/uL', 'cells/µL'), F.convert('hemoglobin', 151, 'g/L', 'g/dL'), F.convert('platelet_count', 250, 'K/uL', '×10³/µL'), F.convert('mcv', 90, 'pg', 'fL')], [3900, 15.1, 250, null]);
+eq('HL7: junk input gives an error, not a crash', [!!F.parseHL7('hello').error, !!F.parseHL7('').error, !!F.parseHL7('MSH|^~\\&|X\rPID|1').error, !!F.parseHL7(null).error], [true, true, true, true]);
+const ah = F.appleHealth();
+const xml = '<HealthData><Record type="HKCategoryTypeIdentifierSleepAnalysis" startDate="2026-11-13 23:10:00 -0500" endDate="2026-11-14 06:40:00 -0500" value="HKCategoryValueSleepAnalysisAsleepCore"/><Record type="HKCategoryTypeIdentifierSleepAnalysis" startDate="2026-11-13 22:00:00 -0500" endDate="2026-11-14 07:00:00 -0500" value="HKCategoryValueSleepAnalysisInBed"/><Record type="HKQuantityTypeIdentifierRestingHeartRate" unit="count/min" endDate="2026-11-14 08:00:00 -0500" value="58"><MetadataEntry key="k" value="v"/></Record><Record type="HKQuantityTypeIdentifierOxygenSaturation" unit="%" endDate="2026-11-14 09:00:00 -0500" value="0.97"/><Record type="HKQuantityTypeIdentifierBodyTemperature" unit="degF" endDate="2026-11-14 09:00:00 -0500" value="98.6"/><Record type="HKQuantityTypeIdentifierStepCount" endDate="2026-11-14 09:00:00 -0500" value="900"/><Record type="HKQuantityTypeIdentifierRestingHeartRate" endDate="garbage" value="x"/></HealthData>';
+for (let i = 0; i < xml.length; i += 13) ah.scan(xml.slice(i, i + 13));
+eq('Apple Health: read in 13-character pieces, time in bed not counted as sleep', ah.days(), [{ date: '2026-11-14', sleep: 7.5, hr: 58, spo2: 97, temp: 37 }]);
+eq('Apple Health: CSV for the importer', F.daysToCSV(ah.days()), 'date,heart_rate,spo2,temperature,sleep_hours\n2026-11-14,58,97,37,7.5');
+
 console.log(failed ? `\n${failed} check(s) failed` : '\nAll checks passed: results match the methods note.');
 process.exit(failed ? 1 : 0);

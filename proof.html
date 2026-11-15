@@ -153,8 +153,20 @@
     </div>
   </section>
 
+  <section aria-labelledby="h-sim">
+    <div class="sec-head"><h2 id="h-sim">8. Simulation: inject a known cause, see if the check names it</h2></div>
+    <div class="prose"><p>We looked for a second crew with public bloodwork of this kind and did not find one, so the check could not be rerun on new astronauts. Instead we built synthetic crews from the real preflight statistics (each marker’s personal averages and day-to-day variation), injected one known cause, and counted how often the source check caught it and named it. Each row is <span id="sim-n">2,000</span> synthetic crews. Run it yourself with <code>node test/validate.js</code>.</p></div>
+    <div class="tbl" id="sim-tbl"><p class="small">Loading the simulation results…</p></div>
+    <div class="grid g3" style="margin-top:18px">
+      <div class="card"><h3>What holds up</h3><p class="small" style="margin-top:8px" id="sim-good"></p></div>
+      <div class="card"><h3>What it costs</h3><p class="small" style="margin-top:8px" id="sim-cost"></p></div>
+      <div class="card"><h3>Checking 36 markers at once</h3><p class="small" style="margin-top:8px">With 36 markers, the cut-off that keeps the chance of any false alarm at 5% is 4.78, not 2.31. Red-cell size at R+1 scores 6.0 and clears it (corrected p about 0.01). Potassium at R+45 scores 4.7 and falls just short, so that case rests on the known opposite-pair fingerprint, not on its size alone.</p></div>
+    </div>
+    <p class="small" style="margin-top:12px">Limits of this test: the synthetic values are independent and bell-shaped, and the variation comes from the same four people. Real blood markers are correlated and real crews differ more. Treat these rates as a best case.</p>
+  </section>
+
   <section id="method" aria-labelledby="h-m">
-    <div class="sec-head"><h2 id="h-m">8. Method</h2></div>
+    <div class="sec-head"><h2 id="h-m">9. Method</h2></div>
     <div class="grid g2">
       <ol class="rules" style="padding-left:20px;margin:0">
         <li><b>Personal normal.</b> The mean of each person’s preflight draws (L-92, L-44, L-3).</li>
@@ -173,7 +185,7 @@
   </section>
 
   <section id="assumptions" aria-labelledby="h-assumptions">
-    <div class="sec-head"><h2 id="h-assumptions">9. Assumptions</h2></div>
+    <div class="sec-head"><h2 id="h-assumptions">10. Assumptions</h2></div>
     <div class="assumption-grid">
       <article><h3>Stable baseline</h3><p>The three preflight draws must represent a healthy steady state. Training load, illness, hydration or circadian timing can move the baseline itself.</p></article>
       <article><h3>Comparable measurement</h3><p>Collection, storage, instrument and laboratory method must be comparable across draws. Preanalytical or batch changes can look like physiology.</p></article>
@@ -185,14 +197,14 @@
   </section>
 
   <section id="limits-table" aria-labelledby="h-dl">
-    <div class="sec-head"><h2 id="h-dl">10. Detection limits for a crew of four</h2></div>
+    <div class="sec-head"><h2 id="h-dl">11. Detection limits for a crew of four</h2></div>
     <div class="prose"><p>From each marker’s day-to-day variation in the preflight draws, this is the smallest crew-wide shift four people can detect in one round. For <b id="dl-cov">9</b> of <span id="dl-n">36</span> markers it is 5% or less, so the crew can stand in for a control sample. The rest swing too much within a person, and that is where the remaining control kits should be spent.</p></div>
     <div class="tbl pending" style="margin-top:16px"><table><thead><tr><th>Marker</th><th>Varies within a person</th><th>Smallest crew-wide shift caught</th><th>Who checks the analyzer</th></tr></thead><tbody id="dl-rows"></tbody></table></div>
     <p class="small" style="margin-top:10px">Illustrative: four people, three draws each. The red-cell size shift at R+1 was <span id="dl-mcv">3.9</span>%, well above its limit. The 5% cut-off is a demonstration setting, not a clinical requirement.</p>
   </section>
 
   <section id="why" aria-labelledby="h-why">
-    <div class="sec-head"><h2 id="h-why">11. Why a source check is needed</h2></div>
+    <div class="sec-head"><h2 id="h-why">12. Why a source check is needed</h2></div>
     <div class="grid g3">
       <div class="card"><h3>Controls expire</h3><p class="small" style="margin-top:8px">Analyzers are verified with control samples of known value. The controls NASA flew with its white-cell analyzer last about 3.5 months in cold stowage;<a class="ref" href="#ref-16">[16]</a> NASA lists reagent shelf life among the reasons commercial analyzers fall short for exploration.<a class="ref" href="#ref-17">[17]</a> A Mars mission lasts years.</p></div>
       <div class="card"><h3>It has happened in orbit</h3><p class="small" style="margin-top:8px">In the ISS validation of that analyzer, the evidence pointed at the control solutions, because a fresh astronaut fingerstick gave the expected values.<a class="ref" href="#ref-18">[18]</a> On Earth in 2026, lots of a handheld blood-analyzer cartridge were recalled for results that read too high.<a class="ref" href="#ref-19">[19]</a></p></div>
@@ -201,7 +213,7 @@
   </section>
 
   <section id="traceability" aria-labelledby="h-trace">
-    <div class="sec-head"><h2 id="h-trace">12. NASA requirement traceability</h2><p class="small">This is a requirements mapping, not a claim of NASA certification or compliance.</p></div>
+    <div class="sec-head"><h2 id="h-trace">13. NASA requirement traceability</h2><p class="small">This is a requirements mapping, not a claim of NASA certification or compliance.</p></div>
     <div class="tbl"><table class="trace"><thead><tr><th>Need</th><th>Source</th><th>Prototype evidence</th><th>Status</th></tr></thead><tbody>
       <tr><td data-label="Need">Monitor and trend health</td><td data-label="Source">V1 3003, 3004(h), 7001</td><td data-label="Prototype evidence">Longitudinal vitals, behavior and laboratory views with a retrievable trend model.</td><td data-label="Status" class="partial">Partial prototype</td></tr>
       <tr><td data-label="Need">Support autonomous care</td><td data-label="Source">V1 3004(t); ExMC CDSS</td><td data-label="Prototype evidence">On-board rules, visible reasons, counterfactuals and queued flight-surgeon review.</td><td data-label="Status" class="concept">Concept demonstrated</td></tr>
@@ -219,7 +231,7 @@
   <section aria-labelledby="h-qc">
     <div class="grid g2">
       <div>
-        <div class="sec-head"><h2 id="h-qc">13. Data check: one inconsistent row excluded</h2></div>
+        <div class="sec-head"><h2 id="h-qc">14. Data check: one inconsistent row excluded</h2></div>
         <p class="small">Red-cell indices are arithmetic from hemoglobin, hematocrit and red-cell count, so they must agree with each other. Quorum checks every blood-count row and excludes values from a row that fails, instead of trusting them.</p>
       </div>
       <div class="card" id="qc"></div>
@@ -227,7 +239,7 @@
   </section>
 
   <section aria-labelledby="h-lim">
-    <div class="sec-head"><h2 id="h-lim">14. Limits</h2></div>
+    <div class="sec-head"><h2 id="h-lim">15. Limits</h2></div>
     <div class="grid g3">
       <div class="card"><h3>Four people, three days</h3><p class="small" style="margin-top:8px">Long missions may produce larger and different changes, and the whole crew really does shift together in flight. This shows the check can separate the explanations here, not how it performs on Mars.</p></div>
       <div class="card"><h3>Not a clinical RCV</h3><p class="small" style="margin-top:8px">The model does not separately estimate assay imprecision or use validated analyte-specific biological variation.</p></div>

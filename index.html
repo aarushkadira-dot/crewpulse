@@ -75,15 +75,20 @@ code{font-family:var(--mono);font-size:14.5px}
   .end{grid-template-columns:minmax(0,1fr)}.end p:last-child{grid-column:1}
 }
 @media (max-width:560px){body{font-size:16px}.intro{font-size:18px}.go a{flex:1 1 100%;justify-content:center}h2{font-size:20px}}
+.skipl{position:absolute;left:-999px;top:8px;z-index:100;background:#fff;color:#1d1d1f;padding:10px 14px;border-radius:8px;border:2px solid #0066cc;font-weight:600}.skipl:focus{left:8px}
+main p a,main li a,main td a{text-decoration:underline;text-underline-offset:2px}
+[tabindex="0"][role="region"]:focus-visible{outline:2px solid #0066cc;outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
 </style>
 <link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="img/icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes">
 <script>if("serviceWorker" in navigator&&(location.protocol==="https:"||location.hostname==="localhost"))addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})});</script>
 </head>
 <body>
+<a class="skipl" href="#main">Skip to content</a>
 <div class="page">
   <nav class="site" aria-label="Main"><b>Quorum</b><a href="app.html">App</a><a href="proof.html">Evidence</a><a href="README.md">Read me</a></nav>
 
-  <main>
+  <main id="main">
   <div class="hero">
     <div>
       <h1>A health check-in for astronauts that also checks its own readings</h1>
@@ -209,5 +214,6 @@ code{font-family:var(--mono);font-size:14.5px}
     }).catch(function(){draw(saved())});
 })();
 </script>
+<script>(function(){function a11yScroll(){document.querySelectorAll('.tbl,.tblwrap,.chart,pre.rep,.scroll,#ex-chart').forEach(function(el){if(el.scrollWidth>el.clientWidth+1||el.scrollHeight>el.clientHeight+1){if(!el.hasAttribute('tabindex')){el.tabIndex=0;el.setAttribute('role','region');if(!el.getAttribute('aria-label'))el.setAttribute('aria-label','Scrollable content')}}else if(el.getAttribute('aria-label')==='Scrollable content'){el.removeAttribute('tabindex');el.removeAttribute('role');el.removeAttribute('aria-label')}})}a11yScroll();addEventListener('resize',a11yScroll)})();</script>
 </body>
 </html>
