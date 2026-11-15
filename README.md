@@ -20,9 +20,7 @@ Why the source check matters: analyzers are verified with control samples, and t
 | `js/analysis.js` | The method, as one dependency-free module (works in the browser and in Node) |
 | `test/test.js` | Checks every number shown on the Proof page and the Labs screen: `node test/test.js` |
 | `js/formats.js` | Input formats: lab result messages (HL7 v2) and Apple Health exports |
-| `js/sync.js` + `supabase/schema.sql` | Optional crew accounts and shared data, with the access rules enforced in the database |
 | `test/validate.js` | Simulation: inject a known cause into synthetic crews and count how often the source check names it |
-| `test/db.sql` | Tests the database access rules as four different users |
 | `data/` | NASA OSDR originals, unmodified: LSDS-7 (CBC) and LSDS-8 (CMP); `validation.json` (simulation output); a synthetic sample lab message |
 
 ## The result in one line
@@ -74,11 +72,10 @@ Stress tests cover bad input, damaged saved data, injected markup, random clicki
 ## Toward real use
 
 - **Simulation check.** No second crew with public bloodwork of this kind was found, so the check is stress-tested on synthetic crews built from the real preflight statistics (2,000 per case). For a crew of four: a 5% instrument error on red-cell size is caught 98% of the time, a shared cause was not mistaken for the instrument, and a real change in one person was blamed on the crew 6.5% of the time. The weak spot is reported too: with nothing wrong, about one draw in three raises a false crew-wide alarm on one of 36 markers, which is why the first action is always a retake. Full table on the Proof page.
-- **Crew accounts (optional).** Sign in, create or join a crew with a code, and blood draws, mission events and medicines become one shared record. Only the crew medical officer can add or change blood draws; a crewmate sees your check-in only in the categories you share (mood is off by default); every change lands in an audit trail nobody can edit. These rules are row-level security policies in `supabase/schema.sql`, not screen logic. Changes made offline are kept on the device and sent when the link returns. The app works without an account.
 - **Real input formats.** The Labs form reads the HL7 v2 result message a lab analyzer or its data manager sends (tests matched by LOINC code, units converted, inexact results such as "<20" skipped). The Data screen reads an Apple Health `export.xml` of any size, day by day.
 - **Accessibility.** Every screen passes the automated WCAG 2.2 AA audit (axe-core) at desktop and phone width, with a skip link, visible focus, keyboard reachability and reduced-motion support.
 
-To switch crew sync on: apply `supabase/schema.sql` to a Supabase project and put its URL and publishable key in `QCFG` in `app.html`.
+Not built yet: shared crew accounts. Everything is stored on one device. A flight version would need one crew record synced across devices, sign-in with roles (only the medical officer edits blood draws), privacy enforced by the server, and an audit trail.
 
 ## Research basis
 
@@ -109,7 +106,6 @@ It's static files with no build step.
 python3 -m http.server 8000      # then open http://localhost:8000
 node test/test.js                # verify every Proof-page number, the input formats and the simulation file
 node test/validate.js            # rerun the simulation (about 5 minutes)
-psql -f test/db.sql              # test the database access rules (needs a local Postgres)
 ```
 
 Opening the files directly (file://) blocks the data fetch, so use any local server or GitHub Pages.
@@ -118,7 +114,7 @@ The live space-weather feed uses a free NASA key from api.nasa.gov, set as `DONK
 
 ## Use of AI
 
-We used Claude (Anthropic) throughout, as a coding and research assistant. Under the team's direction it wrote most of the HTML, CSS, JavaScript, SQL and tests, drafted page text, ran the analysis and stress tests, and searched NASA documents for requirement numbers. The team chose the challenge, the idea and the method, decided what to build and what to claim, and reviewed the results. Every number on the Proof page is computed in `js/analysis.js` from the unmodified NASA files and is checked by `test/test.js`. No AI-generated images, audio or video are used, and nothing here uses NASA logos or branding.
+We used Claude (Anthropic) throughout, as a coding and research assistant. Under the team's direction it wrote most of the HTML, CSS, JavaScript and tests, drafted page text, ran the analysis and stress tests, and searched NASA documents for requirement numbers. The team chose the challenge, the idea and the method, decided what to build and what to claim, and reviewed the results. Every number on the Proof page is computed in `js/analysis.js` from the unmodified NASA files and is checked by `test/test.js`. No AI-generated images, audio or video are used, and nothing here uses NASA logos or branding.
 
 ## License
 

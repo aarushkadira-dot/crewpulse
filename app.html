@@ -1140,20 +1140,6 @@ button,input,select,textarea{font-family:inherit}
   .gcard h2{font-size:22px}.gnav .btn:last-child{margin-left:0}
   .dtab th:nth-child(2),.dtab td:nth-child(2){display:none}
 }
-/* v12: crew sync */
-.sycols{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:20px;align-items:start}.sycols>div{display:flex;flex-direction:column;gap:16px;min-width:0}
-.syform{display:flex;flex-direction:column;gap:6px;margin-top:12px;max-width:440px}.syform label{font-size:14.5px;font-weight:600;margin-top:6px}
-.syform input,.syform select{font:inherit;border:1px solid var(--line);border-radius:8px;background:#fff;padding:0 12px;min-height:46px;color:var(--ink);width:100%}
-.syform input:focus{outline:2px solid var(--link);outline-offset:1px}.syform .btn{margin-top:14px;align-self:flex-start}
-.sytab{margin-bottom:6px}.syerr{color:var(--warn);font-weight:600;margin:8px 0 0}.symsg{color:var(--good);font-weight:600;margin:8px 0 0}
-.syhow{margin:8px 0 0;padding-left:20px;display:flex;flex-direction:column;gap:8px}
-.sysum{grid-template-columns:repeat(3,minmax(0,1fr))}.sycode{letter-spacing:.06em;font-size:22px!important;overflow-wrap:anywhere}
-.sytab2 td{vertical-align:middle}.symu{color:var(--muted);font-size:14px}.tg.n{background:var(--card-2);color:var(--muted)}
-.syrolesel{min-height:40px;max-width:210px}
-.syaud{list-style:none;margin:0;padding:0}.syaud li{display:grid;grid-template-columns:118px minmax(0,1fr);gap:10px;padding:9px 0;border-top:1px solid var(--line);font-size:15px}.syaud li:first-child{border-top:0}.syaud li>span:first-child{color:var(--muted);font-variant-numeric:tabular-nums;font-size:14px}
-.lgate{display:flex;gap:8px;align-items:flex-start;margin-top:14px;padding:12px 14px;border-radius:10px;background:var(--card-2);font-size:15px}.lgate svg{flex:none;margin-top:3px}
-@media (max-width:980px){.sycols{grid-template-columns:minmax(0,1fr)}}
-@media (max-width:640px){.syaud li{grid-template-columns:minmax(0,1fr);gap:2px}}
 .skipl{position:absolute;left:-999px;top:8px;z-index:100;background:#fff;color:var(--ink);padding:10px 14px;border-radius:8px;border:2px solid var(--link);font-weight:600}.skipl:focus{left:8px}
 .done .x,.refn,.credit{color:var(--muted)!important}
 .lev li{opacity:1}.lev li:not(.hit),.lev li:not(.hit) b,.lev li:not(.hit) .r{color:var(--muted)}.lev li:not(.hit) b{font-weight:500}
@@ -1181,7 +1167,6 @@ main p a:not(.btn):not(.lnk),main li a:not(.btn):not(.lnk),main td a:not(.btn){t
     <div class="mstrip" id="mstrip" aria-label="Mission status"></div>
     <div id="alerts"></div>
     <section class="view" id="v-today"></section>
-    <section class="view" id="v-sync" hidden></section>
     <section class="view" id="v-guide" hidden></section>
     <section class="view" id="v-meds" hidden></section>
     <section class="view" id="v-labs" hidden></section>
@@ -1202,7 +1187,6 @@ main p a:not(.btn):not(.lnk),main li a:not(.btn):not(.lnk),main td a:not(.btn){t
 
 <script src="js/analysis.js"></script>
 <script src="js/formats.js"></script>
-<script src="js/sync.js"></script>
 <script>
 (function(){
 /* ---------- references ---------- */
@@ -1469,8 +1453,8 @@ const SYS=[
 const TASKS=[{id:'vit',t:'07:00',n:'Morning vitals'},{id:'pvt',t:'07:15',n:'3-minute alertness test'},{id:'glu',t:'07:20',n:'Blood sugar test'},{id:'res',t:'10:00',n:'Strength training'},
   {id:'aer',t:'16:00',n:'Cardio session'},{id:'log',t:'21:00',n:'Mood, sleep & fluids check-in'}];
 const WEEK=[1,1,.83,1,.67,.5];
-const TABS=[['today','Today'],['log','Check-in'],['labs','Labs'],['eva','Decide'],['crew','Crew']],TABS2=[['sync','Crew sync'],['guide','Stand-in guide'],['meds','Medicines'],['body','Body'],['report','Report'],['science','Science'],['data','Data'],['proof','Evidence']];
-const TICON={sync:'crew',guide:'check',meds:'cup',labs:'shield',today:'today',crew:'crew',eva:'suit',body:'body',proof:'proof',log:'log',science:'science',data:'data',report:'report'};
+const TABS=[['today','Today'],['log','Check-in'],['labs','Labs'],['eva','Decide'],['crew','Crew']],TABS2=[['guide','Stand-in guide'],['meds','Medicines'],['body','Body'],['report','Report'],['science','Science'],['data','Data'],['proof','Evidence']];
+const TICON={guide:'check',meds:'cup',labs:'shield',today:'today',crew:'crew',eva:'suit',body:'body',proof:'proof',log:'log',science:'science',data:'data',report:'report'};
 
 /* ---------- state ---------- */
 const KEY='crewpulse-v8';
@@ -1506,11 +1490,11 @@ if(!S.data||S.data.length!==14)S.data=fresh();
   if(!Array.isArray(S.outbox))S.outbox=[];
   if(S.lab&&typeof S.lab==='object'){S.lab.joined=Array.isArray(S.lab.joined)?S.lab.joined.filter(x=>str(x)&&x.trim()).slice(0,2).map(x=>x.slice(0,24)):[];
     const n=4+S.lab.joined.length;S.lab.added=Array.isArray(S.lab.added)?S.lab.added.filter(d=>d&&num(d.day)&&d.vals&&typeof d.vals==='object').slice(0,24).map(d=>{const v={};for(const k in d.vals)if(Array.isArray(d.vals[k]))v[k]=Array.from({length:n},(_,i)=>num(d.vals[k][i])?d.vals[k][i]:null);return{day:d.day,vals:v}}):[]}else S.lab=null;
-  if(!['today','log','labs','eva','crew','sync','guide','meds','body','report','science','data','detail'].includes(S.view))S.view='today'})();
+  if(!['today','log','labs','eva','crew','guide','meds','body','report','science','data','detail'].includes(S.view))S.view='today'})();
 if(!S.mode)S.mode='demo';if(!Array.isArray(S.live))S.live=[];
 if(S.view==='detail')S.view='today';
 if(!Array.isArray(S.sym))S.sym=[];
-const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}try{syncSoon()}catch(e){}};
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
 
 const $=id=>document.getElementById(id);
 const E=()=>ENV[S.env];
@@ -1567,7 +1551,7 @@ function demoPanel(){if(isLive())return `<div class="demo"><div class="sec">Your
   <label class="lkrow"><span>Earth link</span><input type="checkbox" class="sw" data-demo="link" ${S.link?'checked':''} aria-label="Earth link"></label>
   <button type="button" class="btn ghost sm" data-demo="reset">Reset scenario</button><button type="button" class="btn ghost sm" data-live="exit">Start fresh with your own check-ins</button></div>`}
 function renderNav(){const sd=$('sidedemo');if(sd)sd.innerHTML=`<details class="demod" id="demod"${DEMO_OPEN?' open':''}><summary>Demo controls</summary>${demoPanel()}</details>`;const lk=document.querySelector('.side .mission .lk');if(lk){lk.classList.toggle('down',!S.link);lk.innerHTML=S.link?`<i></i>Earth link · <span id="delay">${E().delay}</span>`:'<i></i>Earth link down · working locally'}
-const tb=([id,l])=>`<button type="button" class="tab" data-go="${id}" aria-label="${l}" ${(S.view===id||(S.view==='detail'&&S.from===id))?'aria-current="page"':''}>${svg(TICON[id])}<span class="lf" aria-hidden="true">${l}</span><span class="ls" aria-hidden="true">${{log:'Log',science:'Sci',guide:'Guide',meds:'Meds',sync:'Sync'}[id]||l}</span></button>`;
+const tb=([id,l])=>`<button type="button" class="tab" data-go="${id}" aria-label="${l}" ${(S.view===id||(S.view==='detail'&&S.from===id))?'aria-current="page"':''}>${svg(TICON[id])}<span class="lf" aria-hidden="true">${l}</span><span class="ls" aria-hidden="true">${{log:'Log',science:'Sci',guide:'Guide',meds:'Meds'}[id]||l}</span></button>`;
   document.documentElement.dataset.env=S.env;$('sidetabs').innerHTML=TABS.map(tb).join('')+`<details class="morem"><summary${TABS2.some(t=>t[0]===S.view)?' style="color:var(--ink);font-weight:600"':''}>More</summary><div class="pop">${TABS2.map(tb).join('')}</div></details>`;$('mtabs').innerHTML=TABS.map(tb).join('');$('side-mission').textContent=`${E().name} · ${E().dl} ${E().day}`;const mb=$('modebadge');if(mb)mb.innerHTML=isLive()?'Live \u00b7 your check-ins':'Demo mission \u00b7 sample crew';const sn=$('side-name');if(sn)sn.textContent=isLive()?'You':'R. Okafor';const ms=$('mstrip');if(ms){const e=E();ms.innerHTML=`<span><b>${e.name}</b> \u00b7 ${e.dl} ${e.day}</span><span>Earth ${S.link?`<b>${fmtMin(e.owl)}</b> one-way`:'<b class="dn">link down</b>'}</span><span>Crew member <b>${isLive()?'You':'R. Okafor'}</b></span><span class="md">${isLive()?`Live \u00b7 ${S.live.length} check-in${S.live.length===1?'':'s'}`:'Demo mission'}</span>`}}
 function go(v){if(v==='proof'){location.href='proof.html';return}ENTER=true;if(labPlay&&v!=='labs'){clearInterval(labPlay);labPlay=null}if(pvt.on)stopPVT(false);if(playT){clearInterval(playT);playT=null}if(!['today','body','detail','eva','crew'].includes(v))CUR=13;S.view=v;save();render();window.scrollTo({top:0})}
 function openP(id){S.from=S.view==='detail'?S.from:S.view;S.sel=id;go('detail')}
@@ -1618,7 +1602,7 @@ function vToday(){const e=E(),Rd=readiness(),C=2*Math.PI*42,ev=eva();
     <div class="card list">${VITALS.map(rdRow).join('')}</div>
     <div class="card list" style="margin-top:12px">${MISSION.map(rdRow).join('')}</div></div>
   </div></div>
-  <div class="grp tmore"><div class="gh"><h3>More</h3></div><div class="card list">${TABS2.map(([id,l])=>`<button type="button" class="arow plain" data-go="${id}"><span><b>${l}</b><span>${{sync:'Sign in, roles, shared data and the audit trail',guide:'Step by step when the medical officer is out',meds:'Stock, expiry dates and doses',body:'Ten body systems on one figure',report:'Summary for the flight surgeon',science:'Where each rule comes from',data:'Scenarios, import and sources',proof:'The method tested on NASA data'}[id]}</span></span>${svg('chev','width="16" height="16"')}</button>`).join('')}</div></div>`}
+  <div class="grp tmore"><div class="gh"><h3>More</h3></div><div class="card list">${TABS2.map(([id,l])=>`<button type="button" class="arow plain" data-go="${id}"><span><b>${l}</b><span>${{guide:'Step by step when the medical officer is out',meds:'Stock, expiry dates and doses',body:'Ten body systems on one figure',report:'Summary for the flight surgeon',science:'Where each rule comes from',data:'Scenarios, import and sources',proof:'The method tested on NASA data'}[id]}</span></span>${svg('chev','width="16" height="16"')}</button>`).join('')}</div></div>`}
 
 /* ---------- views ---------- */
 function vTodayOld(){const e=E(),Rd=readiness(),C=2*Math.PI*86;
@@ -2192,16 +2176,15 @@ function labAddRow(k){const m=LABM[k],opts=I4.m.map(x=>i4sd(x)?`<option value="$
 function labStepper(t){const L=labState(),n=L.added.length,last=labLast();
   return `<div class="card labstep"><div class="secrow"><div class="sec">Blood draws</div><span>NASA OSDR · Inspiration4 · 4 crew${L.joined.length?' + '+L.joined.length+' joined':''} · 36 markers${n?` · ${n} added on board`:''}</span></div>
   <div class="seg lseg" role="group" aria-label="Blood draw">${LABDS.draws.map((d,i)=>`<button type="button" data-labt="${i}" aria-pressed="${i===t}"><em>${d}</em>${i<3?'baseline':i===3?'landing':i<7?'follow-up':'added'}</button>`).join('')}</div>
-  <div class="labplay"><button type="button" class="btn sm" data-lab="play">${svg(labPlay?'pause':'play','width="14" height="14"')} ${labPlay?'Pause':'Play through'}</button><span>${LABDS.draws[t]} · ${labWhen(t)}</span>${t>6&&t===last&&canLab()?`<button type="button" class="btn ghost sm" data-lab="rmdraw">Remove this draw</button>`:''}</div>
-  ${canLab()?'':`<p class="lgate">${svg('shield','width="16" height="16"')} You are signed in as ${ROLEN[myRole()]}. Only the crew medical officer can add blood draws or crew members. The commander can change roles on the Crew sync screen.</p>`}
-  <details class="ladd" id="ladd"${canLab()?'':' hidden'}><summary>Add a blood draw</summary>
+  <div class="labplay"><button type="button" class="btn sm" data-lab="play">${svg(labPlay?'pause':'play','width="14" height="14"')} ${labPlay?'Pause':'Play through'}</button><span>${LABDS.draws[t]} · ${labWhen(t)}</span>${t>6&&t===last?`<button type="button" class="btn ghost sm" data-lab="rmdraw">Remove this draw</button>`:''}</div>
+  <details class="ladd" id="ladd"><summary>Add a blood draw</summary>
     <form id="labadd" novalidate><p class="lnote">For the crew medical officer. Enter a new draw or a retake. Quorum compares it with each person’s preflight normal and runs the same source check. Leave a box empty if that person was not sampled.</p>
       <div class="ladday"><label for="ladday">Days after landing</label><input id="ladday" type="number" inputmode="numeric" min="${labDay(last)+1}" step="1" placeholder="${labDay(last)+30}"><span>Last draw was day ${labDay(last)}</span></div>
       <div id="ladrows">${labAddRow('mcv')}</div>
       <p class="err" id="laderr" role="alert"></p>
       <div class="lkact"><button type="button" class="btn ghost sm" data-lab="addrow">Add another marker</button><label class="btn ghost sm ladfile">Fill from a file<input type="file" id="labcsv" accept=".csv,.hl7,.txt,text/csv,text/plain" hidden></label><button type="submit" class="btn sm pri">Save draw and check it</button></div>
       <p class="lnote">File format: one line per marker, <code>marker,crew1,crew2,crew3,crew4</code>, for example <code>MCV,93.4,95.1,91.8,90.2</code>. It also reads the result message a lab analyzer sends (HL7 v2, starts with <code>MSH</code>): tests are matched by LOINC code and units are converted. <a href="data/sample-lab-message.hl7" download>Sample message</a>. Saved on this device only.</p></form></details>
-  <details class="ladd" id="ljoin"${L.joined.length?' open':''}${canLab()?'':' hidden'}><summary>Add a crew member who joined on board</summary>
+  <details class="ladd" id="ljoin"${L.joined.length?' open':''}><summary>Add a crew member who joined on board</summary>
     <div class="ljbody"><p class="lnote">Someone who joined mid-mission has no preflight draws. Quorum judges their results against the typical range, says so on every result, and switches to their own normal after three draws.</p>
       ${L.joined.length?`<ul class="ljlist">${L.joined.map((n,i)=>`<li><b>${esc(n)}</b><span>${labOwn(4+i)} of 3 draws toward a personal baseline</span></li>`).join('')}</ul>`:''}
       <div class="ladday"><label for="ljname">Name</label><input id="ljname" type="text" maxlength="24" autocomplete="off" placeholder="e.g. T. Mwangi" style="width:200px"><button type="button" class="btn sm" data-lab="addcrew"${L.joined.length>=2?' disabled':''}>Add crew member</button>${L.joined.length?`<button type="button" class="btn ghost sm" data-lab="rmcrew">Remove ${esc(L.joined[L.joined.length-1])}</button>`:''}</div>
@@ -2313,7 +2296,7 @@ function labFillFromCSV(text){if(/^\uFEFF?\s*MSH./.test(String(text))){labFillFr
   const box=$('ladrows'),er=$('laderr');if(!box)return;if(!rows.length){er.textContent='No known markers found in that file. Use the short names, for example MCV, Sodium, Glucose.';return}
   box.innerHTML=rows.map(r=>labAddRow(r[0])).join('');[...box.children].forEach((el,i)=>{el.querySelectorAll('input').forEach(inp=>{const v=rows[i][1][+inp.dataset.c];if(v!=null&&v!==''&&!isNaN(+v))inp.value=v})});
   er.textContent=bad.length?`Skipped ${bad.length} line${bad.length===1?'':'s'} with names Quorum doesn’t know: ${bad.slice(0,4).join(', ')}.`:'';toast(`${rows.length} marker${rows.length===1?'':'s'} filled in. Check them, then save.`)}
-function labSaveDraw(){if(!canLab()){toast('Only the medical officer can add blood draws');return}const L=labState(),er=$('laderr'),last=labLast(),dv=$('ladday').value.trim(),day=Number(dv);
+function labSaveDraw(){const L=labState(),er=$('laderr'),last=labLast(),dv=$('ladday').value.trim(),day=Number(dv);
   if(dv===''||!Number.isInteger(day)||day<=labDay(last)){er.textContent=`Days after landing should be a whole number above ${labDay(last)}.`;$('ladday').focus();return}
   const vals={};let n=0,thin=null;
   for(const row of document.querySelectorAll('#ladrows .ladrow')){const k=row.querySelector('select').value,m=LABM[k],v=LABDS.crew.map(()=>null);let c=0;if(!m)continue;if(vals[k]){er.textContent=`${i4name(m).split(' · ')[0]} is entered twice. Remove one of the lines.`;return}
@@ -2327,7 +2310,6 @@ function labAct(a){const L=labState(),sc=L.t>=3?labSC(L.t):null,top=sc&&sc.alarm
   if(a==='play'){labTogglePlay();return}
   if(a==='addrow'){const box=$('ladrows');if(box){const used=[...box.querySelectorAll('select')].map(x=>x.value),nx=I4.m.map(labKey).find(k=>i4sd(LABM[k])&&!used.includes(k))||'mcv';box.insertAdjacentHTML('beforeend',labAddRow(nx))}return}
   if(a==='rmdraw'){if(L.added.length){const d=L.added.pop();labSync();L.t=labLast();L.m=null;L.log.unshift(`R+${d.day}: draw removed.`);L.log=L.log.slice(0,4);save();render();toast('Draw removed')}return}
-  if((a==='addcrew'||a==='rmcrew'||a==='rmdraw')&&!canLab()){toast('Only the medical officer can change blood draws');return}
   if(a==='addcrew'){const el=$('ljname'),er=$('ljerr'),n=el.value.trim().replace(/\s+/g,' ').slice(0,24);if(!n){er.textContent='Enter a name.';el.focus();return}if(L.joined.length>=2){er.textContent='Two added crew members is the limit here.';return}if(I4CN.some(x=>x.toLowerCase()===n.toLowerCase())){er.textContent='That name is already on the crew list.';return}L.joined.push(n);labSync();L.log.unshift(`${n} added to the crew list. No preflight baseline: typical range used until three draws.`);L.log=L.log.slice(0,4);save();render();toast('Crew member added');return}
   if(a==='rmcrew'){if(L.joined.length){const n=L.joined.pop(),len=4+L.joined.length;L.added.forEach(d=>{for(const k in d.vals)d.vals[k]=d.vals[k].slice(0,len)});labSync();L.m=null;save();render();toast(n+' removed')}return}
   if(a==='reset'){S.lab={t:3,kits:LAB_KITS,log:[],m:null,added:L.added,joined:L.joined};save();render();toast('Replay reset');return}
@@ -2469,127 +2451,6 @@ function guideAct(a){const G=S.guide||(S.guide={i:0,done:{}});if(!G.done)G.done=
   const [k,v]=a.split(':'),n=+v;if(!(n>=0&&n<6))return;
   if(k==='go')G.i=n;else if(k==='done'){G.done[n]=true;if(n<5)G.i=n+1}
   save();render();const h=document.querySelector('.gcard h2');if(h){h.tabIndex=-1;h.focus({preventScroll:true})}}
-
-/* ---------- Crew sync: accounts, roles, shared data, audit trail ---------- */
-const QCFG={url:'',key:''};
-const QS=QuorumSync.create({url:(window.__QCFG||QCFG).url,key:(window.__QCFG||QCFG).key,storage:localStorage});
-const ROLEN={commander:'Commander',medical_officer:'Crew medical officer',crew:'Crew member'};
-const SYN={busy:false,err:'',msg:'',members:[],audit:[],timer:0,pending:0,form:'in',at:0};
-function syncState(){if(!S.sync||typeof S.sync!=='object')S.sync={crew:null,last:null,sent:{},feed:{}};const y=S.sync;if(!y.sent||typeof y.sent!=='object')y.sent={};if(!y.feed||typeof y.feed!=='object')y.feed={};if(y.crew&&!(typeof y.crew.id==='string'&&ROLEN[y.crew.role]))y.crew=null;return y}
-const myRole=()=>{const y=syncState();return QS.user()&&y.crew?y.crew.role:null};
-const canLab=()=>{const r=myRole();return !r||r==='medical_officer'};
-const CKCAT={sleep:'sleep',rt:'sleep',lapse:'sleep',mood:'mood',virus:'symptoms',sym:'symptoms'};
-const hashS=o=>{const t=JSON.stringify(o);let h=5381;for(let i=0;i<t.length;i++)h=(h*33^t.charCodeAt(i))>>>0;return h.toString(36)+'.'+t.length.toString(36)};
-const typing=()=>{const a=document.activeElement;return !!a&&/^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName)};
-/* Everything this device would like the crew record to hold. Comparing it with what was last sent gives the offline queue. */
-function syncCollect(){const y=syncState(),u=QS.user(),out={};if(!u||!y.crew)return out;
-  const add=(kind,cat,id,payload)=>{out[kind+'|'+id]={kind,category:cat,client_id:id,payload}};
-  S.events.forEach(e=>add('event','shared',e.id,{day:e.day,type:e.type,label:e.label}));
-  medState().forEach(m=>add('med','shared',m.id,{n:m.n,use:m.use||'',qty:m.qty,low:m.low,exp:m.exp,c:!!m.c}));
-  if(y.crew.role==='medical_officer'){const L=labState();L.added.forEach(d=>add('lab_draw','shared','R+'+d.day,{day:d.day,vals:d.vals}));add('roster','shared','roster',{names:L.joined})}
-  if(isLive())S.live.slice(-30).forEach(en=>{if(!Number.isFinite(en.t)||en.src==='import')return;const parts={vitals:{},sleep:{},mood:{},symptoms:{}};
-    for(const k in en){if(k==='t'||k==='photo'||k==='src')continue;parts[CKCAT[k]||'vitals'][k]=en[k]}
-    if(Array.isArray(parts.symptoms.sym)&&!parts.symptoms.sym.length)delete parts.symptoms.sym;
-    for(const c in parts)if(Object.keys(parts[c]).length)add('checkin',c,u.id+':'+en.t+':'+c,{t:en.t,...parts[c]})});
-  return out}
-function syncApply(r,u){const y=syncState(),p=(r.payload&&typeof r.payload==='object')?r.payload:{},fin=Number.isFinite,id=String(r.client_id||'');
-  if(r.kind==='event'){S.events=S.events.filter(e=>e.id!==id);if(!r.deleted&&fin(p.day)&&typeof p.label==='string'&&S.events.length<30)S.events.push({id,day:Math.round(p.day),type:String(p.type||'other'),label:p.label.slice(0,60)})}
-  else if(r.kind==='med'){S.meds=medState().filter(m=>m.id!==id);if(!r.deleted&&typeof p.n==='string'&&fin(p.qty)&&fin(p.exp)&&S.meds.length<40)S.meds.push({id,n:p.n.slice(0,40),use:String(p.use||'').slice(0,40),qty:Math.max(0,Math.min(999,Math.round(p.qty))),low:fin(p.low)?p.low:1,exp:Math.round(p.exp),c:!!p.c})}
-  else if(r.kind==='lab_draw'){const L=labState(),day=+id.slice(2);L.added=L.added.filter(d=>d.day!==day);
-    if(!r.deleted&&Number.isInteger(p.day)&&p.day===day&&day>194&&p.vals&&typeof p.vals==='object'&&L.added.length<24){const v={};for(const k in p.vals)if(LABM[k]&&Array.isArray(p.vals[k]))v[k]=p.vals[k].slice(0,6).map(x=>fin(x)&&x>=0?x:null);L.added.push({day,vals:v});L.added.sort((a,b)=>a.day-b.day)}}
-  else if(r.kind==='roster'){if(Array.isArray(p.names))labState().joined=p.names.filter(x=>typeof x==='string'&&x.trim()).slice(0,2).map(x=>x.slice(0,24))}
-  else if(r.kind==='checkin'&&fin(p.t)){
-    if(r.owner_id===u.id){if(isLive()){let en=S.live.find(x=>x.t===p.t);if(!en){en={t:p.t};S.live.push(en);S.live.sort((a,b)=>a.t-b.t)}for(const k in p)if(k!=='t'&&en[k]==null)en[k]=p[k]}}
-    else{const f=y.feed[r.owner_id]||(y.feed[r.owner_id]={t:0,c:{}});if(p.t>f.t){f.t=p.t;f.c={}}if(p.t===f.t)f.c[r.category]=p}}}
-async function syncPull(){const y=syncState(),u=QS.user(),cid=y.crew.id;let n=0;
-  const r=await QS.select('quorum_records',`crew_id=eq.${cid}&select=kind,category,client_id,payload,deleted,owner_id,updated_at&order=updated_at.asc&limit=1000`+(y.last?`&updated_at=gt.${encodeURIComponent(y.last)}`:''));
-  if(r.error)return r.error;const rows=Array.isArray(r.data)?r.data:[];
-  rows.forEach(x=>{try{syncApply(x,u);n++}catch(e){}});
-  if(rows.length){y.last=rows[rows.length-1].updated_at;labSync();syncLive();const out=syncCollect();rows.forEach(x=>{const k=x.kind+'|'+x.client_id;if(x.deleted)y.sent[k]='D';else if(out[k])y.sent[k]=hashS(out[k].payload)})}
-  const m=await QS.select('quorum_members',`crew_id=eq.${cid}&select=user_id,display_name,role,share,joined_at&order=joined_at.asc`);
-  if(!m.error&&Array.isArray(m.data)){SYN.members=m.data;const me=m.data.find(x=>x.user_id===u.id);
-    if(!me){y.crew=null;y.sent={};y.feed={};return{message:'You are no longer in that crew.'}}
-    if(me.role!==y.crew.role){y.crew.role=me.role;n++}
-    const hs=hashS(S.share);if(y.shareSent!==hs){const pr=await QS.update('quorum_members',`crew_id=eq.${cid}&user_id=eq.${u.id}`,{share:S.share});if(!pr.error){y.shareSent=hs;me.share={...S.share}}}}
-  const a=await QS.select('quorum_audit',`crew_id=eq.${cid}&select=actor_name,action,kind,client_id,at&order=at.desc&limit=25`);
-  if(!a.error&&Array.isArray(a.data))SYN.audit=a.data;
-  SYN.applied=n;return null}
-function syncDiff(){const y=syncState(),out=syncCollect(),rows=[];if(!y.crew)return rows;
-  for(const k in out){const h=hashS(out[k].payload);if(y.sent[k]!==h)rows.push({k,h,row:{...out[k],deleted:false}})}
-  for(const k in y.sent){if(y.sent[k]==='D'||out[k])continue;const j=k.indexOf('|'),kind=k.slice(0,j),id=k.slice(j+1);
-    if(kind==='event'||kind==='med'||(kind==='lab_draw'&&y.crew.role==='medical_officer'))rows.push({k,h:'D',row:{kind,category:'shared',client_id:id,payload:{},deleted:true}})}
-  return rows}
-async function syncPush(){const y=syncState(),rows=syncDiff();let err=null;
-  for(const kind of ['roster','lab_draw','event','med','checkin']){const g=rows.filter(x=>x.row.kind===kind);
-    for(let i=0;i<g.length;i+=50){const part=g.slice(i,i+50),r=await QS.upsert('quorum_records',part.map(x=>({crew_id:y.crew.id,...x.row})),'crew_id,kind,client_id');
-      if(r.error){if(r.error.status===0)return r.error;err=(r.error.status===403||r.error.status===401)&&(kind==='lab_draw'||kind==='roster')?{message:'Only the crew medical officer can change blood draws.',status:403}:r.error;break}
-      part.forEach(x=>{y.sent[x.k]=x.h})}}
-  return err}
-async function syncNow(pull){const y=syncState();if(SYN.busy||!QS.configured||!QS.user()||!y.crew)return;SYN.busy=true;SYN.applied=0;let err=null;
-  try{if(pull!==false)err=await syncPull();if(!err||err.status!==0){const e2=y.crew?await syncPush():null;err=err||e2}}catch(e){err={message:'Sync failed. It will try again.'}}
-  SYN.err=err?(err.status===0?'Offline. Changes are saved on this device and will sync when the link returns.':err.message):'';if(!err)SYN.at=Date.now();
-  SYN.pending=y.crew?syncDiff().length:0;SYN.busy=false;
-  try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}
-  if((SYN.applied||S.view==='sync')&&!typing())render()}
-function syncSoon(){if(SYN.busy||!QS.configured||!QS.user()||!S.sync||!S.sync.crew)return;clearTimeout(SYN.timer);SYN.timer=setTimeout(()=>syncNow(false),1200)}
-setInterval(()=>{if(document.visibilityState==='visible')syncNow(true)},45000);
-addEventListener('online',()=>syncNow(true));
-async function syncEnter(crew){const y=syncState();y.crew=crew;y.last=null;y.sent={};y.feed={};y.shareSent=null;SYN.err='';SYN.msg='';save();await syncNow(true);render()}
-async function syncFindCrew(){const u=QS.user();if(!u)return;const m=await QS.select('quorum_members',`user_id=eq.${u.id}&select=crew_id,role,display_name&order=joined_at.asc&limit=1`);
-  if(m.error){SYN.err=m.error.status===0?'Offline. Try again when the link returns.':m.error.message;render();return}
-  if(!m.data||!m.data.length){render();return}
-  const c=await QS.select('quorum_crews',`id=eq.${m.data[0].crew_id}&select=id,name,join_code`);const cr=c.data&&c.data[0];
-  if(cr)await syncEnter({id:cr.id,name:cr.name,code:cr.join_code,role:m.data[0].role,display:m.data[0].display_name});else render()}
-async function syncForm(id){const g=x=>($(x)?$(x).value.trim():''),fail=t=>{SYN.err=t;SYN.msg='';render()};SYN.err='';SYN.msg='';
-  if(id==='syauth'){const email=g('syemail'),pw=$('sypw').value,up=SYN.form==='up';
-    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email))return fail('Enter your email address.');if(pw.length<8)return fail('The password needs at least 8 characters.');
-    SYN.busy=true;render();const r=up?await QS.signUp(email,pw):await QS.signIn(email,pw);SYN.busy=false;
-    if(r.error)return fail(r.error.status===0?'No connection. Signing in needs the link.':r.error.message);
-    if(!r.data.signedIn){SYN.form='in';SYN.msg='Account created. Open the confirmation link in your email, then sign in here.';render();return}
-    await syncFindCrew();if(!syncState().crew)render();return}
-  if(id==='sycreate'){const name=g('sycrew'),disp=g('syname1'),role=g('syrole');if(!name)return fail('Give the crew a name.');if(!disp)return fail('Enter the name your crewmates will see.');
-    const r=await QS.rpc('quorum_create_crew',{p_name:name.slice(0,60),p_display:disp.slice(0,24),p_role:role==='medical_officer'?'medical_officer':'commander'});
-    if(r.error)return fail(r.error.message);await syncEnter({id:r.data.crew_id,name:r.data.name,code:r.data.join_code,role:r.data.role,display:disp.slice(0,24)});toast('Crew created');return}
-  if(id==='syjoin'){const code=g('sycode').toUpperCase(),disp=g('syname2');if(!/^[A-Z0-9]{6,12}$/.test(code))return fail('Enter the crew code your commander gave you.');if(!disp)return fail('Enter the name your crewmates will see.');
-    const r=await QS.rpc('quorum_join_crew',{p_code:code,p_display:disp.slice(0,24)});if(r.error)return fail(r.error.message);
-    await syncEnter({id:r.data.crew_id,name:r.data.name,code:r.data.join_code,role:r.data.role,display:disp.slice(0,24)});toast('Joined '+r.data.name)}}
-async function syncAct(a){const y=syncState();
-  if(a==='tab:in'||a==='tab:up'){SYN.form=a.slice(4);SYN.err='';SYN.msg='';render();return}
-  if(a==='now'){await syncNow(true);if(!SYN.err)toast('Synced');return}
-  if(a==='out'){await QS.signOut();y.crew=null;y.sent={};y.feed={};y.last=null;SYN.members=[];SYN.audit=[];SYN.err='';SYN.msg='';SYN.form='in';save();render();toast('Signed out. Your data stays on this device.');return}
-  if(a.startsWith('role:')){const [,uid,role]=a.split(':');const r=await QS.rpc('quorum_set_role',{p_crew:y.crew.id,p_user:uid,p_role:role});if(r.error){SYN.err=r.error.message;render();return}await syncNow(true);toast('Role changed')}}
-function vSync(){const y=syncState(),u=QS.user(),top=(t,l)=>`<div class="top"><div><div class="eyebrow">Crew sync</div><h1>${t}</h1><p class="lead">${l}</p></div></div>`;
-  const note=`${SYN.err?`<p class="err syerr" role="alert">${esc(SYN.err)}</p>`:''}${SYN.msg?`<p class="symsg" role="status">${esc(SYN.msg)}</p>`:''}`;
-  const how=`<div class="card prose"><div class="sec">What signing in changes</div><ul class="syhow"><li><b>One crew record.</b> Blood draws, mission events and the medicine cabinet are shared across everyone’s devices.</li><li><b>Roles.</b> Only the crew medical officer can add or change blood draws. The database refuses anyone else, whatever their device sends.</li><li><b>Privacy that is enforced.</b> A crewmate can read your check-in only in the categories you share. Mood is off until you turn it on.</li><li><b>An audit trail.</b> Every change is recorded with who and when, and nobody can edit or erase it.</li><li><b>Works offline.</b> Changes are kept on this device and sent when the link returns.</li></ul><p style="margin-top:10px;color:var(--muted)">Without signing in, Quorum works as before, on this device only.</p></div>`;
-  if(!QS.configured)return top('One record for the whole crew','Accounts, roles and shared data are built, but this copy of Quorum is not connected to a crew database yet.')+`<div class="sycols"><div class="card"><div class="sec">Not connected</div><p>The database rules are in <code>supabase/schema.sql</code> and are tested by <code>test/db.sql</code>. To switch sync on, apply that file to a Supabase project and put the project’s address and public key in <code>QCFG</code> in <code>app.html</code>.</p><p style="margin-top:10px;color:var(--muted)">Until then everything stays on this device.</p></div>${how}</div>`;
-  if(!u)return top('Sign in to share one crew record','Optional. The demo and your own check-ins work without an account.')+`<div class="sycols"><div class="card"><div class="seg sytab" role="group" aria-label="Account"><button type="button" data-sync="tab:in" aria-pressed="${SYN.form==='in'}">Sign in</button><button type="button" data-sync="tab:up" aria-pressed="${SYN.form==='up'}">Create account</button></div>
-      <form id="syauth" class="syform" novalidate><label for="syemail">Email</label><input id="syemail" type="email" autocomplete="email" inputmode="email" required>
-        <label for="sypw">Password</label><input id="sypw" type="password" autocomplete="${SYN.form==='up'?'new-password':'current-password'}" minlength="8" required>
-        ${note}<button type="submit" class="btn" ${SYN.busy?'disabled':''}>${SYN.busy?'Working…':SYN.form==='up'?'Create account':'Sign in'}</button></form>
-      <p class="lnote">Your password goes straight to the sign-in service over an encrypted connection. Quorum never stores it.</p></div>${how}</div>`;
-  if(!y.crew)return top('Create a crew or join one',`Signed in as ${esc(u.email||'')}.`)+`${note}<div class="sycols"><div class="card"><div class="sec">Start a crew</div>
-      <form id="sycreate" class="syform" novalidate><label for="sycrew">Crew or mission name</label><input id="sycrew" type="text" maxlength="60" autocomplete="off"><label for="syname1">Your name, as crewmates will see it</label><input id="syname1" type="text" maxlength="24" autocomplete="off">
-        <label for="syrole">Your role</label><select id="syrole" class="envpick"><option value="commander">Commander</option><option value="medical_officer">Crew medical officer</option></select><button type="submit" class="btn">Create crew</button></form></div>
-    <div class="card"><div class="sec">Join a crew</div><form id="syjoin" class="syform" novalidate><label for="sycode">Crew code</label><input id="sycode" type="text" maxlength="12" autocomplete="off" autocapitalize="characters" style="text-transform:uppercase;letter-spacing:.08em"><label for="syname2">Your name, as crewmates will see it</label><input id="syname2" type="text" maxlength="24" autocomplete="off"><button type="submit" class="btn">Join crew</button></form>
-      <p class="lnote">New members join as crew. The commander assigns the medical officer.</p></div></div><p style="margin-top:14px"><button type="button" class="btn ghost sm" data-sync="out">Sign out</button></p>`;
-  const cats=[['vitals','Vitals'],['sleep','Sleep'],['mood','Mood'],['symptoms','Symptoms']],me=SYN.members.find(m=>m.user_id===u.id),cmd=y.crew.role==='commander';
-  const feedCell=(m,c)=>{if(m.user_id===u.id)return S.share[c]?'<span class="tg g">Shared</span>':'<span class="tg n">Private</span>';const sh=m.share&&m.share[c],f=y.feed[m.user_id],p=f&&f.c&&f.c[c];
-    if(!sh)return '<span class="tg n">Private</span>';if(!p)return '<span class="symu">No check-in yet</span>';
-    return esc(c==='vitals'?[p.hr!=null?p.hr+' bpm':'',p.bps!=null?p.bps+'/'+(p.bpd??'–'):'',p.temp!=null?p.temp+' °C':''].filter(Boolean).join(' · ')||'Logged':c==='sleep'?[p.sleep!=null?p.sleep+' h':'',p.rt!=null?p.rt+' ms':''].filter(Boolean).join(' · ')||'Logged':c==='mood'?(p.mood!=null?p.mood+'/5':'Logged'):(Array.isArray(p.sym)&&p.sym.length?p.sym.join(', '):'None reported'))};
-  const when=t=>{const d=new Date(t);return isNaN(d)?'':d.toLocaleString([], {month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'})};
-  const KN={lab_draw:'blood draw',event:'mission event',med:'medicine',checkin:'check-in',roster:'crew roster',crew:'',role:''};
-  return top(esc(y.crew.name),`You are ${esc(y.crew.display||'')}, ${ROLEN[y.crew.role].toLowerCase()}.`)+`
-  <div class="sycols"><div>
-    <div class="card"><div class="secrow"><div class="sec">Sync</div><span>${SYN.busy?'Syncing…':SYN.err?'Needs attention':SYN.at?'Up to date · '+when(SYN.at):'Not synced yet'}</span></div>
-      ${note}<div class="ltrust sysum"><div><b class="n">${SYN.members.length||1}</b><span>crew signed in</span></div><div class="${SYN.pending?'c':'g'}"><b class="n">${SYN.pending}</b><span>change${SYN.pending===1?'':'s'} waiting to send</span></div><div><b class="n sycode">${esc(y.crew.code||'')}</b><span>crew code to share</span></div></div>
-      <div class="lkact" style="margin-top:14px"><button type="button" class="btn sm" data-sync="now" ${SYN.busy?'disabled':''}>Sync now</button><button type="button" class="btn ghost sm" data-sync="out">Sign out</button></div></div>
-    <div class="card"><div class="secrow"><div class="sec">Crew and what each person shares</div><span>Enforced by the database</span></div>
-      <div class="tbl"><table class="i4t sytab2"><thead><tr><th>Crew</th><th>Role</th>${cats.map(c=>`<th>${c[1]}</th>`).join('')}</tr></thead><tbody>
-      ${SYN.members.map(m=>`<tr><td><b>${esc(m.display_name)}</b>${m.user_id===u.id?' <span class="symu">(you)</span>':''}</td><td>${cmd&&m.user_id!==u.id&&m.role!=='commander'?`<select class="envpick syrolesel" data-syrole="${esc(m.user_id)}" aria-label="Role of ${esc(m.display_name)}"><option value="crew" ${m.role==='crew'?'selected':''}>Crew member</option><option value="medical_officer" ${m.role==='medical_officer'?'selected':''}>Crew medical officer</option></select>`:ROLEN[m.role]||esc(m.role)}</td>${cats.map(c=>`<td>${feedCell(m,c[0])}</td>`).join('')}</tr>`).join('')||'<tr><td colspan="6">Loading the crew list…</td></tr>'}</tbody></table></div>
-      <p class="lnote">“Private” cells are not hidden by this screen: the database never sends them. Change what you share on the <button type="button" class="lnk" data-go="report">Report screen</button>.${isLive()?'':' Check-ins sync once you leave the demo mission and log your own.'}</p></div></div>
-    <div><div class="card"><div class="secrow"><div class="sec">Audit trail</div><span>Cannot be edited or erased</span></div>
-      ${SYN.audit.length?`<ul class="syaud">${SYN.audit.map(a=>`<li><span>${esc(when(a.at))}</span><span><b>${esc(a.actor_name||'Someone')}</b> ${esc(a.action)} ${a.kind==='role'?esc(ROLEN[a.client_id]||a.client_id):a.kind==='crew'?'':esc((KN[a.kind]||a.kind||'')+(a.kind==='checkin'?' ('+a.client_id+')':a.kind==='lab_draw'?' '+a.client_id:''))}</span></li>`).join('')}</ul>`:'<p class="lnote" style="margin-top:0">Nothing recorded yet.</p>'}</div>
-    ${how}</div></div>`}
 
 /* ---------- Decide: the on-board call ---------- */
 const fmtMin=m=>m<1/60?'under 1 s':m<1?Math.round(m*60)+' s':Math.round(m)+' min';
@@ -2758,7 +2619,7 @@ function render(){
   document.documentElement.classList.toggle('lg',!!S.lg);
   const tb=tempBase();BY.temp.ref=+(tb+.6).toFixed(1);BY.temp.refL='Baseline +0.6 °C';
   syncLive();const lv=learning(),lk=v=>()=>vLocked(v);
-  const V={sync:vSync,guide:vGuide,meds:vMeds,labs:vLabs,proof:vProof,today:lv?vLiveToday:vToday,crew:lv?lk('crew'):vCrew,eva:lv?lk('eva'):vEva,detail:lv?lk('detail'):vDetail,body:lv?lk('body'):vBody,log:vLog,science:vScience,data:vData,report:lv?lk('report'):vReport};
+  const V={guide:vGuide,meds:vMeds,labs:vLabs,proof:vProof,today:lv?vLiveToday:vToday,crew:lv?lk('crew'):vCrew,eva:lv?lk('eva'):vEva,detail:lv?lk('detail'):vDetail,body:lv?lk('body'):vBody,log:vLog,science:vScience,data:vData,report:lv?lk('report'):vReport};
   Object.keys(V).forEach(k=>{const el=$('v-'+k);if(k===S.view){el.innerHTML=V[k]();el.hidden=false;el.classList.toggle('enter',ENTER)}else{el.hidden=true;el.innerHTML=''}});ENTER=false;
   arrange();renderAlerts();a11yScroll();
   renderNav();const mst=$('mstrip');if(mst)mst.style.display=S.view==='labs'?'none':''}
@@ -2786,7 +2647,6 @@ document.addEventListener('keydown',e=>{
 document.addEventListener('click',e=>{
   const lbt=e.target.closest('[data-labt]');if(lbt){if(labPlay){clearInterval(labPlay);labPlay=null}labGo(+lbt.dataset.labt);return}
   const lba=e.target.closest('[data-lab]');if(lba){labAct(lba.dataset.lab);return}
-  const syb=e.target.closest('[data-sync]');if(syb){syncAct(syb.dataset.sync);return}
   const gd=e.target.closest('[data-guide]');if(gd){guideAct(gd.dataset.guide);return}
   const mdb=e.target.closest('[data-med]');if(mdb){medAct(mdb.dataset.med);return}
   const stb=e.target.closest('[data-storm]');if(stb){stormAct(stb.dataset.storm);return}
@@ -2851,7 +2711,6 @@ document.addEventListener('change',e=>{
   if(e.target.id==='csv'){readFile(e.target.files[0]);return}
   if(e.target.id==='in-photo'){readPhoto(e.target.files[0]);return}
   if(e.target.id==='env'){S.env=e.target.value;save();render();return}
-  if(e.target.dataset&&e.target.dataset.syrole){syncAct('role:'+e.target.dataset.syrole+':'+e.target.value);return}
   if(e.target.id==='labm'){labState().m=e.target.value;save();render();const x=$('labm');if(x)x.focus();return}
   if(e.target.id==='labcsv'){const f=e.target.files[0];if(f){const r=new FileReader();r.onload=()=>labFillFromCSV(r.result);r.readAsText(f)}e.target.value='';return}
   if(e.target.classList&&e.target.classList.contains('laddm')){const row=e.target.closest('.ladrow'),m=LABM[e.target.value];row.querySelectorAll('input').forEach(inp=>{const b=i4band(m,+inp.dataset.c);inp.placeholder=b?b.mu.toFixed(1):''});row.querySelector('.ladu').textContent=i4unit(m);return}
@@ -2859,7 +2718,7 @@ document.addEventListener('change',e=>{
   const tk=e.target.dataset&&e.target.dataset.tk;if(tk){S.done[tk]=e.target.checked;save();render();if(e.target.checked)toast('Done')}
 });
 document.addEventListener('input',e=>{if(!e.target.closest)return;if(e.target.closest('#labadd')){const er=$('laderr');if(er)er.textContent=''}if(e.target.closest('#evform')){const er=$('everr');if(er)er.textContent=''}if(e.target.closest('#medform')){const er=$('mederr');if(er)er.textContent=''}if(e.target.id==='ljname'){const er=$('ljerr');if(er)er.textContent=''}});
-document.addEventListener('submit',e=>{if(e.target.id==='labadd'){e.preventDefault();labSaveDraw();return}if(e.target.id==='evform'){e.preventDefault();evSave();return}if(/^sy(auth|create|join)$/.test(e.target.id)){e.preventDefault();syncForm(e.target.id);return}if(e.target.id==='medform'){e.preventDefault();medSave();return}if(e.target.id!=='logform')return;e.preventDefault();if(isLive()){saveLive();return}const n={};
+document.addEventListener('submit',e=>{if(e.target.id==='labadd'){e.preventDefault();labSaveDraw();return}if(e.target.id==='evform'){e.preventDefault();evSave();return}if(e.target.id==='medform'){e.preventDefault();medSave();return}if(e.target.id!=='logform')return;e.preventDefault();if(isLive()){saveLive();return}const n={};
   for(const f of FIELDS){const v=parseFloat($('in-'+f[0]).value);if(isNaN(v)||v<f[3]||v>f[4]){$('err').textContent=`${f[1]} should be between ${f[3]} and ${f[4]} ${f[2]}.`;$('in-'+f[0]).focus();return}n[f[0]]=v}
   const pick=sel=>{const b=document.querySelector(sel+'[aria-pressed="true"]');return b};
   const m=pick('[data-mood]'),vi=pick('[data-vis]'),vr=pick('[data-vir]');
