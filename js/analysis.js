@@ -434,12 +434,25 @@
         title: firstPost ? 'Appeared right after the flight' : 'Not tied to the flight',
         text: firstPost ? 'This is the first draw after the exposure, which is when a real shared effect of the flight would show up.' : 'This draw is ' + dayOf(t) + ' days after landing, so the timing does not point at the flight.' });
 
+      // 6. A logged mission event between the previous draw and this one (only when the crew keeps an event log)
+      var evt = null;
+      if (ds.events && ds.events.length) {
+        var prevDay = t > 0 ? dayOf(t - 1) : -Infinity, today = dayOf(t);
+        var inWin = ds.events.filter(function (e) { return e.day > prevDay && e.day <= today; }).sort(function (a, b) { return b.day - a.day; });
+        var cand = inWin[0] || null, hitE = !!cand && earlier.length === 0;
+        if (hitE) evt = cand;
+        var gap = cand ? today - cand.day : 0, gapTxt = cand ? (gap === 0 ? 'the same day' : gap + ' day' + (gap === 1 ? '' : 's') + ' before this draw') : '';
+        ev.push({ id: 'event', points: cand ? cand.kind : 'note', hit: hitE,
+          title: !cand ? 'No logged event since the last draw' : hitE ? 'Logged ' + gapTxt + ': ' + cand.label : 'Shift was already there before: ' + cand.label,
+          text: !cand ? 'Nothing in the mission event log falls between the previous draw and this one.' : hitE ? (cand.kind === 'measurement' ? 'A change to the analyzer or its supplies right before a new crew-wide shift points at the measurement.' : cand.kind === 'environment' ? 'A change to something the whole crew shares right before a new crew-wide shift points at the environment.' : 'Logged for the record. This kind of event does not point either way.') : 'The same shift was seen at an earlier draw, so this event cannot have started it.' });
+      }
+
       var score = { measurement: 0, environment: 0 };
       ev.forEach(function (e) { if (e.hit && score[e.points] != null) score[e.points]++; });
       var cause = hand ? 'handling' : score.measurement > score.environment ? 'instrument' : score.environment > score.measurement ? 'environment' : 'undetermined';
       // An alarm that was raised at an earlier draw stays open while the crew average is still shifted.
       var carried = !s.alarm && POST.some(function (tt) { if (tt >= t) return false; var e = shiftAt(m, tt); return e && e.alarm && e.sign === s.sign; });
-      signals.push({ marker: m, key: m.key, family: fam, shift: s, tier: s.alarm || carried ? 'alarm' : 'watch', carried: carried, evidence: ev, score: score, cause: cause });
+      signals.push({ marker: m, key: m.key, family: fam, shift: s, tier: s.alarm || carried ? 'alarm' : 'watch', carried: carried, event: evt, evidence: ev, score: score, cause: cause });
     });
     signals.sort(function (a, b) { return Math.abs(b.shift.z) - Math.abs(a.shift.z); });
     signals.sort(function (a, b) { return (a.tier === 'alarm' ? 0 : 1) - (b.tier === 'alarm' ? 0 : 1); });
@@ -450,15 +463,19 @@
     var results = [], counts = { trusted: 0, retake: 0, hold: 0, shared: 0, person: 0, total: 0 };
     mk.forEach(function (m) {
       ds.crew.forEach(function (_, c) {
-        var x = tcell(m, c, t); if (!x) return;
+        var x = ds.joined && ds.joined[c] ? jcell(m, c, t) : tcell(m, c, t); if (!x) return;
         var sig = sigKeys[m.key], status, note;
         if (sig && (sig.cause === 'instrument' || sig.cause === 'handling' || sig.cause === 'undetermined')) {
           status = 'hold';
           note = sig.cause === 'handling' ? 'Sample handling suspected' : sig.cause === 'instrument' ? 'Instrument suspected' : 'Crew-wide shift, cause unclear';
         } else if (sig) { status = 'shared'; note = 'Shared cause suspected'; }
+        else if (x.population) {
+          status = x.lab ? 'retake' : 'trusted';
+          note = (x.lab ? 'Outside the typical range' : 'Inside the typical range') + '. No personal baseline yet (' + x.own + ' of 3 draws)';
+        }
         else if (x.personal) {
           var prev = null;
-          POST.forEach(function (tt) { if (tt < t) { var y = tcell(m, c, tt); if (y) prev = y; } });
+          POST.forEach(function (tt) { if (tt < t) { var y = ds.joined && ds.joined[c] ? jcell(m, c, tt) : tcell(m, c, tt); if (y) prev = y; } });
           var repeated = prev && prev.personal && (prev.d < 0) === (x.d < 0);
           if (repeated || x.lab) { status = 'person'; note = repeated ? 'Repeated outside own normal' : 'Outside own normal and the lab range'; }
           else { status = 'retake'; note = 'Single flag: retake before acting'; }
@@ -468,6 +485,35 @@
       });
     });
     return { draw: ds.draws[t], t: t, signals: signals, alarms: signals.filter(function (s) { return s.tier === 'alarm'; }), watch: signals.filter(function (s) { return s.tier === 'watch'; }), results: results, counts: counts };
+  }
+
+  // A crew member who joined on board has no preflight draws. Their results are judged against the
+  // typical (population) range until three of their own draws exist; after that, those three become their baseline.
+  function jcell(m, c, t) {
+    var v = m.vals[c][t], lo = m.lo[c][t], hi = m.hi[c][t];
+    if (v == null || lo == null || hi == null) return null;
+    var own = [];
+    for (var i = 0; i < t && own.length < 3; i++) if (m.vals[c][i] != null) own.push(m.vals[c][i]);
+    var sd = pooledSD(m), k = kFor(m);
+    if (own.length < 3 || !sd) return { value: v, lo: lo, hi: hi, d: null, personal: false, lab: v < lo || v > hi, population: true, own: own.length + 1 > 3 ? 3 : own.length + 1 };
+    var f = Math.sqrt(1 + 1 / own.length), mu = mean(own), d = (v - mu) / (sd * f);
+    return { value: v, lo: lo, hi: hi, d: d, personal: Math.abs(d) > k, lab: v < lo || v > hi, band: { mean: mu, sd: sd, n: own.length, factor: f, half: k * sd * f, k: k }, joined: true };
+  }
+  function addCrew(ds, name) {
+    if (!ds.joined) ds.joined = {};
+    var c = ds.crew.length;
+    ds.crew = ds.crew.concat([name]);
+    ds.joined[c] = true;
+    ds.markers.forEach(function (m) {
+      var los = [], his = [];
+      m.lo.forEach(function (r) { r.forEach(function (x) { if (x != null) los.push(x); }); });
+      m.hi.forEach(function (r) { r.forEach(function (x) { if (x != null) his.push(x); }); });
+      var lo = los.length ? Math.min.apply(null, los) : null, hi = his.length ? Math.max.apply(null, his) : null;
+      m.vals.push(ds.draws.map(function () { return null; }));
+      m.lo.push(ds.draws.map(function () { return lo; }));
+      m.hi.push(ds.draws.map(function () { return hi; }));
+    });
+    return c;
   }
 
   // Append a blood draw entered on board. vals maps marker key -> one value per crew member (null where not measured).
@@ -512,6 +558,6 @@
     pooledSD: pooledSD, usable: usable, band: band, cell: cell, summarize: summarize, falseFlags: falseFlags,
     crewWide: crewWide, crewWideChance: crewWideChance, robustness: robustness,
     tcrit: tcrit, pooledDF: pooledDF, kFor: kFor, tcell: tcell, summarizeT: summarizeT, falseFlagsT: falseFlagsT,
-    crewShift: crewShift, crewShiftFalseAlarms: crewShiftFalseAlarms, sourceCheck: sourceCheck, addDraw: addDraw, baselineComovement: baselineComovement,
+    crewShift: crewShift, crewShiftFalseAlarms: crewShiftFalseAlarms, sourceCheck: sourceCheck, addDraw: addDraw, addCrew: addCrew, baselineComovement: baselineComovement,
     detectionLimits: detectionLimits, familyOf: familyOf, FAMILY: FAMILY, CREW_COVER_PCT: CREW_COVER_PCT, DRAW_DAY: DRAW_DAY };
 });

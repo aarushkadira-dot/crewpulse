@@ -87,5 +87,41 @@ eq('added draw 4% low: instrument alarm, all on hold', [low.alarms.map(s => s.ke
 eq('added draw remembers earlier shifts', low.alarms[0].evidence.find(e => e.id === 'recur').hit, true);
 eq('NASA draws unchanged after adding', A.sourceCheck(ds, 3).counts, sc[0].counts);
 
+// Mission event log: an event only counts when the shift is new, and never changes the NASA results.
+const cbc = fs.readFileSync(path.join(dir, 'LSDS-7_Complete_Blood_Count_CBC_TRANSFORMED.csv'), 'utf8'), cmp = fs.readFileSync(path.join(dir, 'LSDS-8_Comprehensive_Metabolic_Panel_CMP_TRANSFORMED.csv'), 'utf8');
+const ds2 = A.build(cbc, cmp);
+const naM = ds2.markers.find(m => m.key === 'sodium'), clM = ds2.markers.find(m => m.key === 'chloride');
+const pm = (m, c) => { const p = [0, 1, 2].map(i => m.vals[c][i]).filter(x => x != null); return p.reduce((a, b) => a + b, 0) / p.length; };
+const up = (m, f) => [0, 1, 2, 3].map(c => +(pm(m, c) * f).toFixed(1));
+const tE = A.addDraw(ds2, { label: 'R+230', day: 230, vals: { sodium: up(naM, 1.04), chloride: up(clM, 1.04) } });
+const noLog = A.sourceCheck(ds2, tE).alarms.find(s => s.key === 'sodium');
+eq('no event log: no event evidence', noLog.evidence.some(e => e.id === 'event'), false);
+ds2.events = [{ day: 227, kind: 'environment', label: 'Water filter swapped' }];
+const withEnv = A.sourceCheck(ds2, tE).alarms.find(s => s.key === 'sodium');
+eq('water event 3 days before a new shift: environment', [withEnv.cause, withEnv.event.label, withEnv.evidence.find(e => e.id === 'event').hit], ['environment', 'Water filter swapped', true]);
+ds2.events = [{ day: 100, kind: 'environment', label: 'Old event' }];
+eq('event outside the window is ignored', A.sourceCheck(ds2, tE).alarms.find(s => s.key === 'sodium').evidence.find(e => e.id === 'event').hit, false);
+ds2.events = [{ day: 190, kind: 'environment', label: 'Late event' }];
+const mcvOld = A.sourceCheck(ds2, 6).alarms.find(s => s.key === 'mcv');
+eq('event cannot explain a shift seen earlier', [mcvOld.evidence.find(e => e.id === 'event').hit, mcvOld.cause], [false, 'instrument']);
+eq('NASA R+1 counts unchanged with an event log', A.sourceCheck(ds2, 3).counts, sc[0].counts);
+
+// Crew member who joined on board: typical range first, own baseline after three draws.
+const ds3 = A.build(cbc, cmp);
+const j = A.addCrew(ds3, 'New');
+const mc = ds3.markers.find(m => m.key === 'mcv');
+const row = v => ({ mcv: [null, null, null, null, v] });
+const t1 = A.addDraw(ds3, { label: 'R+230', day: 230, vals: row(88) });
+const r1 = A.sourceCheck(ds3, t1).results.find(r => r.crew === j);
+eq('joined crew, draw 1: typical range, trusted', [r1.status, r1.cell.population, r1.cell.own], ['trusted', true, 1]);
+const t2 = A.addDraw(ds3, { label: 'R+240', day: 240, vals: row(150) });
+eq('joined crew, out of typical range: retake', A.sourceCheck(ds3, t2).results.find(r => r.crew === j).status, 'retake');
+A.addDraw(ds3, { label: 'R+250', day: 250, vals: row(88.4) });
+A.addDraw(ds3, { label: 'R+260', day: 260, vals: row(87.6) });
+const t5 = A.addDraw(ds3, { label: 'R+270', day: 270, vals: row(80) });
+const r5 = A.sourceCheck(ds3, t5).results.find(r => r.crew === j);
+eq('joined crew, after three draws: judged against own baseline', [!!r5.cell.joined, r5.cell.personal, r5.cell.lab], [true, true, false]);
+eq('joined crew does not change the original crew', A.sourceCheck(ds3, 3).counts, sc[0].counts);
+
 console.log(failed ? `\n${failed} check(s) failed` : '\nAll checks passed: results match the methods note.');
 process.exit(failed ? 1 : 0);

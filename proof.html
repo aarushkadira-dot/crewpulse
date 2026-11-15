@@ -61,6 +61,8 @@
 }
 .pending{opacity:.35;transition:opacity .3s} body.ready .pending{opacity:1}
 </style>
+<link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="img/icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes">
+<script>if("serviceWorker" in navigator&&(location.protocol==="https:"||location.hostname==="localhost"))addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})});</script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>

@@ -53,6 +53,18 @@ The Proof page includes the assumption register, robustness analysis, NASA requi
 
 On the Labs screen, "Add a blood draw" lets the crew medical officer enter a new draw or a retake: days after landing, then one line per marker with a value for each crew member (typed in, or filled from a CSV with lines like `MCV,93.4,95.1,91.8,90.2`). The draw is saved on the device, compared with each person's preflight normal, and put through the same source check as the NASA draws. A retake that comes back inside the crew's normal closes the open alarm; one that is still shifted keeps the results on hold. The NASA draws themselves are never changed.
 
+## Mission scenarios it handles
+
+- **Something the crew shares changes.** A mission event log on the Labs screen (water, food, cabin air, schedule, a new cartridge lot, analyzer service). When a new crew-wide shift appears, the source check lines it up against events since the previous draw. An event never explains a shift that was already there.
+- **The medical officer is out.** A six-step stand-in guide in plain words that any crew member can follow, built from what the app already knows.
+- **Someone under-reports.** "Said vs measured" compares self-reports with sensor readings and treats a skipped check-in as a signal.
+- **No link to Earth.** The site installs as an offline app (service worker), reports wait in a queue, and a compact packet is sent first when the link is weak.
+- **Medicines run out or expire.** Stock, expiry against the days of mission left, and a dose log.
+- **Solar storm.** A shelter timer with roll call and a dose table per person. Dose rates are simulated.
+- **A crew member with no preflight baseline.** Their results are judged against the typical range, labelled as such, until three of their own draws exist.
+
+Stress tests cover bad input, damaged saved data, injected markup, random clicking and running with no network.
+
 ## Research basis
 
 - **Earth-independent care:** NASA's Exploration Medical Capability research identifies autonomous clinical decision support as a need when communication, evacuation and resupply cannot be assumed.

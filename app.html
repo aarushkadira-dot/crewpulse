@@ -1092,7 +1092,57 @@ button,input,select,textarea{font-family:inherit}
   .ladrow select{grid-column:1/-1}
   .ladrow .ladu{grid-column:1/-1;padding:0}
 }
+/* v11: events, joined crew, guide, medicines, storm, said-vs-measured */
+.ladrow{grid-template-columns:minmax(150px,1.5fr) repeat(var(--n,4),minmax(0,1fr)) auto}
+.ljbody{padding-top:4px}.ljlist{list-style:none;margin:8px 0;padding:0}.ljlist li{display:flex;flex-wrap:wrap;gap:4px 12px;padding:8px 0;border-top:1px solid var(--line)}.ljlist span{color:var(--muted);font-size:14.5px}
+.ladday input[type=text]{font:inherit;border:1px solid var(--line);border-radius:8px;background:#fff;padding:0 10px;min-height:44px;color:var(--ink);max-width:100%}
+.evlist{list-style:none;margin:8px 0 12px;padding:0}.evlist li{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:start;padding:10px 0;border-top:1px solid var(--line)}
+.evlist .evd{font-variant-numeric:tabular-nums;font-weight:600;white-space:nowrap}.evlist li>span:nth-child(2){display:flex;flex-direction:column;min-width:0;overflow-wrap:anywhere}.evlist li>span:nth-child(2) span{color:var(--muted);font-size:14.5px}
+.evgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:10px 0}.evgrid .evn{grid-column:1/-1}
+.evgrid label{display:flex;flex-direction:column;gap:3px;min-width:0}.evgrid label span{font-size:13.5px;color:var(--muted)}
+.evgrid input,.evgrid select{font:inherit;border:1px solid var(--line);border-radius:8px;background:#fff;padding:0 10px;min-height:44px;width:100%;min-width:0;color:var(--ink)}
+.evgrid input:focus,.ladday input[type=text]:focus{outline:2px solid var(--link);outline-offset:1px}
+#evform .err,#medform .err,#ljerr{color:var(--warn);font-weight:600;margin:0 0 8px}
+#evform .err:empty,#medform .err:empty,#ljerr:empty{display:none}
+.abar{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;justify-content:space-between;padding:12px 16px;border-radius:12px;margin:0 0 14px;border:1px solid var(--line);background:var(--card)}
+.abar.w{border-color:var(--warn);background:#FFF1F0}.abar.c{border-color:var(--caution);background:#FFF8EB}.abar [data-stclock]{font-variant-numeric:tabular-nums;font-weight:600}
+.xc{border-top:1px solid var(--line);padding-top:8px;margin-top:4px}.xc .xch{font-size:13.5px;font-weight:600;color:var(--caution)}.xc ul{margin:4px 0 0;padding-left:18px;font-size:14.5px}
+.gcall{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;justify-content:space-between}.gcall div{display:flex;flex-direction:column;min-width:0}.gcall span{color:var(--muted);font-size:15px}
+.gwrap{display:grid;grid-template-columns:minmax(240px,340px) minmax(0,1fr);gap:20px;align-items:start}
+.gsteps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.gsteps button{display:flex;gap:12px;align-items:center;width:100%;text-align:left;font:inherit;font-size:15.5px;background:none;border:1px solid transparent;border-radius:10px;padding:10px 12px;min-height:48px;color:var(--muted);cursor:pointer}
+.gsteps button i{font-style:normal;flex:none;display:grid;place-items:center;width:26px;height:26px;border-radius:50%;border:1.5px solid currentColor;font-size:13.5px;font-weight:600}
+.gsteps button[aria-current]{background:var(--card);border-color:var(--line);color:var(--ink);font-weight:600}
+.gsteps button.dn i{background:var(--good);border-color:var(--good);color:#fff}
+.gcard h2{font-size:26px;line-height:1.2;margin:6px 0 4px;outline:none}.gwhy{color:var(--muted);font-size:16px;margin-bottom:14px}
+.gbody{font-size:17px;line-height:1.5}.gbody p{margin:0 0 10px}.gbody .gbig{font-size:20px;font-weight:600}.gbody .gul{margin:0 0 10px;padding-left:20px}
+.gnav{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}.gnav .btn:last-child{margin-left:auto}
+.gfin{display:flex;flex-wrap:wrap;gap:6px;align-items:center;color:var(--good);font-weight:600;margin-top:12px}
+.medcols{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:20px;align-items:start}.medcols>div{display:flex;flex-direction:column;gap:16px;min-width:0}
+.medsum{grid-template-columns:repeat(3,minmax(0,1fr))}
+.medlist{list-style:none;margin:14px 0 0;padding:0}.medlist li{padding:14px 0;border-top:1px solid var(--line)}
+.medh{display:flex;gap:10px;justify-content:space-between;align-items:start}.medh div{display:flex;flex-direction:column;min-width:0;overflow-wrap:anywhere}.medh div span{color:var(--muted);font-size:14.5px}.medh .tg{white-space:nowrap;flex:none}
+.medbar{height:6px;border-radius:3px;background:var(--card-2);margin:10px 0 8px;overflow:hidden}.medbar i{display:block;height:100%;border-radius:3px;background:var(--good)}.medbar i.c{background:var(--caution)}.medbar i.w{background:var(--warn)}
+.medf{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;justify-content:space-between;font-size:15px}.medact{display:flex;gap:10px;align-items:center}
+.medn{color:var(--warn);font-size:14.5px;font-weight:600;margin:8px 0 0}
+.pkt{margin-top:12px;font-size:15px;color:var(--muted)}.pkt b{color:var(--ink)}
+.storm.on{border:1.5px solid var(--warn)}
+.stnow{display:grid;grid-template-columns:auto auto minmax(0,1fr);gap:8px 24px;align-items:center;margin:4px 0 12px}.stnow div{display:flex;flex-direction:column}.stnow .n{font-size:32px;font-weight:600;font-variant-numeric:tabular-nums;line-height:1.1}.stnow span{color:var(--muted);font-size:14px}.stnow p{font-weight:600}
+.stroll{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-bottom:14px}
+.stroll button{font:inherit;font-weight:600;min-height:48px;border-radius:10px;border:1.5px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;display:flex;gap:6px;align-items:center;justify-content:center;flex-wrap:wrap;padding:6px 8px}
+.stroll button[aria-pressed="true"]{border-color:var(--good);background:#EEF8F0}.stroll em{font-style:normal;font-weight:400;color:var(--muted);font-size:13.5px}
+.sthint{font-weight:600;margin:2px 0 12px}
+.dtab td{font-variant-numeric:tabular-nums;white-space:nowrap}.dbar{display:inline-block;vertical-align:middle;width:40px;height:6px;border-radius:3px;background:var(--card-2);margin-right:8px;overflow:hidden}.dbar i{display:block;height:100%;background:var(--good)}.dbar i.c{background:var(--caution)}.dbar i.w{background:var(--warn)}
+@media (max-width:980px){.gwrap,.medcols{grid-template-columns:minmax(0,1fr)}.gsteps{flex-direction:row;overflow-x:auto;padding-bottom:4px}.gsteps li{flex:none}.gsteps button span{display:none}.gsteps button{width:auto;padding:8px}.gsteps button[aria-current] span{display:inline;white-space:nowrap}}
+@media (max-width:640px){
+  .ladrow{grid-template-columns:repeat(auto-fill,minmax(68px,1fr))}
+  .stnow{grid-template-columns:auto auto}.stnow p{grid-column:1/-1}
+  .gcard h2{font-size:22px}.gnav .btn:last-child{margin-left:0}
+  .dtab th:nth-child(2),.dtab td:nth-child(2){display:none}
+}
 </style>
+<link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="img/icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes">
+<script>if("serviceWorker" in navigator&&(location.protocol==="https:"||location.hostname==="localhost"))addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})});</script>
 </head>
 <body>
 
@@ -1108,7 +1158,10 @@ button,input,select,textarea{font-family:inherit}
   </nav>
   <main id="main">
     <div class="mstrip" id="mstrip" aria-label="Mission status"></div>
+    <div id="alerts"></div>
     <section class="view" id="v-today"></section>
+    <section class="view" id="v-guide" hidden></section>
+    <section class="view" id="v-meds" hidden></section>
     <section class="view" id="v-labs" hidden></section>
     <section class="view" id="v-detail" hidden></section>
     <section class="view" id="v-body" hidden></section>
@@ -1392,8 +1445,8 @@ const SYS=[
 const TASKS=[{id:'vit',t:'07:00',n:'Morning vitals'},{id:'pvt',t:'07:15',n:'3-minute alertness test'},{id:'glu',t:'07:20',n:'Blood sugar test'},{id:'res',t:'10:00',n:'Strength training'},
   {id:'aer',t:'16:00',n:'Cardio session'},{id:'log',t:'21:00',n:'Mood, sleep & fluids check-in'}];
 const WEEK=[1,1,.83,1,.67,.5];
-const TABS=[['today','Today'],['log','Check-in'],['labs','Labs'],['eva','Decide'],['crew','Crew']],TABS2=[['body','Body'],['report','Report'],['science','Science'],['data','Data'],['proof','Evidence']];
-const TICON={labs:'shield',today:'today',crew:'crew',eva:'suit',body:'body',proof:'proof',log:'log',science:'science',data:'data',report:'report'};
+const TABS=[['today','Today'],['log','Check-in'],['labs','Labs'],['eva','Decide'],['crew','Crew']],TABS2=[['guide','Stand-in guide'],['meds','Medicines'],['body','Body'],['report','Report'],['science','Science'],['data','Data'],['proof','Evidence']];
+const TICON={guide:'check',meds:'cup',labs:'shield',today:'today',crew:'crew',eva:'suit',body:'body',proof:'proof',log:'log',science:'science',data:'data',report:'report'};
 
 /* ---------- state ---------- */
 const KEY='crewpulse-v8';
@@ -1417,6 +1470,19 @@ function setScenario(sc){S.scen=sc;S.data=scenarioData(sc);S.sym=sc==='A'?['Head
 let rstep=0;
 try{const r=localStorage.getItem(KEY);if(r)Object.assign(S,JSON.parse(r))}catch(e){}
 if(!S.data||S.data.length!==14)S.data=fresh();
+(function sane(){const num=x=>typeof x==='number'&&isFinite(x),str=x=>typeof x==='string';
+  S.events=Array.isArray(S.events)?S.events.filter(x=>x&&num(x.day)&&str(x.label)&&str(x.type)&&str(x.id)).slice(0,30).map(x=>({id:x.id,day:Math.round(x.day),type:x.type,label:x.label.slice(0,60)})):[];
+  if(S.meds!=null)S.meds=Array.isArray(S.meds)?S.meds.filter(x=>x&&str(x.id)&&str(x.n)&&num(x.qty)&&num(x.exp)).slice(0,40).map(x=>({id:x.id,n:x.n.slice(0,40),use:str(x.use)?x.use.slice(0,40):'',qty:Math.max(0,Math.min(999,Math.round(x.qty))),low:num(x.low)?x.low:1,exp:Math.round(x.exp),c:!!x.c})):null;
+  S.medLog=Array.isArray(S.medLog)?S.medLog.filter(str).slice(0,8):[];
+  S.dose=Array.isArray(S.dose)?[0,1,2,3].map(i=>num(S.dose[i])&&S.dose[i]>=0?S.dose[i]:0):[0,0,0,0];
+  S.stormLog=Array.isArray(S.stormLog)?S.stormLog.filter(x=>x&&num(x.slow)&&num(x.dur)&&Array.isArray(x.doses)&&x.doses.length===4&&x.doses.every(num)).slice(0,3):[];
+  if(S.storm&&!(num(S.storm.t0)&&S.storm.t0<=Date.now()+6e4))S.storm=null;
+  if(S.storm){const o={};if(S.storm.in&&typeof S.storm.in==='object')[0,1,2,3].forEach(i=>{if(num(S.storm.in[i]))o[i]=S.storm.in[i]});S.storm.in=o}
+  if(!S.guide||!num(S.guide.i)||typeof S.guide.done!=='object'||!S.guide.done)S.guide={i:0,done:{}};
+  if(!Array.isArray(S.outbox))S.outbox=[];
+  if(S.lab&&typeof S.lab==='object'){S.lab.joined=Array.isArray(S.lab.joined)?S.lab.joined.filter(x=>str(x)&&x.trim()).slice(0,2).map(x=>x.slice(0,24)):[];
+    const n=4+S.lab.joined.length;S.lab.added=Array.isArray(S.lab.added)?S.lab.added.filter(d=>d&&num(d.day)&&d.vals&&typeof d.vals==='object').slice(0,24).map(d=>{const v={};for(const k in d.vals)if(Array.isArray(d.vals[k]))v[k]=Array.from({length:n},(_,i)=>num(d.vals[k][i])?d.vals[k][i]:null);return{day:d.day,vals:v}}):[]}else S.lab=null;
+  if(!['today','log','labs','eva','crew','guide','meds','body','report','science','data','detail'].includes(S.view))S.view='today'})();
 if(!S.mode)S.mode='demo';if(!Array.isArray(S.live))S.live=[];
 if(S.view==='detail')S.view='today';
 if(!Array.isArray(S.sym))S.sym=[];
@@ -1445,7 +1511,7 @@ function zscore(p,i=CUR){if(NOZ.includes(p.id))return 0;const r=refStats(p);if(r
 const U=p=>(p.fmt)?'':p.unit;
 const CL=['g','c','w'],WORD=['Normal','Keep an eye on it','Act now'];
 function run(p){if(p.id==='rad'||p.id==='virus')return 0;const v=S.data.map((_,i)=>val(p,i));let n=0;for(let k=CUR;k>0;k--){if(p.dir==='down'?v[k]<v[k-1]:v[k]>v[k-1])n++;else break}return n}
-const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 
 function readiness(){const d=S.data[CUR],base=S.data.slice(0,10).reduce((a,x)=>a+x.hr,0)/10,cl=x=>Math.max(0,Math.min(100,Math.round(x)));
   const c=[['Sleep',cl((d.sleep-4)/4*100),'sleep'],['Alertness',cl(100-(d.rt-240)*.6-d.lapse*2),'alert'],['Recovery',cl(100-Math.max(0,val(BY.hr)-base)*6),'hr'],
@@ -1477,7 +1543,7 @@ function demoPanel(){if(isLive())return `<div class="demo"><div class="sec">Your
   <label class="lkrow"><span>Earth link</span><input type="checkbox" class="sw" data-demo="link" ${S.link?'checked':''} aria-label="Earth link"></label>
   <button type="button" class="btn ghost sm" data-demo="reset">Reset scenario</button><button type="button" class="btn ghost sm" data-live="exit">Start fresh with your own check-ins</button></div>`}
 function renderNav(){const sd=$('sidedemo');if(sd)sd.innerHTML=`<details class="demod" id="demod"${DEMO_OPEN?' open':''}><summary>Demo controls</summary>${demoPanel()}</details>`;const lk=document.querySelector('.side .mission .lk');if(lk){lk.classList.toggle('down',!S.link);lk.innerHTML=S.link?`<i></i>Earth link · <span id="delay">${E().delay}</span>`:'<i></i>Earth link down · working locally'}
-const tb=([id,l])=>`<button type="button" class="tab" data-go="${id}" aria-label="${l}" ${(S.view===id||(S.view==='detail'&&S.from===id))?'aria-current="page"':''}>${svg(TICON[id])}<span class="lf" aria-hidden="true">${l}</span><span class="ls" aria-hidden="true">${{log:'Log',science:'Sci'}[id]||l}</span></button>`;
+const tb=([id,l])=>`<button type="button" class="tab" data-go="${id}" aria-label="${l}" ${(S.view===id||(S.view==='detail'&&S.from===id))?'aria-current="page"':''}>${svg(TICON[id])}<span class="lf" aria-hidden="true">${l}</span><span class="ls" aria-hidden="true">${{log:'Log',science:'Sci',guide:'Guide',meds:'Meds'}[id]||l}</span></button>`;
   document.documentElement.dataset.env=S.env;$('sidetabs').innerHTML=TABS.map(tb).join('')+`<details class="morem"><summary${TABS2.some(t=>t[0]===S.view)?' style="color:var(--ink);font-weight:600"':''}>More</summary><div class="pop">${TABS2.map(tb).join('')}</div></details>`;$('mtabs').innerHTML=TABS.map(tb).join('');$('side-mission').textContent=`${E().name} · ${E().dl} ${E().day}`;const mb=$('modebadge');if(mb)mb.innerHTML=isLive()?'Live \u00b7 your check-ins':'Demo mission \u00b7 sample crew';const sn=$('side-name');if(sn)sn.textContent=isLive()?'You':'R. Okafor';const ms=$('mstrip');if(ms){const e=E();ms.innerHTML=`<span><b>${e.name}</b> \u00b7 ${e.dl} ${e.day}</span><span>Earth ${S.link?`<b>${fmtMin(e.owl)}</b> one-way`:'<b class="dn">link down</b>'}</span><span>Crew member <b>${isLive()?'You':'R. Okafor'}</b></span><span class="md">${isLive()?`Live \u00b7 ${S.live.length} check-in${S.live.length===1?'':'s'}`:'Demo mission'}</span>`}}
 function go(v){if(v==='proof'){location.href='proof.html';return}ENTER=true;if(labPlay&&v!=='labs'){clearInterval(labPlay);labPlay=null}if(pvt.on)stopPVT(false);if(playT){clearInterval(playT);playT=null}if(!['today','body','detail','eva','crew'].includes(v))CUR=13;S.view=v;save();render();window.scrollTo({top:0})}
 function openP(id){S.from=S.view==='detail'?S.from:S.view;S.sel=id;go('detail')}
@@ -1518,6 +1584,7 @@ function vToday(){const e=E(),Rd=readiness(),C=2*Math.PI*42,ev=eva();
     <div class="card list">
       <button type="button" class="arow ${CL[ev.v]}" data-go="eva"><span class="dot"></span><span><b>${e.eva} on ${e.dl} ${dn(CUR)+1}: ${EVW[ev.v]}</b><span>${ev.v?'Because of '+ev.why.join(', '):'All checks clear'}</span></span>${svg('chev','width="16" height="16"')}</button>
       ${hold?`<button type="button" class="arow w" data-go="labs"><span class="dot"></span><span><b>${hold} lab result${hold===1?'':'s'} on hold</b><span>${LSC.alarms[0]?LAB_CAUSE[LSC.alarms[0].cause].w:'Source check'} at ${LSC.draw}. Retake before anyone is treated.</span></span>${svg('chev','width="16" height="16"')}</button>`:''}
+      ${xchecks().map(x=>`<button type="button" class="arow c" data-go="crew"><span class="dot"></span><span><b>Your check-in and your measurements disagree</b><span>${esc(x[1])}</span></span>${svg('chev','width="16" height="16"')}</button>`).join('')}
       ${flagged.slice(0,5).map(p=>{const r=run(p),l=lvl(p);return `<button type="button" class="arow ${CL[l]}" data-open="${p.id}"><span class="dot"></span><span><b>${qual(p)?nameOf(p)+' needs a recheck':p.low}</b><span>${qual(p)?'Taken '+qual(p).why+' · ':''}${show(p)}${U(p)?' '+U(p):''}${r>=3?` · ${p.dir==='down'?'down':'up'} ${r} ${e.dl.toLowerCase()}s in a row`:p.id==='rad'?` · ${Math.round(rad(CUR)/p.limit*100)}% of career limit`:''}</span></span>${svg('chev','width="16" height="16"')}</button>`}).join('')}
       ${unusual.map(p=>{const z=zscore(p);return `<button type="button" class="arow" data-open="${p.id}"><span class="dot"></span><span><b>${nameOf(p)} is unusual for you</b><span>${show(p)}${U(p)?' '+U(p):''} · ${Math.abs(z).toFixed(1)}× your usual variation ${z>0?'above':'below'} baseline, still in the normal range</span></span>${svg('chev','width="16" height="16"')}</button>`}).join('')}
     </div></div>
@@ -1527,7 +1594,7 @@ function vToday(){const e=E(),Rd=readiness(),C=2*Math.PI*42,ev=eva();
     <div class="card list">${VITALS.map(rdRow).join('')}</div>
     <div class="card list" style="margin-top:12px">${MISSION.map(rdRow).join('')}</div></div>
   </div></div>
-  <div class="grp tmore"><div class="gh"><h3>More</h3></div><div class="card list">${TABS2.map(([id,l])=>`<button type="button" class="arow plain" data-go="${id}"><span><b>${l}</b><span>${{body:'Ten body systems on one figure',report:'Summary for the flight surgeon',science:'Where each rule comes from',data:'Scenarios, import and sources',proof:'The method tested on NASA data'}[id]}</span></span>${svg('chev','width="16" height="16"')}</button>`).join('')}</div></div>`}
+  <div class="grp tmore"><div class="gh"><h3>More</h3></div><div class="card list">${TABS2.map(([id,l])=>`<button type="button" class="arow plain" data-go="${id}"><span><b>${l}</b><span>${{guide:'Step by step when the medical officer is out',meds:'Stock, expiry dates and doses',body:'Ten body systems on one figure',report:'Summary for the flight surgeon',science:'Where each rule comes from',data:'Scenarios, import and sources',proof:'The method tested on NASA data'}[id]}</span></span>${svg('chev','width="16" height="16"')}</button>`).join('')}</div></div>`}
 
 /* ---------- views ---------- */
 function vTodayOld(){const e=E(),Rd=readiness(),C=2*Math.PI*86;
@@ -1650,6 +1717,7 @@ function eva(){const d=S.data[CUR],e=E(),tl=lvl(BY.temp),dose=e.rate*6.5/24;
    ['Vision',lvl(BY.vision),VISION[d.vision],'vision'],
    ['Decompression prep',0,'Oxygen prebreathe scheduled before suit-up (simulated). After the EVA, report joint pain, tingling or itchy skin, the signs of the bends','spo2'],
    ['Hypoxia watch',lvl(BY.spo2),`${d.spo2}% resting oxygen. Lower pressure that helps prevent the bends slightly raises the risk of mild hypoxia`,'spo2']];
+  if(S.storm)c[2]=['Solar storms',2,'Storm shelter in progress. No '+e.eva.toLowerCase()+' until the all-clear','sep'];
   const zt=p=>{const z=zscore(p);return Math.abs(z)>=2?`. That\u2019s ${Math.abs(z).toFixed(1)}\u00d7 your usual variation ${z>0?'above':'below'} your own normal`:''};c[0][2]+=zt(BY.sleep);c[1][2]+=zt(BY.alert);
   const v=Math.max(...c.map(x=>x[1]));return{v,c,why:c.filter(x=>x[1]===v&&v>0).map(x=>x[0].toLowerCase()),dose}}
 function evaCard(){const e=E(),ev=eva(),cls=CL[ev.v];
@@ -1679,34 +1747,36 @@ function vEva(){const e=E(),ev=eva(),d=S.data[CUR],kg=d.kg;
     return `<div class="card"><div class="secrow"><div class="sec">Checks</div><span>${cnt[0]} clear · ${cnt[1]} caution · ${cnt[2]} blocking</span></div>
     <div class="segbar">${ev.c.map(x=>`<i class="${CL[x[1]]}" title="${x[0]}"></i>`).join('')}</div>
     ${G.map(([g,names])=>`<div class="cgroup"><div class="cglab">${g}</div><ul class="checks">${ev.c.filter(x=>names.includes(x[0])).map(x=>`<li><span class="ck ${CL[x[1]]}">${svg(ckI[x[1]])}</span><span><b>${x[0]}</b><span class="r">${x[2]}</span></span><button type="button" class="lnk" data-open="${x[3]}">View</button></li>`).join('')}</ul></div>`).join('')}</div>`})()}
-  ${ladderCard(ev)}${changeCard(ev)}${crewCard()}${actCard(ev)}${donkiCard()}
+  ${ladderCard(ev)}${changeCard(ev)}${crewCard()}${actCard(ev)}${stormCard()}${donkiCard()}
   ${landing}
   <div class="card prose"><div class="sec">Why these checks</div>
     <p>An EVA is the most demanding, least forgiving thing a crew member does: hours of hard work in a suit, where a slip or a missed step is hard to recover. Tired crews make more mistakes${R(2,3)}, core temperature can pass 40 \u00b0C during hard exercise${R(16)}, and NOAA advises astronauts on spacewalks to avoid radiation from S3 storms and above.${R(28)} NASA also lists decompression sickness, hypoxia, and injury and fatigue during spacewalks as separate risks, which is why prebreathe and oxygen get their own checks.${R(35)}</p>
     <p style="margin-top:10px;color:var(--muted)">Quorum lays out the evidence. The final call belongs to the commander and the flight surgeon.</p></div>`}
 const CREWMATES=[
- {n:'J. Park',role:'Commander',ini:'JP',ready:84,sleep:7.4,hr:58,bp:'116/74',rt:251,flags:[],eva:0},
- {n:'M. Ilves',role:'Crew medical officer',ini:'MI',ready:71,sleep:6.6,hr:63,bp:'122/78',rt:268,flags:[[1,'Fluid intake 1.9 L, down 3 sols in a row'],[1,'Sleep 6.6 h, below the 7 h goal']],eva:1},
- {n:'A. Haddad',role:'Mission specialist',ini:'AH',ready:62,sleep:7.1,hr:74,bp:'124/80',rt:276,flags:[[1,'VZV detected in saliva test'],[1,'Temperature 0.7 \u00b0C above baseline']],eva:1}];
+ {n:'J. Park',role:'Commander',ini:'JP',ready:84,sleep:7.4,hr:58,bp:'116/74',rt:251,flags:[],eva:0,xc:[]},
+ {n:'M. Ilves',role:'Crew medical officer',ini:'MI',ready:71,sleep:6.6,hr:63,bp:'122/78',rt:268,flags:[[1,'Fluid intake 1.9 L, down 3 sols in a row'],[1,'Sleep 6.6 h, below the 7 h goal']],eva:1,xc:[]},
+ {n:'A. Haddad',role:'Mission specialist',ini:'AH',ready:62,sleep:7.1,hr:74,bp:'124/80',rt:276,flags:[[1,'VZV detected in saliva test'],[1,'Temperature 0.7 \u00b0C above baseline']],eva:1,xc:[[1,'Logged \u201cno symptoms\u201d, but temperature is 0.7 \u00b0C above baseline and the saliva test is positive'],[1,'No evening check-in for 2 sols']]}];
 function teamCard(){const w=[4.4,4.3,4.4,4.2,4.0,3.9,3.8];const x=i=>8+i*(220-16)/6,y=v=>48-(v-3)/2*40;
   return `<div class="card"><div class="secrow"><div class="sec">Team check-in</div><span>Anonymous · sample data</span></div>
    <div class="team"><div><b class="n" style="font-family:var(--f-d);font-size:40px;font-weight:700">3.8<small style="font-size:17px;color:var(--muted)">/5</small></b><p style="color:var(--muted);font-size:15.5px">How well the crew is working together this week, from a one-question anonymous rating. Down from 4.4.</p></div>
    <svg viewBox="0 0 220 56" class="tsp" style="height:56px" aria-label="Team rating over the last 7 ${E().dl.toLowerCase()}s"><path d="${w.map((v,i)=>(i?'L':'M')+x(i)+' '+y(v)).join(' ')}" fill="none" stroke="var(--caution)" stroke-width="2"/><circle cx="${x(6)}" cy="${y(3.8)}" r="4" fill="var(--caution)"/></svg>
    <div><p style="font-size:15.5px;font-weight:600">Suggested: a short crew debrief on ${E().dl} ${dn(CUR)+1}.</p><p style="color:var(--muted);font-size:14.5px;margin-top:4px">NASA tracks inadequate teamwork as a spaceflight risk; teams in long isolation need ways to recover quickly after setbacks.${R(35)}</p></div></div></div>`}
 function vCrew(){const e=E(),R0=readiness(),d=S.data[CUR],ev=eva();
-  const me={n:'R. Okafor',role:'Flight engineer · you',ini:'RO',ready:R0.s,sleep:d.sleep,hr:d.hr,bp:d.bps+'/'+d.bpd,rt:d.rt,flags:P.filter(p=>lvl(p)&&shared(p)).sort((a,b)=>lvl(b)-lvl(a)).slice(0,4).map(p=>[lvl(p),`${p.short||p.name} ${show(p)}${U(p)?' '+U(p):''}`]),eva:ev.v,me:true};
+  const me={xc:xchecks(),n:'R. Okafor',role:'Flight engineer · you',ini:'RO',ready:R0.s,sleep:d.sleep,hr:d.hr,bp:d.bps+'/'+d.bpd,rt:d.rt,flags:P.filter(p=>lvl(p)&&shared(p)).sort((a,b)=>lvl(b)-lvl(a)).slice(0,4).map(p=>[lvl(p),`${p.short||p.name} ${show(p)}${U(p)?' '+U(p):''}`]),eva:ev.v,me:true};
   const all=[me,...CREWMATES],lv=c=>Math.max(0,...c.flags.map(f=>f[0]));
   const nA=all.filter(c=>lv(c)===2).length,nW=all.filter(c=>lv(c)===1).length,nG=all.length-nA-nW;
   const tally=[0,1,2].map(k=>all.filter(c=>c.eva===k).length);
   return `<div class="top"><div><div class="eyebrow">${e.name} · ${e.dl} ${dn(CUR)}</div><h1>Crew</h1>
     <p class="lead">For the crew medical officer: everyone\u2019s status at a glance, showing only what each person has chosen to share.</p></div>${envSelect()}</div>
-  ${teamCard()}
+  ${teamCard()}${xcCard(all)}
   <div class="crewsum"><span style="color:var(--warn)">${nA} ${nA===1?'needs':'need'} action</span><span style="color:var(--caution)">${nW} to watch</span><span style="color:var(--good)">${nG} all clear</span><span>${e.eva}: ${tally[0]} go · ${tally[1]} with limits · ${tally[2]} no-go</span></div>
   <div class="crew">${all.map(c=>{const l=lv(c);return `<div class="card cm">
     <div class="cmh"><div class="avatar ${CL[l]}">${c.ini}</div><div><b>${c.n}</b><span>${c.role}</span></div><div class="rd"><b>${c.ready}</b><span>Readiness</span></div></div>
     <div class="mini"><div><b>${c.sleep} h</b><span>Sleep</span></div><div><b>${c.hr}</b><span>HR bpm</span></div><div><b>${c.bp}</b><span>BP</span></div><div><b>${c.rt}</b><span>RT ms</span></div></div>
     <ul class="flags">${c.flags.length?c.flags.map(f=>`<li class="${CL[f[0]]}">${esc(f[1])}</li>`).join(''):'<li class="g">Nothing flagged</li>'}<li class="${CL[c.eva]}">${e.eva}: ${EVW[c.eva]}</li></ul>
+    ${(c.xc||[]).length?`<div class="xc"><div class="xch">Said vs measured</div><ul>${c.xc.map(x=>`<li>${esc(x[1])}</li>`).join('')}</ul></div>`:''}
     ${c.me?'<div><button type="button" class="btn ghost sm" data-go="today">Open my dashboard</button></div>':''}</div>`}).join('')}</div>
+  <div class="card gcall"><div><b>Medical officer unavailable?</b><span>Any crew member can run today\u2019s health checks with the stand-in guide.</span></div><button type="button" class="btn sm" data-go="guide">Open the guide</button></div>
   <p style="color:var(--muted);font-size:14.5px">Crewmates other than R. Okafor are sample data.</p>`}
 function assessCard(p,l){const e=E(),q=qual(p),z=zscore(p),r=NOZ.includes(p.id)?null:refStats(p),d=S.data[CUR];
   const ctx=p.id==='hr'?`, ${d.hrCtx||'resting'}, ${d.hrQ||'good signal'}`.toLowerCase():'';
@@ -1961,6 +2031,10 @@ function reportText(){const e=E(),Rd=readiness();
   const priv=P.filter(p=>!shared(p)).map(p=>p.short||p.name);if(priv.length)L.push('KEPT PRIVATE BY CREW MEMBER: '+priv.join(', '),'');
   if(S.share.symptoms)L.push('SYMPTOMS: '+(S.sym.length?S.sym.join(', '):'none reported'),'');
   const ins=insights().filter(x=>x.ids.every(id=>shared(BY[id])));if(ins.length){L.push('PATTERNS');ins.forEach(x=>L.push('  '+x.t));L.push('')}
+  const xq=xchecks();if(xq.length){L.push('SELF-REPORT VS MEASUREMENT');xq.forEach(x=>L.push('  '+x[1]));L.push('')}
+  const mw=medWarn();if(mw.length){L.push('MEDICINES');mw.forEach(x=>L.push('  '+x));L.push('')}
+  if(Array.isArray(S.events)&&S.events.length){L.push('MISSION EVENTS');S.events.slice().sort((a,b)=>b.day-a.day).slice(0,5).forEach(x=>L.push(`  Day ${x.day}: ${x.label}`));L.push('')}
+  if(Array.isArray(S.stormLog)&&S.stormLog.length){const g=S.stormLog[0];L.push(`LAST STORM SHELTER: all in shelter after ${dur(g.slow)}, highest added dose ${Math.max(...g.doses).toFixed(3)} mSv (simulated rates)`,'')}
   const ev=eva();L.push(`${e.eva.toUpperCase()} READINESS: ${EVW[ev.v]}`+(ev.why.length?` (${ev.why.join(', ')})`:''),'');
   L.push(`LAST 7 ${e.dl.toUpperCase()}S`);for(let i=7;i<14;i++){const d=S.data[i];L.push(`  ${e.dl} ${dn(i)}`+(S.share.vitals?`  HR ${d.hr}  BP ${d.bps}/${d.bpd}  O2 ${d.spo2}%  Ex ${d.ex}m  Fluid ${d.fluid}L`:'')+(S.share.sleep?`  Sleep ${d.sleep}h  RT ${d.rt}ms`:'')+(S.share.mood?`  Mood ${d.mood}/5`:'')+`  CO2 ${d.co2}`)}
   return L.join('\n')}
@@ -1968,6 +2042,7 @@ function vReport(){const e=E();
   return `<div class="top"><div><div class="eyebrow">${e.name}</div><h1>Report for the flight surgeon</h1></div></div>
   <div class="card"><p style="color:var(--muted);margin-bottom:16px">${e.far?`From here, a message takes ${e.rt} to reach Earth and come back. This summary gives the flight surgeon everything at once, so one reply is enough.`:`This summary gives the flight surgeon everything at once.`}</p>
   <pre class="rep" id="reptxt">${esc(reportText())}</pre>
+  ${(()=>{const full=new Blob([reportText()]).size,pk=new Blob([packet()]).size;return `<p class="pkt"><b>Low-bandwidth packet: ${pk} bytes</b> (full report: ${full} bytes). When the link is weak or just back after a blackout, Quorum sends this compact version first: levels and values only, no wording.</p>`})()}
   <div class="rowact" style="margin-top:16px"><button class="btn" type="button" id="send">${svg('send','width="16" height="16" style="vertical-align:-3px;margin-right:6px"')}Send to flight surgeon</button><button class="btn ghost" type="button" id="copy">Copy report</button></div></div>
   <div class="two">
     <div class="card"><div class="secrow"><div class="sec">Messages to Earth</div><span>Simulated in this prototype</span></div>
@@ -2018,7 +2093,7 @@ function i4chart(m,c,o={}){const W=o.w||640,H=o.h||240,L=o.mini?8:46,R2=o.mini?8
   const DT=o.t||I4.t,X=i=>L+(i+(i>=3?.6:0))*(W-L-R2)/(Math.max(7,DT.length)-.4),Y=y=>T+(1-(y-y0)/(y1-y0))*(H-T-B);
   const pts=v.map((y,i)=>y==null?null:[X(i),Y(y),y,i]).filter(q=>q&&(o.upTo==null||q[3]<=o.upTo));
   const fx=(X(2)+X(3))/2;
-  return `<svg class="i4c${o.mini?' mini':''}" viewBox="0 0 ${W} ${H}" role="img" aria-label="${i4name(m)} for ${I4CN[c]}: lab range ${lo} to ${hi} ${i4unit(m)}${b?`, personal normal ${(b.mu-b.half).toFixed(1)} to ${(b.mu+b.half).toFixed(1)}`:''}">
+  return `<svg class="i4c${o.mini?' mini':''}" viewBox="0 0 ${W} ${H}" role="img" aria-label="${i4name(m)} for ${esc(I4CN[c])}: lab range ${lo} to ${hi} ${i4unit(m)}${b?`, personal normal ${(b.mu-b.half).toFixed(1)} to ${(b.mu+b.half).toFixed(1)}`:''}">
     <rect class="labr" x="${L}" y="${Y(hi)}" width="${W-L-R2}" height="${Y(lo)-Y(hi)}"/>
     <line class="labl" x1="${L}" x2="${W-R2}" y1="${Y(hi)}" y2="${Y(hi)}"/><line class="labl" x1="${L}" x2="${W-R2}" y1="${Y(lo)}" y2="${Y(lo)}"/>
     ${b&&!o.noBand?`<rect class="pband" x="${L}" y="${Y(b.mu+b.half)}" width="${W-L-R2}" height="${Y(b.mu-b.half)-Y(b.mu+b.half)}"/><line class="pmu" x1="${L}" x2="${W-R2}" y1="${Y(b.mu)}" y2="${Y(b.mu)}"/>`:''}
@@ -2026,7 +2101,7 @@ function i4chart(m,c,o={}){const W=o.w||640,H=o.h||240,L=o.mini?8:46,R2=o.mini?8
     <path class="ln" d="${pts.map((p,k)=>(k?'L':'M')+p[0]+' '+p[1]).join('')}"/>
     ${pts.map(p=>{const x=i4cell(m,c,p[3]);const f=p[3]>=3&&x&&x.pers;return `<circle class="pt${p[3]<3?' pre':''}${f?' fl':''}" cx="${p[0]}" cy="${p[1]}" r="${o.mini?(f?4:3):(f?6:4.5)}"><title>${DT[p[3]]}: ${p[2]} ${i4unit(m)}</title></circle>`}).join('')}
     ${o.mini?'':`${[lo,hi].map(y=>`<text class="ax" x="${L-8}" y="${Y(y)+4}" text-anchor="end">${y}</text>`).join('')}${I4.t.map((t,i)=>`<text class="ax" x="${X(i)}" y="${H-10}" text-anchor="middle">${t}</text>`).join('')}`}
-    ${o.mini?`<text class="ax" x="${L}" y="${H-5}">${I4CN[c]}</text><text class="ax rg" x="${W-R2-3}" y="${Y(hi)+13}" text-anchor="end">${hi}</text><text class="ax rg" x="${W-R2-3}" y="${Y(lo)-5}" text-anchor="end">${lo}</text>`:''}</svg>`}
+    ${o.mini?`<text class="ax" x="${L}" y="${H-5}">${esc(I4CN[c])}</text><text class="ax rg" x="${W-R2-3}" y="${Y(hi)+13}" text-anchor="end">${hi}</text><text class="ax rg" x="${W-R2-3}" y="${Y(lo)-5}" text-anchor="end">${lo}</text>`:''}</svg>`}
 function vProof(){const s=I4S.by[3],m=I4.m[I4SEL.m],c=I4SEL.c,mcv=I4.m.find(x=>x[1]==='Mcv');
   const post=I4POST.map(t=>[t,i4cell(m,c,t)]).filter(x=>x[1]);
   const opts=I4.m.map((x,i)=>i4sd(x)?`<option value="${i}" ${i===I4SEL.m?'selected':''}>${x[0]} · ${i4name(x)}</option>`:'').join('');
@@ -2050,7 +2125,7 @@ function vProof(){const s=I4S.by[3],m=I4.m[I4SEL.m],c=I4SEL.c,mcv=I4.m.find(x=>x
     <div class="chart i4big">${i4chart(m,c)}</div>
     <div class="tbl"><table class="i4t"><thead><tr><th>After flight</th><th>Value</th><th>Lab report says</th><th>Quorum says</th></tr></thead><tbody>
       ${post.map(([t,x])=>`<tr><td>${I4.t[t]}</td><td><b>${x.v}</b> ${i4unit(m)}</td><td>${x.lab?`<span class="tg w">Out of range</span>`:`<span class="tg g">Normal</span>`}</td><td>${x.pers?`<span class="tg c">${Math.abs(x.z).toFixed(1)}× ${x.z<0?'below':'above'} your normal</span>`:`<span class="tg g">Your normal</span>`}</td></tr>`).join('')}</tbody></table></div>
-    <p style="margin-top:12px;color:var(--muted);font-size:14.5px">${I4CN[c]}’s normal is the average of their preflight draws (L-92, L-44, L-3) ± 1.96 × the typical day-to-day variation, pooled across the crew. Crew IDs are de-identified as in the NASA dataset.</p></div>
+    <p style="margin-top:12px;color:var(--muted);font-size:14.5px">${esc(I4CN[c])}’s normal is the average of their preflight draws (L-92, L-44, L-3) ± 1.96 × the typical day-to-day variation, pooled across the crew. Crew IDs are de-identified as in the NASA dataset.</p></div>
   <div class="two">
     <div class="card"><div class="sec">The price, measured honestly</div>
       <p>We tested the method on the preflight draws too, when everyone was healthy and on the ground. Leaving each draw out in turn, Quorum flagged <b>${fa}%</b> of healthy results (${I4S.fa} of ${I4S.fn}, using crew members with all three preflight draws). The standard lab ranges flagged ${lp}% of the same results.</p>
@@ -2068,8 +2143,8 @@ const labBase=()=>({draws:I4.t.slice(),crew:I4.c,markers:I4.m.map(m=>({panel:m[0
 let LABDS=labBase(),LABM={},LABSC={},LABSIG='';I4.m.forEach(m=>{LABM[labKey(m)]=m});
 const labSC=t=>LABSC[t]||(LABSC[t]=QA.sourceCheck(LABDS,t));
 /* Draws the crew medical officer adds on board are stored on the device and appended to the NASA draws. */
-function labSync(){const ad=(S.lab&&Array.isArray(S.lab.added))?S.lab.added:[],sig=JSON.stringify(ad);if(sig===LABSIG)return;LABSIG=sig;
-  LABDS=labBase();ad.forEach(a=>QA.addDraw(LABDS,{label:'R+'+a.day,day:a.day,vals:a.vals}));LABSC={};LABM={};
+function labSync(){const ad=(S.lab&&Array.isArray(S.lab.added))?S.lab.added:[],jn=(S.lab&&Array.isArray(S.lab.joined))?S.lab.joined:[],evs=Array.isArray(S.events)?S.events:[],sig=JSON.stringify([ad,jn,evs]);if(sig===LABSIG)return;LABSIG=sig;
+  LABDS=labBase();I4CN.length=4;jn.forEach(n=>{QA.addCrew(LABDS,n);I4CN.push(n)});LABDS.events=evs.map(x=>({day:x.day,kind:EVK[x.type]?EVK[x.type][1]:'note',label:x.label}));ad.forEach(a=>QA.addDraw(LABDS,{label:'R+'+a.day,day:a.day,vals:a.vals}));LABSC={};LABM={};
   I4.m.forEach((m,i)=>{const d=LABDS.markers[i],x=m.slice();x[4]=d.vals;x[3]=d.lo.map((r,c)=>r.map((lo,t)=>lo==null?null:[lo,d.hi[c][t]]));LABM[d.key]=x})}
 const labLast=()=>LABDS.draws.length-1;
 const labDay=t=>t<7?[-92,-44,-3,1,45,82,194][t]:LABDS.days[LABDS.draws[t]];
@@ -2086,12 +2161,12 @@ const LAB_BADGE={trusted:['Trusted','g','check'],retake:['Retake','c','arrows'],
 const labBadge=(st,txt)=>{const b=LAB_BADGE[st];return `<span class="tb tb-${b[1]}">${svg(b[2])}${txt||b[0]}</span>`};
 const labPct=x=>(x>0?'+':'')+x.toFixed(1)+'%';
 let labPlay=null;
-function labState(){if(!S.lab||typeof S.lab.t!=='number')S.lab={t:3,kits:LAB_KITS,log:[],m:null,added:[]};if(!Array.isArray(S.lab.log))S.lab.log=[];if(!Array.isArray(S.lab.added))S.lab.added=[];labSync();if(S.lab.t>labLast())S.lab.t=labLast();return S.lab}
+function labState(){if(!S.lab||typeof S.lab.t!=='number')S.lab={t:3,kits:LAB_KITS,log:[],m:null,added:[]};if(!Array.isArray(S.lab.log))S.lab.log=[];if(!Array.isArray(S.lab.added))S.lab.added=[];if(!Array.isArray(S.lab.joined))S.lab.joined=[];if(!Array.isArray(S.events))S.events=[];labSync();if(S.lab.t>labLast())S.lab.t=labLast();return S.lab}
 function labFocus(sc){const L=labState();if(L.m&&LABM[L.m])return L.m;return sc&&sc.alarms.length?sc.alarms[0].key:'mcv'}
 function labAddRow(k){const m=LABM[k],opts=I4.m.map(x=>i4sd(x)?`<option value="${labKey(x)}" ${labKey(x)===k?'selected':''}>${i4name(x).split(' · ')[0]}</option>`:'').join('');
-  return `<div class="ladrow"><select class="envpick laddm" aria-label="Marker">${opts}</select>${I4.c.map((_,c)=>{const b=i4band(m,c);return `<label><span>${I4CN[c]}</span><input type="number" inputmode="decimal" step="any" data-c="${c}" placeholder="${b?b.mu.toFixed(1):''}" aria-label="${I4CN[c]} value"></label>`}).join('')}<span class="ladu">${i4unit(m)}</span></div>`}
+  return `<div class="ladrow" style="--n:${LABDS.crew.length}"><select class="envpick laddm" aria-label="Marker">${opts}</select>${LABDS.crew.map((_,c)=>{const b=i4band(m,c);return `<label><span>${esc(I4CN[c])}</span><input type="number" inputmode="decimal" step="any" data-c="${c}" placeholder="${b?b.mu.toFixed(1):''}" aria-label="${esc(I4CN[c])} value"></label>`}).join('')}<span class="ladu">${i4unit(m)}</span></div>`}
 function labStepper(t){const L=labState(),n=L.added.length,last=labLast();
-  return `<div class="card labstep"><div class="secrow"><div class="sec">Blood draws</div><span>NASA OSDR · Inspiration4 · 4 crew · 36 markers${n?` · ${n} added on board`:''}</span></div>
+  return `<div class="card labstep"><div class="secrow"><div class="sec">Blood draws</div><span>NASA OSDR · Inspiration4 · 4 crew${L.joined.length?' + '+L.joined.length+' joined':''} · 36 markers${n?` · ${n} added on board`:''}</span></div>
   <div class="seg lseg" role="group" aria-label="Blood draw">${LABDS.draws.map((d,i)=>`<button type="button" data-labt="${i}" aria-pressed="${i===t}"><em>${d}</em>${i<3?'baseline':i===3?'landing':i<7?'follow-up':'added'}</button>`).join('')}</div>
   <div class="labplay"><button type="button" class="btn sm" data-lab="play">${svg(labPlay?'pause':'play','width="14" height="14"')} ${labPlay?'Pause':'Play through'}</button><span>${LABDS.draws[t]} · ${labWhen(t)}</span>${t>6&&t===last?`<button type="button" class="btn ghost sm" data-lab="rmdraw">Remove this draw</button>`:''}</div>
   <details class="ladd" id="ladd"><summary>Add a blood draw</summary>
@@ -2100,7 +2175,27 @@ function labStepper(t){const L=labState(),n=L.added.length,last=labLast();
       <div id="ladrows">${labAddRow('mcv')}</div>
       <p class="err" id="laderr" role="alert"></p>
       <div class="lkact"><button type="button" class="btn ghost sm" data-lab="addrow">Add another marker</button><label class="btn ghost sm ladfile">Fill from a file<input type="file" id="labcsv" accept=".csv,text/csv" hidden></label><button type="submit" class="btn sm pri">Save draw and check it</button></div>
-      <p class="lnote">File format: one line per marker, <code>marker,crew1,crew2,crew3,crew4</code>, for example <code>MCV,93.4,95.1,91.8,90.2</code>. Saved on this device only.</p></form></details></div>`}
+      <p class="lnote">File format: one line per marker, <code>marker,crew1,crew2,crew3,crew4</code>, for example <code>MCV,93.4,95.1,91.8,90.2</code>. Saved on this device only.</p></form></details>
+  <details class="ladd" id="ljoin"${L.joined.length?' open':''}><summary>Add a crew member who joined on board</summary>
+    <div class="ljbody"><p class="lnote">Someone who joined mid-mission has no preflight draws. Quorum judges their results against the typical range, says so on every result, and switches to their own normal after three draws.</p>
+      ${L.joined.length?`<ul class="ljlist">${L.joined.map((n,i)=>`<li><b>${esc(n)}</b><span>${labOwn(4+i)} of 3 draws toward a personal baseline</span></li>`).join('')}</ul>`:''}
+      <div class="ladday"><label for="ljname">Name</label><input id="ljname" type="text" maxlength="24" autocomplete="off" placeholder="e.g. T. Mwangi" style="width:200px"><button type="button" class="btn sm" data-lab="addcrew"${L.joined.length>=2?' disabled':''}>Add crew member</button>${L.joined.length?`<button type="button" class="btn ghost sm" data-lab="rmcrew">Remove ${esc(L.joined[L.joined.length-1])}</button>`:''}</div>
+      <p class="err" id="ljerr" role="alert"></p></div></details></div>`}
+const labOwn=c=>{let best=0;LABDS.markers.forEach(m=>{const n=m.vals[c].filter(x=>x!=null).length;if(n>best)best=n});return Math.min(3,best)};
+const EVK={water:['Water system','environment'],food:['Food batch','environment'],air:['Cabin air or CO\u2082 scrubber','environment'],sched:['Schedule or workload','environment'],lot:['New cartridge or reagent lot','measurement'],svc:['Analyzer serviced or recalibrated','measurement'],other:['Other','note']};
+function labEvents(){const L=labState(),ev=S.events.slice().sort((a,b)=>b.day-a.day);
+  return `<div class="card levents"><div class="secrow"><div class="sec">Mission events</div><span>${ev.length} logged</span></div>
+    <p class="lnote" style="margin-top:0">Log anything the whole crew shares, or anything done to the analyzer. When a new crew-wide shift appears, the source check lines it up against this list.</p>
+    ${ev.length?`<ul class="evlist">${ev.map(x=>`<li><span class="evd">Day ${x.day}</span><span><b>${esc(x.label)}</b><span>${EVK[x.type]?EVK[x.type][0]:'Other'} · points at ${{environment:'the shared environment',measurement:'the measurement',note:'nothing in particular'}[EVK[x.type]?EVK[x.type][1]:'note']}</span></span><button type="button" class="lnk" data-evrm="${x.id}" aria-label="Remove event ${esc(x.label)}">Remove</button></li>`).join('')}</ul>`:'<p class="lnote">Nothing logged yet.</p>'}
+    <form id="evform" novalidate><div class="evgrid"><label><span>Days after landing</span><input id="evday" type="number" inputmode="numeric" step="1" placeholder="${labDay(labLast())-3}"></label>
+      <label><span>What changed</span><select id="evtype" class="envpick">${Object.entries(EVK).map(([k,v])=>`<option value="${k}">${v[0]}</option>`).join('')}</select></label>
+      <label class="evn"><span>Note</span><input id="evnote" type="text" maxlength="60" autocomplete="off" placeholder="e.g. Water filter swapped"></label></div>
+      <p class="err" id="everr" role="alert"></p><button type="submit" class="btn sm">Log event</button></form></div>`}
+function evSave(){const er=$('everr'),dv=$('evday').value.trim(),day=Number(dv),type=$('evtype').value,note=$('evnote').value.trim().replace(/\s+/g,' ').slice(0,60);
+  if(dv===''||!Number.isInteger(day)||day<-120||day>3000){er.textContent='Days after landing should be a whole number between -120 and 3000.';$('evday').focus();return}
+  if(!EVK[type]){er.textContent='Pick what changed.';return}
+  if(S.events.length>=30){er.textContent='The log holds 30 events. Remove one first.';return}
+  S.events.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),day,type,label:note||EVK[type][0]});labSync();save();render();toast('Event logged')}
 function labBaseline(t){const qc=I4.qc,isQ=t===qc.t;
   let n=0;I4.m.forEach(m=>I4.c.forEach((_,c)=>{if(m[4][c][t]!=null)n++}));
   return `<div class="card lv lv-g"><div class="lvh"><span class="lvi">${svg('check')}</span><div><div class="sec">Baseline draw ${t+1} of 3</div><h2>Learning each person’s own normal</h2>
@@ -2118,7 +2213,7 @@ function labVerdict(sc){const L=labState(),al=sc.alarms,c=sc.counts;
   const pick=['One person','Shared environment','The measurement'];
   return `<div class="card lv lv-${C.tag}"><div class="lvh"><span class="lvi">${svg(s.cause==='environment'?'crew':'alert')}</span><div><div class="sec">Source check · ${sc.draw} · ${labWhen(sc.t)}</div>
       <h2>${C.w}</h2>
-      <p><b>${s.marker.name}</b>: ${sh.flagged} of ${sh.n} crew ${dir} their own normal, crew average ${labPct(sh.pct)}.${s.carried?' The alarm from an earlier draw is still open.':''} ${(()=>{const lab=sc.results.filter(r=>r.key===s.key&&r.cell.lab).length;return lab?`${lab} of ${sh.n} also outside the lab range.`:`Every value is still inside the standard lab range, so an ordinary lab report shows nothing.`})()}</p></div></div>
+      <p><b>${s.marker.name}</b>: ${sh.flagged} of ${sh.n} crew ${dir} their own normal, crew average ${labPct(sh.pct)}.${s.carried?' The alarm from an earlier draw is still open.':''}${s.event?` <b>Logged event:</b> ${esc(s.event.label)}, day ${s.event.day}.`:''} ${(()=>{const lab=sc.results.filter(r=>r.key===s.key&&r.cell.lab).length;return lab?`${lab} of ${sh.n} also outside the lab range.`:`Every value is still inside the standard lab range, so an ordinary lab report shows nothing.`})()}</p></div></div>
     <div class="lpick" role="group" aria-label="Where the change is">${pick.map((p,i)=>`<span class="${i===C.pick?'on':''}">${i===C.pick?svg('check','width="14" height="14"'):''}${p}</span>`).join('')}</div>
     <div class="two lvtwo"><div><div class="sec">Evidence</div><ul class="lev">${s.evidence.map(e=>`<li class="${e.hit?'hit':''} p-${e.points}"><i>${e.hit?svg('check'):''}</i><span><b>${esc(e.title)}</b><span class="r">${esc(e.text)}</span></span></li>`).join('')}</ul></div>
       <div><div class="sec">What to do</div><p class="lact">${C.act}</p><ol class="lsteps">${C.steps.map(x=>`<li>${x}</li>`).join('')}</ol>
@@ -2133,10 +2228,10 @@ function labTrust(sc){const c=sc.counts,L=labState(),fk=labFocus(sc),fm=LABM[fk]
   return `<div class="card"><div class="secrow"><div class="sec">Results at this draw</div><span>${sc.draw} · ${c.total} results</span></div>
     <div class="ltrust"><div class="g"><b class="n">${c.trusted}</b><span>Trusted</span></div><div class="c"><b class="n">${c.retake}</b><span>Retake first</span></div><div class="w"><b class="n">${c.hold}</b><span>On hold</span></div><div class="c"><b class="n">${c.shared}</b><span>Shared cause</span></div><div class="w"><b class="n">${c.person}</b><span>Review the person</span></div></div>
     <div class="i4ctl" style="margin-top:18px"><div class="sec" style="margin:0">Crew view</div><select id="labm" class="envpick" aria-label="Blood marker">${I4.m.map(m=>i4sd(m)?`<option value="${labKey(m)}" ${labKey(m)===fk?'selected':''}>${m[0]} · ${i4name(m)}</option>`:'').join('')}</select></div>
-    <div class="i4minis lminis">${I4.c.map((_,k)=>`<div>${i4chart(fm,k,{mini:true,w:240,h:130,upTo:sc.t,t:LABDS.draws})}${st(k)}</div>`).join('')}</div>
+    <div class="i4minis lminis">${LABDS.crew.map((_,k)=>`<div>${i4chart(fm,k,{mini:true,w:240,h:130,upTo:sc.t,t:LABDS.draws})}${st(k)}</div>`).join('')}</div>
     <p class="lnote">Grey band: that person’s own normal from the three preflight draws. Top and bottom lines: the standard lab range. Red dot: outside their own normal.</p>
     ${rows.length?`<div class="tbl"><table class="i4t"><thead><tr><th>Crew</th><th>Marker</th><th>Value</th><th>Lab report</th><th>Own normal</th><th>Quorum</th></tr></thead><tbody>
-      ${rows.map(r=>{const m=LABM[r.key],x=r.cell;return `<tr><td>${I4CN[r.crew]}</td><td>${i4name(m).split(' · ')[0]}</td><td><b>${x.value}</b> ${i4unit(m)}</td><td>${x.lab?'<span class="tg w">Out of range</span>':'<span class="tg g">Normal</span>'}</td><td>${x.personal?`${Math.abs(x.d).toFixed(1)}× ${x.d<0?'below':'above'}`:'Inside'}</td><td>${labBadge(r.status)} <span class="lwhy">${esc(r.note)}</span></td></tr>`}).join('')}</tbody></table></div>`:''}
+      ${rows.map(r=>{const m=LABM[r.key],x=r.cell;return `<tr><td>${esc(I4CN[r.crew])}</td><td>${i4name(m).split(' · ')[0]}</td><td><b>${x.value}</b> ${i4unit(m)}</td><td>${x.lab?'<span class="tg w">Out of range</span>':'<span class="tg g">Normal</span>'}</td><td>${x.population?'No baseline yet':x.personal?`${Math.abs(x.d).toFixed(1)}× ${x.d<0?'below':'above'}`:'Inside'}</td><td>${labBadge(r.status)} <span class="lwhy">${esc(r.note)}</span></td></tr>`}).join('')}</tbody></table></div>`:''}
     <p class="lnote">The other ${c.trusted} results are inside each person’s own normal and are not listed.</p></div>`}
 function labKits(sc){const L=labState(),top=sc&&sc.alarms[0],d=top?LABDLK[top.key]:null,nm=top?top.marker.name.split(' · ')[0]:'';
   let rule='';if(top){
@@ -2174,34 +2269,171 @@ function vLabs(){const L=labState(),t=L.t,post=t>=3,sc=post?labSC(t):null;
     <p class="lead">The real Inspiration4 blood draws, plus any draw added on board. Before a result is used, Quorum checks whether the change is in one person, in what the crew shares, or in the measurement.</p></div></div>
   ${labStepper(t)}
   <div class="lcols"><div class="lmain">${post?labVerdict(sc)+labTrust(sc):labBaseline(t)}</div>
-  <aside class="lside">${post?labKits(sc)+labOthers(sc):''}<details class="card lref"${post?'':' open'}><summary>Reference</summary><div class="lrefb">${labLegend()}</div></details></aside></div>`}
+  <aside class="lside">${post?labKits(sc)+labOthers(sc):''}${labEvents()}<details class="card lref"${post?'':' open'}><summary>Reference</summary><div class="lrefb">${labLegend()}</div></details></aside></div>`}
 function labGo(t){const L=labState();L.t=Math.max(0,Math.min(labLast(),t));L.m=null;save();render()}
 function labTogglePlay(){if(labPlay){clearInterval(labPlay);labPlay=null;render();return}
   const L=labState();if(L.t>=labLast())L.t=0;labPlay=setInterval(()=>{const L2=labState();if(S.view!=='labs'||L2.t>=labLast()){clearInterval(labPlay);labPlay=null;render();return}L2.t++;L2.m=null;save();render()},2600);render()}
 const labNorm=x=>String(x).toLowerCase().replace(/[^a-z0-9]+/g,'_').replace(/^_|_$/g,'');
 function labFindKey(name){const n=labNorm(name);if(!n)return null;for(const m of I4.m){if(!i4sd(m))continue;const k=labKey(m);if(n===labNorm(k)||n===labNorm(i4name(m))||n===labNorm(i4name(m).split(' · ')[0])||n===labNorm(m[1]))return k}return null}
-function labFillFromCSV(text){const rows=[],bad=[];String(text).split(/\r?\n/).forEach(line=>{const p=line.split(/[,;\t]/).map(x=>x.trim());if(p.length<2||!p[0])return;if(/^marker$/i.test(p[0]))return;const k=labFindKey(p[0]);if(!k){bad.push(p[0]);return}rows.push([k,p.slice(1,5)])});
+function labFillFromCSV(text){const rows=[],bad=[];String(text).split(/\r?\n/).forEach(line=>{const p=line.split(/[,;\t]/).map(x=>x.trim());if(p.length<2||!p[0])return;if(/^marker$/i.test(p[0]))return;const k=labFindKey(p[0]);if(!k){bad.push(p[0]);return}rows.push([k,p.slice(1,1+LABDS.crew.length)])});
   const box=$('ladrows'),er=$('laderr');if(!box)return;if(!rows.length){er.textContent='No known markers found in that file. Use the short names, for example MCV, Sodium, Glucose.';return}
   box.innerHTML=rows.map(r=>labAddRow(r[0])).join('');[...box.children].forEach((el,i)=>{el.querySelectorAll('input').forEach(inp=>{const v=rows[i][1][+inp.dataset.c];if(v!=null&&v!==''&&!isNaN(+v))inp.value=v})});
   er.textContent=bad.length?`Skipped ${bad.length} line${bad.length===1?'':'s'} with names Quorum doesn’t know: ${bad.slice(0,4).join(', ')}.`:'';toast(`${rows.length} marker${rows.length===1?'':'s'} filled in. Check them, then save.`)}
 function labSaveDraw(){const L=labState(),er=$('laderr'),last=labLast(),dv=$('ladday').value.trim(),day=Number(dv);
   if(dv===''||!Number.isInteger(day)||day<=labDay(last)){er.textContent=`Days after landing should be a whole number above ${labDay(last)}.`;$('ladday').focus();return}
   const vals={};let n=0,thin=null;
-  for(const row of document.querySelectorAll('#ladrows .ladrow')){const k=row.querySelector('select').value,m=LABM[k],v=[null,null,null,null];let c=0;
-    for(const inp of row.querySelectorAll('input')){const t=inp.value.trim();if(t==='')continue;const x=Number(t);if(isNaN(x)||x<0){er.textContent=`${i4name(m).split(' · ')[0]}: “${t}” is not a number.`;inp.focus();return}v[+inp.dataset.c]=x;c++}
+  for(const row of document.querySelectorAll('#ladrows .ladrow')){const k=row.querySelector('select').value,m=LABM[k],v=LABDS.crew.map(()=>null);let c=0;if(!m)continue;if(vals[k]){er.textContent=`${i4name(m).split(' · ')[0]} is entered twice. Remove one of the lines.`;return}
+    for(const inp of row.querySelectorAll('input')){const t=inp.value.trim();if(t==='')continue;const x=Number(t);if(!isFinite(x)||x<0||x>1e6){er.textContent=`${i4name(m).split(' · ')[0]}: “${t}” is not a number.`;inp.focus();return}v[+inp.dataset.c]=x;c++}
     if(!c)continue;if(c<3&&!thin)thin=i4name(m).split(' · ')[0];vals[k]=v;n+=c}
   if(!n){er.textContent='Enter at least one result.';return}
+  if(L.added.length>=24){er.textContent='This device holds 24 added draws. Remove the newest one first.';return}
   L.added.push({day,vals});labSync();L.t=labLast();L.m=Object.keys(vals)[0];
   L.log.unshift(`R+${day}: draw added on board, ${n} result${n===1?'':'s'} checked.${thin?` ${thin} has fewer than three crew values, so the crew-wide check is skipped for it.`:''}`);L.log=L.log.slice(0,4);save();render();toast('Draw saved and checked')}
 function labAct(a){const L=labState(),sc=L.t>=3?labSC(L.t):null,top=sc&&sc.alarms[0],nm=top?top.marker.name.split(' · ')[0]:'';
   if(a==='play'){labTogglePlay();return}
   if(a==='addrow'){const box=$('ladrows');if(box){const used=[...box.querySelectorAll('select')].map(x=>x.value),nx=I4.m.map(labKey).find(k=>i4sd(LABM[k])&&!used.includes(k))||'mcv';box.insertAdjacentHTML('beforeend',labAddRow(nx))}return}
   if(a==='rmdraw'){if(L.added.length){const d=L.added.pop();labSync();L.t=labLast();L.m=null;L.log.unshift(`R+${d.day}: draw removed.`);L.log=L.log.slice(0,4);save();render();toast('Draw removed')}return}
-  if(a==='reset'){S.lab={t:3,kits:LAB_KITS,log:[],m:null,added:L.added};save();render();toast('Replay reset');return}
+  if(a==='addcrew'){const el=$('ljname'),er=$('ljerr'),n=el.value.trim().replace(/\s+/g,' ').slice(0,24);if(!n){er.textContent='Enter a name.';el.focus();return}if(L.joined.length>=2){er.textContent='Two added crew members is the limit here.';return}if(I4CN.some(x=>x.toLowerCase()===n.toLowerCase())){er.textContent='That name is already on the crew list.';return}L.joined.push(n);labSync();L.log.unshift(`${n} added to the crew list. No preflight baseline: typical range used until three draws.`);L.log=L.log.slice(0,4);save();render();toast('Crew member added');return}
+  if(a==='rmcrew'){if(L.joined.length){const n=L.joined.pop(),len=4+L.joined.length;L.added.forEach(d=>{for(const k in d.vals)d.vals[k]=d.vals[k].slice(0,len)});labSync();L.m=null;save();render();toast(n+' removed')}return}
+  if(a==='reset'){S.lab={t:3,kits:LAB_KITS,log:[],m:null,added:L.added,joined:L.joined};save();render();toast('Replay reset');return}
   if(!top)return;
   if(a==='retake'){L.log.unshift(`${sc.draw}: crew retake of ${nm} logged. Results stay on hold until the retake is added as a new draw.`);toast('Retake logged')}
   if(a==='kit'&&L.kits>0){L.kits--;L.log.unshift(`${sc.draw}: control kit spent on ${nm}. ${L.kits} left for the remaining ${LAB_DAYS_LEFT} days.`);toast(`Control kit spent · ${L.kits} left`)}
   L.log=L.log.slice(0,4);save();render()}
+
+/* ---------- Said vs measured: self-report cross-checks and missed check-ins ---------- */
+function xchecks(){const out=[];if(learning())return out;const d=S.data[CUR];if(!d)return out;
+  const al=lvl(BY.alert),tl=lvl(BY.temp),tired=d.sleep<6||al>=1;
+  if(d.mood>=4&&tired)out.push([1,`Mood rated ${d.mood}/5, but ${d.sleep<6?`sleep was ${d.sleep} h`:''}${d.sleep<6&&al>=1?' and ':''}${al>=1?`the reaction test is slow (${d.rt} ms)`:''}`]);
+  if(!S.sym.length&&(tl>=1||d.virus>=2))out.push([1,`No symptoms logged, but ${tl>=1?`temperature is ${d.temp} °C`:''}${tl>=1&&d.virus>=2?' and ':''}${d.virus>=2?'the saliva test is positive':''}`]);
+  const ms=missedDays();if(ms>=2)out.push([1,`No check-in for ${ms} days`]);
+  return out}
+function missedDays(){if(!isLive()||!S.live.length)return 0;const last=Math.max(...S.live.map(x=>+x.t||0));if(!last)return 0;const dd=Math.floor((Date.now()-last)/864e5);return dd>0&&dd<3650?dd:0}
+function xcCard(all){const rows=[];all.forEach(c=>(c.xc||[]).forEach(x=>rows.push([c.n,x[1]])));
+  return `<div class="card"><div class="secrow"><div class="sec">Said vs measured</div><span>${rows.length?rows.length+' to follow up':'All consistent'}</span></div>
+    <p style="color:var(--muted);font-size:15.5px;margin-bottom:8px">Crews under-report symptoms when a flag could cost them a task. Quorum compares what each person says with what their sensors show, and treats a skipped check-in as a signal too.</p>
+    ${rows.length?`<ul class="checks">${rows.map(r=>`<li><span class="ck c">${svg('alert')}</span><span><b>${esc(r[0])}</b><span class="r">${esc(r[1])}</span></span><span></span></li>`).join('')}</ul><p style="color:var(--muted);font-size:14.5px;margin-top:8px">A mismatch is a reason to talk, not proof of anything. Sensors fail too.</p>`:'<p style="font-weight:600">Everyone’s check-ins match their measurements today.</p>'}</div>`}
+
+/* ---------- Medicines: stock, expiry, doses ---------- */
+const MEDS0=[{id:'m1',n:'Ibuprofen 200 mg',use:'Pain, fever',qty:48,low:10,exp:520},{id:'m2',n:'Acetaminophen 500 mg',use:'Pain, fever',qty:60,low:10,exp:300},{id:'m3',n:'Promethazine 25 mg',use:'Motion sickness',qty:12,low:6,exp:45},
+  {id:'m4',n:'Amoxicillin 500 mg',use:'Antibiotic',qty:20,low:10,exp:180},{id:'m5',n:'Melatonin 3 mg',use:'Sleep',qty:30,low:8,exp:-5},{id:'m6',n:'Epinephrine auto-injector',use:'Severe allergic reaction',qty:2,low:1,exp:90},{id:'m7',n:'Loratadine 10 mg',use:'Allergy',qty:6,low:8,exp:610}];
+function medState(){if(!Array.isArray(S.meds))S.meds=MEDS0.map(x=>({...x}));if(!Array.isArray(S.medLog))S.medLog=[];return S.meds}
+function medStatus(m){if(m.exp<0)return [2,'Expired','Expired '+(-m.exp)+' day'+(m.exp===-1?'':'s')+' ago'];if(m.qty<=0)return [2,'Out of stock','None left'];
+  if(m.exp<=60)return [1,'Expires soon','Expires in '+m.exp+' day'+(m.exp===1?'':'s')];if(m.exp<LAB_DAYS_LEFT)return [1,'Won’t last the mission','Expires in '+m.exp+' days, '+(LAB_DAYS_LEFT-m.exp)+' before the mission ends'];
+  if(m.qty<=m.low)return [1,'Low stock','Running low'];return [0,'OK','Good for the rest of the mission']}
+function medWarn(){return medState().map(m=>[m,medStatus(m)]).filter(x=>x[1][0]).sort((a,b)=>b[1][0]-a[1][0]).map(x=>`${x[0].n}: ${x[1][1]==='Low stock'?x[0].qty+' left':x[1][2].toLowerCase()}${x[1][1]!=='Low stock'&&x[0].qty>0&&x[0].qty<=x[0].low?', low stock':''}`)}
+function vMeds(){const M=medState(),st=M.map(medStatus),n2=st.filter(x=>x[0]===2).length,n1=st.filter(x=>x[0]===1).length;
+  const ord=M.map((m,i)=>[m,st[i]]).sort((a,b)=>b[1][0]-a[1][0]||a[0].exp-b[0].exp);
+  return `<div class="top"><div><div class="eyebrow">Supplies · sample inventory</div><h1>Medicines</h1>
+    <p class="lead">There is no resupply on the way to Mars. Quorum tracks what is left, what expires before the mission ends, and what was taken.</p></div></div>
+  <div class="medcols"><div>
+  <div class="card"><div class="secrow"><div class="sec">Stock</div><span>${LAB_DAYS_LEFT} days of mission left</span></div>
+    <div class="ltrust medsum"><div class="w"><b class="n">${n2}</b><span>Expired or out</span></div><div class="c"><b class="n">${n1}</b><span>Need a plan</span></div><div class="g"><b class="n">${M.length-n1-n2}</b><span>Good for the mission</span></div></div>
+    <ul class="medlist">${ord.map(([m,x])=>{const pct=Math.max(0,Math.min(100,m.exp/LAB_DAYS_LEFT*100));return `<li><div class="medh"><div><b>${esc(m.n)}</b><span>${esc(m.use||'')}</span></div><span class="tg ${CL[x[0]]}">${x[1]}</span></div>
+      <div class="medbar" aria-hidden="true"><i class="${CL[x[0]]}" style="width:${pct}%"></i></div>
+      <div class="medf"><span><b>${m.qty}</b> left · ${x[2]}${x[1]!=='Low stock'&&x[1]!=='Out of stock'&&m.qty<=m.low?' · low stock':''}</span><span class="medact"><button type="button" class="btn ghost sm" data-med="dose:${m.id}" ${m.qty>0?'':'disabled'} aria-label="Log one dose of ${esc(m.n)}">Log a dose</button>${m.c?`<button type="button" class="lnk" data-med="rm:${m.id}" aria-label="Remove ${esc(m.n)}">Remove</button>`:''}</span></div>
+      ${m.exp<0?'<p class="medn">Past its date, so strength is not guaranteed. Ask the flight surgeon before anyone takes it.</p>':''}</li>`}).join('')}</ul>
+    <p class="lnote">The bar shows how much of the remaining mission each medicine covers before it expires.</p></div></div>
+  <div>
+  <div class="card"><div class="sec">Add a medicine</div>
+    <form id="medform" novalidate><div class="evgrid"><label class="evn"><span>Name and strength</span><input id="medn" type="text" maxlength="40" autocomplete="off" placeholder="e.g. Cetirizine 10 mg"></label>
+      <label><span>How many</span><input id="medq" type="number" inputmode="numeric" step="1" min="0" placeholder="20"></label><label><span>Days until it expires</span><input id="mede" type="number" inputmode="numeric" step="1" placeholder="400"></label></div>
+      <p class="err" id="mederr" role="alert"></p><div class="lkact"><button type="submit" class="btn sm">Add to stock</button><button type="button" class="btn ghost sm" data-med="reset">Restore the sample list</button></div></form></div>
+  <div class="card"><div class="secrow"><div class="sec">Dose log</div><span>${S.medLog.length?'Newest first':'Empty'}</span></div>
+    ${S.medLog.length?`<ul class="llog">${S.medLog.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`:'<p class="lnote" style="margin-top:0">No doses logged yet.</p>'}</div>
+  <div class="card prose"><div class="sec">Why this matters</div><p>Medicines flown on the International Space Station have been tested after months in orbit, and some lost strength faster than matched samples kept on the ground (Du et al., 2011, <i>The AAPS Journal</i>). On a three-year mission, most of a standard medical kit passes its labeled expiry before the crew comes home.</p>
+    <p style="margin-top:10px;color:var(--muted)">Quorum tracks stock and dates. It does not say what to take: that stays with the crew medical officer and the flight surgeon.</p></div></div></div>`}
+function medSave(){const er=$('mederr'),n=$('medn').value.trim().replace(/\s+/g,' ').slice(0,40),qv=$('medq').value.trim(),ev=$('mede').value.trim(),q=Number(qv),ex=Number(ev),M=medState();
+  if(!n){er.textContent='Enter the medicine’s name.';$('medn').focus();return}
+  if(qv===''||!Number.isInteger(q)||q<0||q>999){er.textContent='How many should be a whole number from 0 to 999.';$('medq').focus();return}
+  if(ev===''||!Number.isInteger(ex)||ex<-3650||ex>3650){er.textContent='Days until it expires should be a whole number (negative if already expired).';$('mede').focus();return}
+  if(M.some(m=>m.n.toLowerCase()===n.toLowerCase())){er.textContent='That medicine is already in the list.';return}
+  if(M.length>=40){er.textContent='The list holds 40 medicines.';return}
+  M.push({id:'c'+Date.now().toString(36)+Math.random().toString(36).slice(2,5),n,use:'Added on board',qty:q,low:Math.max(1,Math.round(q*.2)),exp:ex,c:true});save();render();toast('Added to stock')}
+function medAct(a){const M=medState(),[k,id]=a.split(':');
+  if(k==='reset'){S.meds=MEDS0.map(x=>({...x}));S.medLog=[];save();render();toast('Sample list restored');return}
+  const m=M.find(x=>x.id===id);if(!m)return;
+  if(k==='rm'&&m.c){S.meds=M.filter(x=>x.id!==id);save();render();toast('Removed');return}
+  if(k==='dose'){if(m.qty<=0)return;m.qty--;const e=E();S.medLog.unshift(`${e.dl} ${e.day}, ${hhmm(Date.now()).slice(0,5)}: one dose of ${m.n}. ${m.qty} left.${m.exp<0?' Past its expiry date.':''}`);S.medLog=S.medLog.slice(0,8);save();render();toast(m.qty<=m.low?`Logged · only ${m.qty} left`:'Dose logged');const b=document.querySelector(`[data-med="dose:${id}"]`);if(b&&!b.disabled)b.focus()}}
+
+/* ---------- Storm shelter and dose per person (rates are simulated) ---------- */
+const STORM_OUT=1.5,STORM_IN=0.3,STORM_GOAL=30*60000,STORM_CAP=72*3600000;
+const STORM_CREW=['R. Okafor','J. Park','M. Ilves','A. Haddad'],DOSE_OFF=[0,-13,3,-19];
+function stormDoses(st,now){const el=Math.max(0,Math.min(STORM_CAP,now-st.t0));return STORM_CREW.map((_,i)=>{const tin=st.in&&st.in[i]!=null?Math.max(0,Math.min(el,st.in[i]-st.t0)):el;return (tin*STORM_OUT+(el-tin)*STORM_IN)/3600000})}
+function doseBase(i){const x=Array.isArray(S.dose)?(+S.dose[i]||0):0;return rad(13)+DOSE_OFF[i]+x}
+function stormRows(){const now=Date.now(),sd=S.storm?stormDoses(S.storm,now):[0,0,0,0];
+  return STORM_CREW.map((n,i)=>{const tot=doseBase(i)+sd[i],pct=Math.min(100,tot/600*100);return `<tr><td>${n}</td><td>${S.storm?'+'+sd[i].toFixed(3):'–'}</td><td><b>${tot.toFixed(S.storm?2:0)}</b> mSv</td><td><span class="dbar"><i class="${tot>=540?'w':tot>=480?'c':'g'}" style="width:${pct}%"></i></span>${Math.round(pct)}%</td></tr>`}).join('')}
+const stClock=()=>{if(!S.storm)return '';const ms=Math.max(0,Math.min(STORM_CAP,Date.now()-S.storm.t0)),p=v=>String(v).padStart(2,'0'),h=Math.floor(ms/3600000);return (h?h+':':'')+p(Math.floor(ms%3600000/60000))+':'+p(Math.floor(ms%60000/1000))};
+function stormCard(){const st=S.storm,d=S.data[CUR],e=E(),sepN=DK.st==='ok'?DK.items.find(x=>x.messageType==='SEP'&&Date.now()-new Date(x.messageIssueTime)<48*36e5):null;
+  const nIn=st?STORM_CREW.filter((_,i)=>st.in[i]!=null).length:0,lg=Array.isArray(S.stormLog)?S.stormLog[0]:null;
+  const hint=sepN?`NASA issued a solar particle notice in the last 48 hours. Consider sheltering now.`:d.sep>=10?`Particle flux is ${d.sep} pfu, above the storm threshold.`:`Particle flux is ${d.sep} pfu, quiet. You can still run a drill.`;
+  return `<div class="card storm${st?' on':''}" id="storm"><div class="secrow"><div class="sec">Storm shelter</div><span>${st?'Shelter in progress':'Standing by'}</span></div>
+    ${st?`<div class="stnow"><div><b class="n" id="stclock" data-stclock>${stClock()}</b><span>since the alert</span></div><div><b class="n">${nIn}/4</b><span>in shelter</span></div><p>${nIn<4?'Get everyone into the shelter, then tap each name.':'Everyone is in. Stay until mission control or the on-board monitor gives the all-clear.'}</p></div>
+      <div class="stroll" role="group" aria-label="Roll call">${STORM_CREW.map((n,i)=>`<button type="button" data-storm="in:${i}" aria-pressed="${st.in[i]!=null}">${st.in[i]!=null?svg('check','width="14" height="14"'):''}${n}${st.in[i]!=null?`<em>${dur(Math.max(0,st.in[i]-st.t0))}</em>`:''}</button>`).join('')}</div>`
+      :`<p class="sthint">${hint}</p>`}
+    <div class="tbl"><table class="i4t dtab"><thead><tr><th>Crew</th><th>This storm</th><th>Mission total</th><th>Of 600 mSv</th></tr></thead><tbody id="stdose">${stormRows()}</tbody></table></div>
+    <div class="lkact" style="margin-top:12px">${st?`<button type="button" class="btn sm" data-storm="clear">All clear: end shelter</button>`:`<button type="button" class="btn sm" data-storm="start">${d.sep>=10||sepN?'Start shelter now':'Run a shelter drill'}</button>`}${!st&&(lg||(Array.isArray(S.dose)&&S.dose.some(x=>x)))?`<button type="button" class="btn ghost sm" data-storm="reset">Clear storm records</button>`:''}</div>
+    ${!st&&lg?`<p class="lnote">Last time: everyone sheltered after ${dur(lg.slow)}${lg.slow>STORM_GOAL?', slower than the 30-minute target':', inside the 30-minute target'}${lg.missed?` (${lg.missed} not checked in)`:''}. Highest added dose ${Math.max(...lg.doses).toFixed(3)} mSv.</p>`:''}
+    <p class="lnote">Dose rates here are simulated: ${STORM_OUT} mSv per hour outside the shelter, ${STORM_IN} inside. The 30-minute target is a demonstration setting. A flight version would read each person’s dosimeter.</p></div>`}
+function stormAct(a){const now=Date.now();
+  if(a==='start'){if(S.storm)return;S.storm={t0:now,in:{}};save();render();toast('Shelter alert started');return}
+  if(a==='reset'){if(S.storm)return;S.dose=[0,0,0,0];S.stormLog=[];save();render();toast('Storm records cleared');return}
+  if(!S.storm)return;if(!S.storm.in)S.storm.in={};
+  if(a.startsWith('in:')){const i=+a.slice(3);if(!(i>=0&&i<4))return;if(S.storm.in[i]!=null)delete S.storm.in[i];else S.storm.in[i]=Math.max(S.storm.t0,now);save();render();const b=document.querySelector(`[data-storm="in:${i}"]`);if(b)b.focus();return}
+  if(a==='clear'){const st=S.storm,ds=stormDoses(st,now),el=Math.max(0,Math.min(STORM_CAP,now-st.t0)),ts=STORM_CREW.map((_,i)=>st.in[i]!=null?Math.max(0,Math.min(el,st.in[i]-st.t0)):el),missed=STORM_CREW.filter((_,i)=>st.in[i]==null).length;
+    if(!Array.isArray(S.dose))S.dose=[0,0,0,0];ds.forEach((x,i)=>S.dose[i]=(+S.dose[i]||0)+x);if(!Array.isArray(S.stormLog))S.stormLog=[];
+    S.stormLog.unshift({t:now,dur:el,slow:Math.max(...ts),missed,doses:ds});S.stormLog=S.stormLog.slice(0,3);S.storm=null;save();render();toast('All clear logged')}}
+function renderAlerts(){const el=$('alerts');if(!el)return;let h='';
+  if(navigator.onLine===false)h+=`<div class="abar"><span><b>This device is offline.</b> Quorum keeps working from its saved copy. Reports wait in the queue.</span></div>`;
+  if(S.storm){const n=STORM_CREW.filter((_,i)=>S.storm.in&&S.storm.in[i]!=null).length;h+=`<div class="abar w" role="alert"><span><b>Solar storm: shelter now.</b> <span data-stclock>${stClock()}</span> since the alert · ${n}/4 in shelter</span>${S.view==='eva'?'':`<button type="button" class="btn sm" data-go="eva">Open roll call</button>`}</div>`}
+  const ms=missedDays();if(ms>=2&&S.view!=='log')h+=`<div class="abar c"><span><b>No check-in for ${ms} days.</b> A gap this long hides trends. Even a short check-in helps.</span><button type="button" class="btn sm" data-go="log">Check in now</button></div>`;
+  el.innerHTML=h}
+setInterval(()=>{if(!S.storm)return;const c=stClock();document.querySelectorAll('[data-stclock]').forEach(x=>x.textContent=c);const tb=$('stdose');if(tb)tb.innerHTML=stormRows()},1000);
+
+/* ---------- Low-bandwidth packet for the flight surgeon ---------- */
+function packet(){const e=E(),d=S.data[13]||{},o={v:1,m:e.name,d:e.day,r:learning()?null:readiness().s,
+  f:learning()?[]:P.filter(p=>lvl(p,13)&&shared(p)).map(p=>[p.id,lvl(p,13),+(+val(p,13)).toFixed(2)||0]),e:learning()?null:eva().v,x:xchecks().length,
+  l:(()=>{try{const sc=labSC(labLast());return [sc.draw,sc.counts.hold,sc.alarms.map(a=>a.key+':'+a.cause[0])]}catch(err){return null}})(),
+  md:medState().map(medStatus).filter(x=>x[0]).length,st:S.storm?1:0,sy:S.share.symptoms?S.sym.length:null};return JSON.stringify(o)}
+
+/* ---------- Stand-in guide: any crew member can run the day's health checks ---------- */
+function vGuide(){const e=E(),G=S.guide&&typeof S.guide.i==='number'?S.guide:(S.guide={i:0,done:{}});if(!G.done)G.done={};
+  const lrn=learning(),sc=labSC(labLast()),top=sc.alarms[0],C=top?LAB_CAUSE[top.cause]:null,ev=lrn?null:eva(),mw=medWarn();
+  let people=[];if(!lrn){const me={n:'R. Okafor',f:P.filter(p=>lvl(p)&&shared(p)).sort((a,b)=>lvl(b)-lvl(a)).slice(0,3).map(p=>[lvl(p),`${p.short||p.name} ${show(p)}${U(p)?' '+U(p):''}`]),xc:xchecks()};
+    people=[me,...CREWMATES.map(c=>({n:c.n,f:c.flags,xc:c.xc||[]}))].map(c=>({...c,l:Math.max(0,...c.f.map(x=>x[0]),...c.xc.map(x=>x[0]))})).sort((a,b)=>b.l-a.l)}
+  const need=people.filter(c=>c.l>0);
+  const steps=[
+   {t:'Is anyone in danger right now?',w:'Not breathing well, chest pain, heavy bleeding, confusion, or a bad injury.',
+    b:`<p class="gbig">If yes, stop here. Use the emergency medical checklist and call the commander.</p><p>Quorum is for daily monitoring. It is not built for emergencies and will not guide you through one.</p><p>If no, go to the next step.</p>`},
+   {t:'See who needs attention today',w:'Quorum has already compared each person with their own normal.',
+    b:lrn?`<p>There are not enough check-ins on this device yet to compare anyone with their own normal. Ask each person how they feel and write it down.</p>`:need.length?`<ul class="checks">${need.map(c=>`<li><span class="ck ${CL[c.l]}">${svg('alert')}</span><span><b>${esc(c.n)}</b><span class="r">${[...c.f,...c.xc].map(x=>esc(x[1])).join('. ')}</span></span><span></span></li>`).join('')}</ul><p>Talk to each person on this list. Ask how they feel and whether anything changed. You do not need to diagnose anything.</p>`:`<p class="gbig">Nobody is flagged today.</p><p>Still ask everyone how they feel.</p>`,
+    go:['crew','Open the crew screen']},
+   {t:'Check the lab results before anyone acts on them',w:'A blood result can be wrong because of the machine or the sample, not the person.',
+    b:top?`<p class="gbig">${sc.counts.hold} result${sc.counts.hold===1?' is':'s are'} on hold from the ${sc.draw} draw: ${C.w.toLowerCase()}.</p><p>${C.act}</p><ol class="lsteps">${C.steps.map(x=>`<li>${x}</li>`).join('')}</ol>`:`<p class="gbig">No lab results are on hold.</p><p>${sc.counts.trusted} of ${sc.counts.total} results from the ${sc.draw} draw can be trusted.${sc.counts.retake?` ${sc.counts.retake} single result${sc.counts.retake===1?'':'s'} should be retaken before anyone acts on ${sc.counts.retake===1?'it':'them'}.`:''}</p>`,
+    go:['labs','Open Labs']},
+   {t:`Make tomorrow’s ${e.eva.toLowerCase()} call`,w:'Quorum checks sleep, alertness, health and space weather, and gives a Go or No-go.',
+    b:lrn?`<p>The call needs a run of check-ins first. Until then, the commander decides using the paper checklist.</p>`:`<p class="gbig">Today’s answer: ${EVW[ev.v]}.</p><p>${ev.v?'Because of '+ev.why.join(', ')+'.':'Every check is within limits.'} Tell the commander. The commander makes the final decision.</p>`,
+    go:['eva','Open Decide']},
+   {t:'Check the storm status and the medicine cabinet',w:'Two things that can’t wait for the medical officer to be back.',
+    b:`<p class="gbig">${S.storm?'A storm shelter is in progress. Get everyone inside first.':'No storm shelter is active.'}</p><p>${mw.length?`${mw.length} medicine${mw.length===1?' needs':'s need'} a plan:`:'All medicines are in date and in stock.'}</p>${mw.length?`<ul class="gul">${mw.slice(0,5).map(x=>`<li>${esc(x)}</li>`).join('')}</ul><p>Do not give anyone an expired medicine without asking the flight surgeon.</p>`:''}`,
+    go:['meds','Open Medicines']},
+   {t:'Tell Earth what you found',w:S.link?'Send the report so the flight surgeon can double-check.':'The link is down. The report will wait and send itself when the link returns.',
+    b:`<p>The report lists everything from the steps above. You do not need to write anything.</p><p><button type="button" class="btn" data-guide="send">${S.link?'Send the report':'Queue the report'}</button></p>${S.outbox.length?`<p class="lnote">Last report: ${esc(S.outbox[0].sum)} (${S.outbox[0].tx===null?'queued':'sent'}).</p>`:''}<p>Then write one line in the medical log: who you checked, what you found, what you did.</p>`,
+    go:['report','Open the report']}];
+  const i=Math.max(0,Math.min(steps.length-1,G.i)),st=steps[i],nd=steps.filter((_,k)=>G.done[k]).length;
+  return `<div class="top"><div><div class="eyebrow">Stand-in guide · for any crew member</div><h1>The medical officer is out. Here’s what to do.</h1>
+    <p class="lead">Six steps, in order, in plain words. No medical training needed. Each step shows what Quorum already knows.</p></div></div>
+  <div class="gwrap"><ol class="gsteps">${steps.map((x,k)=>`<li><button type="button" data-guide="go:${k}" ${k===i?'aria-current="step"':''} class="${G.done[k]?'dn':''}"><i>${G.done[k]?svg('check','width="14" height="14"'):k+1}</i><span>${x.t}</span></button></li>`).join('')}</ol>
+  <div class="card gcard"><div class="secrow"><div class="sec">Step ${i+1} of ${steps.length}</div><span>${nd} done</span></div>
+    <h2>${st.t}</h2><p class="gwhy">${st.w}</p><div class="gbody">${st.b}</div>
+    <div class="lkact gnav">${i>0?`<button type="button" class="btn ghost sm" data-guide="go:${i-1}">Back</button>`:''}${st.go?`<button type="button" class="btn ghost sm" data-go="${st.go[0]}">${st.go[1]}</button>`:''}<button type="button" class="btn sm" data-guide="done:${i}">${i<steps.length-1?'Done, next step':(nd>=steps.length-1&&!G.done[i]?'Finish':'Mark done')}</button></div>
+    ${nd===steps.length?`<p class="gfin">${svg('check','width="16" height="16"')} All six steps done for ${e.dl} ${e.day}. <button type="button" class="lnk" data-guide="reset">Start again</button></p>`:''}</div></div>`}
+function guideAct(a){const G=S.guide||(S.guide={i:0,done:{}});if(!G.done)G.done={};
+  if(a==='reset'){S.guide={i:0,done:{}};save();render();return}
+  if(a==='send'){const now=Date.now(),e2=E();S.outbox.unshift({t:now,tx:S.link?now:null,owl:e2.owl,env:`${e2.name} · ${e2.dl} ${e2.day}`,sum:'Stand-in health report (medical officer unavailable)'});S.outbox=S.outbox.slice(0,3);save();render();toast(S.link?'Report sent (simulated)':'Report queued until the Earth link returns');return}
+  const [k,v]=a.split(':'),n=+v;if(!(n>=0&&n<6))return;
+  if(k==='go')G.i=n;else if(k==='done'){G.done[n]=true;if(n<5)G.i=n+1}
+  save();render();const h=document.querySelector('.gcard h2');if(h){h.tabIndex=-1;h.focus({preventScroll:true})}}
 
 /* ---------- Decide: the on-board call ---------- */
 const fmtMin=m=>m<1/60?'under 1 s':m<1?Math.round(m*60)+' s':Math.round(m)+' min';
@@ -2370,9 +2602,9 @@ function render(){
   document.documentElement.classList.toggle('lg',!!S.lg);
   const tb=tempBase();BY.temp.ref=+(tb+.6).toFixed(1);BY.temp.refL='Baseline +0.6 °C';
   syncLive();const lv=learning(),lk=v=>()=>vLocked(v);
-  const V={labs:vLabs,proof:vProof,today:lv?vLiveToday:vToday,crew:lv?lk('crew'):vCrew,eva:lv?lk('eva'):vEva,detail:lv?lk('detail'):vDetail,body:lv?lk('body'):vBody,log:vLog,science:vScience,data:vData,report:lv?lk('report'):vReport};
+  const V={guide:vGuide,meds:vMeds,labs:vLabs,proof:vProof,today:lv?vLiveToday:vToday,crew:lv?lk('crew'):vCrew,eva:lv?lk('eva'):vEva,detail:lv?lk('detail'):vDetail,body:lv?lk('body'):vBody,log:vLog,science:vScience,data:vData,report:lv?lk('report'):vReport};
   Object.keys(V).forEach(k=>{const el=$('v-'+k);if(k===S.view){el.innerHTML=V[k]();el.hidden=false;el.classList.toggle('enter',ENTER)}else{el.hidden=true;el.innerHTML=''}});ENTER=false;
-  arrange();
+  arrange();renderAlerts();
   renderNav();const mst=$('mstrip');if(mst)mst.style.display=S.view==='labs'?'none':''}
 /* Wide screens: split a screen's panels into a main and a side column. On a phone the columns stack in order. */
 function arrange(){
@@ -2386,6 +2618,7 @@ function arrange(){
   split('v-report','c-rep',(k,i)=>i===0?0:k.matches('.two')?'b':'a');
   split('v-detail','c-det',(k,i)=>i<2?0:k.matches('.call,.two')?'b':'a');
 }
+addEventListener('online',()=>renderAlerts());addEventListener('offline',()=>renderAlerts());
 let tt;const toast=m=>{const t=$('toast');t.textContent=m;t.hidden=false;clearTimeout(tt);tt=setTimeout(()=>t.hidden=true,2400)};
 
 document.addEventListener('pointerdown',e=>{if(e.target.closest('#pvt')&&pvt.on){e.preventDefault();respond()}});
@@ -2395,6 +2628,10 @@ document.addEventListener('keydown',e=>{
 document.addEventListener('click',e=>{
   const lbt=e.target.closest('[data-labt]');if(lbt){if(labPlay){clearInterval(labPlay);labPlay=null}labGo(+lbt.dataset.labt);return}
   const lba=e.target.closest('[data-lab]');if(lba){labAct(lba.dataset.lab);return}
+  const gd=e.target.closest('[data-guide]');if(gd){guideAct(gd.dataset.guide);return}
+  const mdb=e.target.closest('[data-med]');if(mdb){medAct(mdb.dataset.med);return}
+  const stb=e.target.closest('[data-storm]');if(stb){stormAct(stb.dataset.storm);return}
+  const evr=e.target.closest('[data-evrm]');if(evr){S.events=S.events.filter(x=>x.id!==evr.dataset.evrm);labSync();save();render();toast('Event removed');return}
   const lvb=e.target.closest('[data-live]');if(lvb){if(lvb.dataset.live==='demo')loadDemo();else exitDemo();return}
   const ic=e.target.closest('[data-i4c]');if(ic){I4SEL.c=+ic.dataset.i4c;render();const b=document.querySelector(`[data-i4c="${I4SEL.c}"]`);if(b)b.focus();return}
   const dc=e.target.closest('[data-dec]');if(dc){const ev=eva(),a=dc.dataset.dec;
@@ -2456,8 +2693,8 @@ document.addEventListener('change',e=>{
   if(e.target.id==='i4m'){I4SEL.m=+e.target.value;render();const x=$('i4m');if(x)x.focus();return}
   const tk=e.target.dataset&&e.target.dataset.tk;if(tk){S.done[tk]=e.target.checked;save();render();if(e.target.checked)toast('Done')}
 });
-document.addEventListener('input',e=>{if(e.target.closest&&e.target.closest('#labadd')){const er=$('laderr');if(er)er.textContent=''}});
-document.addEventListener('submit',e=>{if(e.target.id==='labadd'){e.preventDefault();labSaveDraw();return}if(e.target.id!=='logform')return;e.preventDefault();if(isLive()){saveLive();return}const n={};
+document.addEventListener('input',e=>{if(!e.target.closest)return;if(e.target.closest('#labadd')){const er=$('laderr');if(er)er.textContent=''}if(e.target.closest('#evform')){const er=$('everr');if(er)er.textContent=''}if(e.target.closest('#medform')){const er=$('mederr');if(er)er.textContent=''}if(e.target.id==='ljname'){const er=$('ljerr');if(er)er.textContent=''}});
+document.addEventListener('submit',e=>{if(e.target.id==='labadd'){e.preventDefault();labSaveDraw();return}if(e.target.id==='evform'){e.preventDefault();evSave();return}if(e.target.id==='medform'){e.preventDefault();medSave();return}if(e.target.id!=='logform')return;e.preventDefault();if(isLive()){saveLive();return}const n={};
   for(const f of FIELDS){const v=parseFloat($('in-'+f[0]).value);if(isNaN(v)||v<f[3]||v>f[4]){$('err').textContent=`${f[1]} should be between ${f[3]} and ${f[4]} ${f[2]}.`;$('in-'+f[0]).focus();return}n[f[0]]=v}
   const pick=sel=>{const b=document.querySelector(sel+'[aria-pressed="true"]');return b};
   const m=pick('[data-mood]'),vi=pick('[data-vis]'),vr=pick('[data-vir]');
